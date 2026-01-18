@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ur-pk" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINDH PRICE CONTROL - LOGIN</title>
+    <style>
+        body { font-family: sans-serif; background: #1a5276; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; text-align: center; }
+        .btn { background: #27ae60; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .hidden { display: none; }
+        .logo { width: 80px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" class="logo">
+    <h2 style="color:#1a5276; margin-bottom:20px;">سرکاری لاگ ان</h2>
+
+    <div id="step1">
+        <input type="text" id="userEmail" placeholder="ای میل یا آئی ڈی درج کریں">
+        <button class="btn" onclick="sendOTP()">او ٹی پی بھیجیں (OTP)</button>
+    </div>
+
+    <div id="step2" class="hidden">
+        <p style="font-size:14px; color:#666;">آپ کا کوڈ اسکرین پر دکھایا گیا ہے (ٹیسٹنگ کے لیے)</p>
+        <input type="number" id="otpInput" placeholder="6 ہندسوں کا کوڈ لکھیں">
+        <button class="btn" style="background:#e67e22;" onclick="verifyOTP()">کوڈ کی تصدیق کریں</button>
+    </div>
+
+    <div id="step3" class="hidden">
+        <input type="password" id="userPass" placeholder="اپنا پاس ورڈ لکھیں">
+        <button class="btn" onclick="finalLogin()">لاگ ان مکمل کریں</button>
+    </div>
+</div>
+
+<script>
+    // ZAROORI: Apna Google Script URL yahan paste karen
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyyiJucwJX3NOFtfTnq6SG94YCxxXArmhgvUdya9RiiKMo_a2ssxxg2QQgTwDKMZ8_8rw/exec";
+    let generatedOTP;
+
+    function sendOTP() {
+        const email = document.getElementById('userEmail').value;
+        if(!email) { alert("Email lazmi hai"); return; }
+        
+        // OTP generate karke alert mein dikhana (Filhal testing ke liye)
+        generatedOTP = Math.floor(100000 + Math.random() * 900000);
+        alert("SECURITY CODE: " + generatedOTP); 
+        
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.remove('hidden');
+    }
+
+    function verifyOTP() {
+        if(document.getElementById('otpInput').value == generatedOTP) {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+        } else {
+            alert("Ghalat Code!");
+        }
+    }
+
+    async function finalLogin() {
+        const email = document.getElementById('userEmail').value;
+        const pass = document.getElementById('userPass').value;
+
+        try {
+            const res = await fetch(`${scriptURL}?type=login&email=${email}&pass=${pass}`);
+            const result = await res.json();
+
+            if(result.status === "success") {
+                // Browser ki memory mein data save karna taake har page par login na mangay
+                localStorage.setItem("userRole", result.role);
+                localStorage.setItem("userMarket", result.market);
+                localStorage.setItem("userName", result.name);
+                
+                // Role ke mutabiq sahi page par bhejna
+                if(result.role === "Admin") window.location.href = "admin-panel.html";
+                else if(result.role === "Officer") window.location.href = "officer-dashboard.html";
+                else window.location.href = "monitor.html";
+            } else {
+                alert("Email ya Password ghalat hai!");
+            }
+        } catch (e) {
+            alert("System Error! Link check karen.");
+        }
+    }
+</script>
+</body>
+</html>

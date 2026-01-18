@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ur-pk" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Fresh Rates</title>
+    <style>
+        body { font-family: sans-serif; background: #f8f9fa; margin: 0; padding: 15px; text-align: center; }
+        .header-box { background: #1a5276; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .rate-card { background: white; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 15px; margin-bottom: 20px; text-align: right; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th { background: #eee; padding: 10px; border: 1px solid #ddd; text-align: center; }
+        td { padding: 12px; border: 1px solid #ddd; text-align: center; font-size: 18px; font-weight: bold; }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-action { flex: 1; padding: 15px; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; color: white; transition: 0.3s; }
+        .print-btn { background: #1a5276; }
+        .download-btn { background: #27ae60; }
+        
+        #loading { font-weight: bold; color: #d68910; padding: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header-box">
+    <h2 id="displayMarket">Market Name</h2>
+    <p id="displayCat">Category Name</p>
+</div>
+
+<div class="rate-card">
+    <div id="loading">ڈیٹا لوڈ ہو رہا ہے، براہ کرم انتظار کریں...</div>
+    <table id="rateTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>آئٹم</th>
+                <th>ریٹ (روپے)</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<div class="btn-group">
+    <button class="btn-action print-btn" onclick="goToPrint()">🖨️ Printing</button>
+    <button class="btn-action download-btn" onclick="goToPrint()">📥 Download</button>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const market = urlParams.get('market');
+    const category = urlParams.get('cat');
+
+    document.getElementById('displayMarket').innerText = "مارکیٹ: " + market;
+    document.getElementById('displayCat').innerText = "کیٹیگری: " + category;
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyyiJucwJX3NOFtfTnq6SG94YCxxXArmhgvUdya9RiiKMo_a2ssxxg2QQgTwDKMZ8_8rw/exec";
+
+    async function fetchRates() {
+        try {
+            const response = await fetch(scriptURL);
+            const data = await response.json();
+            const tableBody = document.getElementById('tableBody');
+            
+            // Filter data based on selection
+            const filtered = data.filter(r => r.Market_Committee === market && r.Category === category);
+
+            if (filtered.length > 0) {
+                filtered.forEach(item => {
+                    tableBody.innerHTML += `<tr><td>${item.Item_Name}</td><td>${item.Rate}</td></tr>`;
+                });
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('rateTable').style.display = 'table';
+            } else {
+                document.getElementById('loading').innerText = "فی الحال اس کیٹیگری کے ریٹ دستیاب نہیں ہیں۔";
+            }
+        } catch (e) {
+            document.getElementById('loading').innerText = "نیٹ ورک کا مسئلہ، دوبارہ کوشش کریں۔";
+        }
+    }
+
+    function goToPrint() {
+        // Yeh function user ko final A4 page par le jaye ga
+        window.location.href = `print-list.html?market=${encodeURIComponent(market)}&cat=${encodeURIComponent(category)}`;
+    }
+
+    window.onload = fetchRates;
+</script>
+
+</body>
+</html>

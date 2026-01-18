@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ur-pk" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Control System - Govt of Sindh</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 0; background: #f0f2f5; text-align: center; color: #333; }
+        .hero { background: linear-gradient(rgba(26, 82, 118, 0.8), rgba(26, 82, 118, 0.8)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000'); 
+                background-size: cover; padding: 50px 20px; color: white; border-bottom: 5px solid #27ae60; }
+        .container { padding: 20px; max-width: 600px; margin: auto; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: right; }
+        
+        h2 { color: #1a5276; border-bottom: 2px solid #27ae60; padding-bottom: 10px; margin-top: 0; }
+        p { line-height: 1.6; font-size: 16px; }
+
+        label { font-weight: bold; display: block; margin-top: 15px; color: #1a5276; }
+        select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; outline: none; }
+        select:focus { border-color: #27ae60; }
+
+        .btn-next { background: #27ae60; color: white; padding: 15px; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn-next:hover { background: #1e8449; }
+        
+        .complaint-link { display: block; margin-top: 20px; color: #e74c3c; text-decoration: none; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>ڈیجیٹل پرائس کنٹرول سسٹم</h1>
+    <p>ڈائریکٹوریٹ آف ایگریکلچر مارکیٹنگ، حکومت سندھ</p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>خوش آمدید (Welcome)</h2>
+        <p>یہ سسٹم حکومت سندھ کی جانب سے عوام کو اشیاء خوردونوش کے تازہ ترین اور درست نرخ فراہم کرنے کے لیے بنایا گیا ہے۔ آپ اپنی متعلقہ مارکیٹ اور کیٹیگری منتخب کر کے فوری طور پر سرکاری ریٹ لسٹ دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔</p>
+    </div>
+
+    <div class="card">
+        <h2>آج کے تازہ نرخ (Today's Rates)</h2>
+        
+        <label>1. مارکیٹ کمیٹی منتخب کریں:</label>
+        <select id="market">
+            <option value="Kazi Ahmed">Kazi Ahmed (قاضی احمد)</option>
+            <option value="Halla">Halla (ہالا)</option>
+            <option value="Hyderabad">Hyderabad (حیدرآباد)</option>
+            <option value="Karachi">Karachi (کراچی)</option>
+            <option value="Matiari">Matiari (مٹیاری)</option>
+            <option value="Sakrand">Sakrand (سکرنڈ)</option>
+        </select>
+
+        <label>2. کیٹیگری منتخب کریں:</label>
+        <select id="category">
+            <option value="Vegetables">Vegetables List (سبزیاں)</option>
+            <option value="Fruits">Fruit List (پھل)</option>
+            <option value="Meat">Meat List (گوشت)</option>
+            <option value="Kariyana">Kariyana List (کریانہ)</option>
+            <option value="Milk">Milk List (دودھ)</option>
+            <option value="Sweets">Sweets List (مٹھائیاں)</option>
+        </select>
+
+        <button class="btn-next" onclick="proceed()">آگے بڑھیں (Next) ➔</button>
+        
+        <a href="complaint.html" class="complaint-link">📢 شکایت درج کروانے کے لیے یہاں کلک کریں</a>
+    </div>
+</div>
+
+<script>
+    function proceed() {
+        const m = document.getElementById('market').value;
+        const c = document.getElementById('category').value;
+        
+        // Next page par selection bhej rahe hain
+        window.location.href = `view-rates.html?market=${encodeURIComponent(m)}&cat=${encodeURIComponent(c)}`;
+    }
+</script>
+
+</body>
+</html>

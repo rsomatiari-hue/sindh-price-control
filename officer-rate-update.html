@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ur-pk" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPDATE RATES - SINDH PRICE CONTROL</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; margin: 0; padding: 15px; text-align: right; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { color: #1a5276; text-align: center; border-bottom: 2px solid #27ae60; padding-bottom: 10px; }
+        
+        label { font-weight: bold; color: #333; display: block; margin-top: 15px; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
+        
+        .item-row { display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 10px; margin-top: 10px; border-radius: 8px; border-right: 5px solid #1a5276; }
+        .item-name { flex: 2; font-weight: bold; font-size: 14px; }
+        .item-input { flex: 1; margin: 0 10px; text-align: center; border: 2px solid #27ae60; }
+
+        .btn-fetch { background: #1a5276; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .btn-save { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 18px; margin-top: 20px; }
+        
+        #loading { display: none; text-align: center; color: #d68910; font-weight: bold; margin: 10px 0; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+<script>
+    // Security Check: Login check karna
+    if (!localStorage.getItem("userRole")) { window.location.href = "login.html"; }
+</script>
+
+<div class="container">
+    <h2>روزانہ ریٹ اپڈیٹ پینل</h2>
+    <p style="text-align:center; color:#666;">مارکیٹ: <span id="displayMarket" style="font-weight:bold; color:#1a5276;"></span></p>
+    
+    <label>کیٹیگری منتخب کریں:</label>
+    <select id="category">
+        <option value="Vegetables">Vegetables (سبزیاں)</option>
+        <option value="Fruits">Fruits (پھل)</option>
+        <option value="Kariyana">Kariyana (کریانہ)</option>
+    </select>
+
+    <button class="btn-fetch" onclick="loadCurrentRates()">ریٹ لوڈ کریں (Fetch Rates)</button>
+    
+    <div id="loading">ڈیٹا حاصل کیا جا رہا ہے...</div>
+
+    <div id="itemsContainer">
+        </div>
+
+    <button id="saveBtn" class="btn-save" style="display:none;" onclick="updateAllRates()">تمام ریٹ محفوظ کریں</button>
+    
+    <a href="officer-dashboard.html" class="back-link">⬅️ واپس ڈیش بورڈ پر جائیں</a>
+</div>
+
+<script>
+    // ZAROORI: Apna Version 6 wala Script URL yahan paste karen
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyyiJucwJX3NOFtfTnq6SG94YCxxXArmhgvUdya9RiiKMo_a2ssxxg2QQgTwDKMZ8_8rw/exec";
+    const userMarket = localStorage.getItem("userMarket");
+    document.getElementById('displayMarket').innerText = userMarket;
+
+    async function loadCurrentRates() {
+        const cat = document.getElementById('category').value;
+        const container = document.getElementById('itemsContainer');
+        const loader = document.getElementById('loading');
+
+        loader.style.display = "block";
+        container.innerHTML = "";
+
+        try {
+            const res = await fetch(scriptURL + "?type=rates");
+            const data = await res.json();
+            
+            // Filter: Sirf us officer ki market aur selected category dikhana
+            const filtered = data.filter(r => r.Market_Committee === userMarket && r.Category === cat);
+
+            if (filtered.length > 0) {
+                filtered.forEach(item => {
+                    container.innerHTML += `
+                        <div class="item-row">
+                            <span class="item-name">${item.Item_Name}</span>
+                            <input type="number" class="item-input" data-item="${item.Item_Name}" value="${item.Rate}">
+                        </div>`;
+                });
+                document.getElementById('saveBtn').style.display = "block";
+            } else {
+                container.innerHTML = "<p style='text-align:center; color:red;'>کوئی ڈیٹا نہیں ملا۔ چیک کریں کہ شیٹ میں اس مارکیٹ کا ڈیٹا موجود ہے۔</p>";
+            }
+        } catch (e) {
+            alert("Error: Data load nahi ho saka!");
+        }
+        loader.style.display = "none";
+    }
+
+    async function updateAllRates() {
+        const inputs = document.querySelectorAll('.item-input');
+        const btn = document.getElementById('saveBtn');
+
+        btn.disabled = true;
+        btn.innerText = "اپڈیٹ ہو رہا ہے...";
+
+        // Aik aik karke har item ka rate update

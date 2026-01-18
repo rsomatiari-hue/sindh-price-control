@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ur-pk" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verified Complaint - Sindh Govt</title>
+    <style>
+        body { font-family: sans-serif; background: #fdf2f2; margin: 0; padding: 15px; text-align: right; }
+        .header { background: #c0392b; color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .form-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 15px; }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #c0392b; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; }
+        .btn-verify { background: #1a5276; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-top: 5px; width: 100%; }
+        .btn-submit { background: #c0392b; color: white; padding: 15px; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 25px; display: none; }
+        .status-msg { font-size: 12px; color: green; margin-top: 5px; font-weight: bold; }
+        #preview { width: 100%; border-radius: 10px; margin-top: 10px; display: none; border: 2px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>تصدیق شدہ شکایت سیل</h1>
+    <p>Live Location & Photo Evidence Required</p>
+</div>
+
+<div class="form-card">
+    <form id="complaintForm">
+        <label>موبائل نمبر (برائے تصدیق):</label>
+        <input type="tel" id="phone" name="phone" placeholder="03XXXXXXXXX" required>
+        <button type="button" class="btn-verify" onclick="sendOTP()" id="otpBtn">OTP کوڈ بھیجیں</button>
+        
+        <div id="otpSection" style="display:none;">
+            <input type="text" id="otpCode" placeholder="Enter OTP" style="margin-top:10px;">
+            <button type="button" class="btn-verify" onclick="verifyOTP()" style="background:#27ae60;">تصدیق کریں (Verify)</button>
+        </div>
+        <p id="otpStatus" class="status-msg"></p>
+
+        <label>آپ کی موجودہ لوکیشن (Live Location):</label>
+        <button type="button" class="btn-verify" onclick="getLocation()" style="background:#8e44ad;">لوکیشن حاصل کریں (Required)</button>
+        <input type="hidden" id="lat" name="latitude" required>
+        <input type="hidden" id="long" name="longitude" required>
+        <p id="locStatus" class="status-msg"></p>
+
+        <label>دکان / ریٹ لسٹ کی تصویر (Live Photo):</label>
+        <input type="file" id="photo" name="evidence" accept="image/*" capture="camera" required onchange="previewImage(event)">
+        <img id="preview" alt="Preview">
+
+        <label>دکان کا نام / پتہ:</label>
+        <input type="text" name="shop_info" required>
+
+        <label>شکایت کی تفصیل:</label>
+        <textarea name="details" rows="3"></textarea>
+
+        <button type="submit" class="btn-submit" id="finalSubmitBtn">شکایت درج کریں (Submit)</button>
+    </form>
+</div>
+
+<script>
+    let isPhoneVerified = false;
+    let isLocationCaptured = false;
+
+    // 1. OTP Simulation (Apne pas SMS API lagani hogi)
+    function sendOTP() {
+        const phone = document.getElementById('phone').value;
+        if(phone.length < 10) { alert("Sahi number likhen"); return; }
+        document.getElementById('otpSection').style.display = 'block';
+        document.getElementById('otpStatus').innerText = "کوڈ آپ کے نمبر پر بھیج دیا گیا ہے (Simulated)";
+    }
+
+    function verifyOTP() {
+        // Filhal hum simulation kar rahe hain
+        isPhoneVerified = true;
+        document.getElementById('otpStatus').innerText = "✔️ موبائل نمبر کی تصدیق ہو گئی";
+        checkRequirement();
+    }
+
+    // 2. Live Location Capture
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                document.getElementById('lat').value = position.coords.latitude;
+                document.getElementById('long').value = position.coords.longitude;
+                isLocationCaptured = true;
+                document.getElementById('locStatus').innerText = "✔️ لوکیشن کامیابی سے حاصل کر لی گئی";
+                checkRequirement();
+            }, () => { alert("Location access den"); });
+        }
+    }
+
+    // 3. Photo Preview
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+            checkRequirement();
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // Check if everything is done to show Submit button
+    function checkRequirement() {
+        const photo = document.getElementById('photo').files.length;
+        if(isPhoneVerified && isLocationCaptured && photo > 0) {
+            document.getElementById('finalSubmitBtn').style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
