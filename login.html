@@ -3,90 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SINDH PRICE CONTROL - LOGIN</title>
+    <title>LOGIN - SINDH PRICE CONTROL</title>
     <style>
-        body { font-family: sans-serif; background: #1a5276; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; text-align: center; }
-        .btn { background: #27ae60; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        body { font-family: sans-serif; background: #1a5276; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); width: 90%; max-width: 380px; text-align: center; }
+        img { width: 90px; margin-bottom: 15px; }
+        h2 { color: #1a5276; margin-bottom: 20px; font-size: 24px; border-bottom: 2px solid #27ae60; padding-bottom: 10px; }
+        input { width: 100%; padding: 14px; margin: 12px 0; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; text-align: center; transition: 0.3s; }
+        input:focus { border-color: #27ae60; outline: none; }
+        button { width: 100%; padding: 14px; border: none; border-radius: 10px; background: #27ae60; color: white; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #219150; transform: translateY(-2px); }
+        button:disabled { background: #95a5a6; cursor: not-allowed; }
         .hidden { display: none; }
-        .logo { width: 80px; margin-bottom: 10px; }
+        .info-msg { font-size: 14px; color: #d35400; margin-bottom: 10px; background: #fef5e7; padding: 10px; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <div class="login-card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" class="logo">
-    <h2 style="color:#1a5276; margin-bottom:20px;">سرکاری لاگ ان</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" alt="Sindh Logo">
+    <h2>آفیسر لاگ ان</h2>
 
-    <div id="step1">
-        <input type="text" id="userEmail" placeholder="ای میل یا آئی ڈی درج کریں">
-        <button class="btn" onclick="sendOTP()">او ٹی پی بھیجیں (OTP)</button>
+    <div id="emailSection">
+        <p style="color: #666; font-size: 14px;">اپنی رجسٹرڈ ای میل درج کریں</p>
+        <input type="email" id="userEmail" placeholder="example@gmail.com" required>
+        <button id="otpBtn" onclick="sendOTP()">او ٹی پی (OTP) حاصل کریں</button>
     </div>
 
-    <div id="step2" class="hidden">
-        <p style="font-size:14px; color:#666;">آپ کا کوڈ اسکرین پر دکھایا گیا ہے (ٹیسٹنگ کے لیے)</p>
-        <input type="number" id="otpInput" placeholder="6 ہندسوں کا کوڈ لکھیں">
-        <button class="btn" style="background:#e67e22;" onclick="verifyOTP()">کوڈ کی تصدیق کریں</button>
+    <div id="otpSection" class="hidden">
+        <div class="info-msg">آپ کی ای میل پر 6 ہندسوں کا کوڈ بھیج دیا گیا ہے۔</div>
+        <input type="number" id="otpInput" placeholder="کود یہاں لکھیں">
+        <button onclick="verifyOTP()">کوڈ کی تصدیق کریں</button>
+        <p style="font-size: 12px; color: blue; cursor: pointer; margin-top: 10px;" onclick="location.reload()">ای میل تبدیل کریں</p>
     </div>
 
-    <div id="step3" class="hidden">
-        <input type="password" id="userPass" placeholder="اپنا پاس ورڈ لکھیں">
-        <button class="btn" onclick="finalLogin()">لاگ ان مکمل کریں</button>
+    <div id="passwordSection" class="hidden">
+        <p style="color: #27ae60; font-weight: bold;">تصدیق مکمل! پاس ورڈ درج کریں</p>
+        <input type="password" id="userPass" placeholder="پاس ورڈ لکھیں">
+        <button id="loginBtn" onclick="finalLogin()">سسٹم میں داخل ہوں</button>
     </div>
+
+    <p style="margin-top: 20px; font-size: 11px; color: #999;">حکومتِ سندھ - محکمہ پرائس کنٹرول © 2026</p>
 </div>
 
 <script>
-    // ZAROORI: Apna Google Script URL yahan paste karen
+    // ZAROORI: Apna Google Web App URL yahan paste karein
     const scriptURL = "https://script.google.com/macros/s/AKfycbyyiJucwJX3NOFtfTnq6SG94YCxxXArmhgvUdya9RiiKMo_a2ssxxg2QQgTwDKMZ8_8rw/exec";
-    let generatedOTP;
+    
+    let generatedOTP = "";
 
-    function sendOTP() {
+    // Function 1: Send OTP to Email
+    async function sendOTP() {
         const email = document.getElementById('userEmail').value;
-        if(!email) { alert("Email lazmi hai"); return; }
-        
-        // OTP generate karke alert mein dikhana (Filhal testing ke liye)
-        generatedOTP = Math.floor(100000 + Math.random() * 900000);
-        alert("SECURITY CODE: " + generatedOTP); 
-        
-        document.getElementById('step1').classList.add('hidden');
-        document.getElementById('step2').classList.remove('hidden');
-    }
+        if(!email || !email.includes('@')) { alert("صحیح ای میل درج کریں"); return; }
 
-    function verifyOTP() {
-        if(document.getElementById('otpInput').value == generatedOTP) {
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.remove('hidden');
-        } else {
-            alert("Ghalat Code!");
+        const btn = document.getElementById('otpBtn');
+        btn.innerText = "بھیجا جا رہا ہے...";
+        btn.disabled = true;
+
+        // 6 digits random number
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+        try {
+            const response = await fetch(`${scriptURL}?type=sendOTP&email=${email}&otp=${generatedOTP}`);
+            const result = await response.text();
+            
+            if(result === "Sent") {
+                document.getElementById('emailSection').classList.add('hidden');
+                document.getElementById('otpSection').classList.remove('hidden');
+            } else {
+                alert("سرور کی طرف سے مسئلہ: " + result);
+                btn.innerText = "او ٹی پی (OTP) حاصل کریں";
+                btn.disabled = false;
+            }
+        } catch (e) {
+            alert("انٹرنیٹ کا مسئلہ یا سرور ایرر۔");
+            btn.innerText = "او ٹی پی (OTP) حاصل کریں";
+            btn.disabled = false;
         }
     }
 
+    // Function 2: Local Verification
+    function verifyOTP() {
+        const userInput = document.getElementById('otpInput').value.trim();
+        if(userInput === generatedOTP) {
+            document.getElementById('otpSection').classList.add('hidden');
+            document.getElementById('passwordSection').classList.remove('hidden');
+        } else {
+            alert("غلط کوڈ! دوبارہ چیک کریں یا اسپیم فولڈر دیکھیں (OTP was: " + generatedOTP + ")");
+        }
+    }
+
+    // Function 3: Database Password Check
     async function finalLogin() {
         const email = document.getElementById('userEmail').value;
         const pass = document.getElementById('userPass').value;
+        const btn = document.getElementById('loginBtn');
+        
+        btn.innerText = "تصدیق کی جا رہی ہے...";
+        btn.disabled = true;
 
         try {
-            const res = await fetch(`${scriptURL}?type=login&email=${email}&pass=${pass}`);
-            const result = await res.json();
+            const response = await fetch(`${scriptURL}?type=login&email=${email}&pass=${pass}`);
+            const result = await response.json();
 
-            if(result.status === "success") {
-                // Browser ki memory mein data save karna taake har page par login na mangay
+            if (result.status === "success") {
                 localStorage.setItem("userRole", result.role);
                 localStorage.setItem("userMarket", result.market);
-                localStorage.setItem("userName", result.name);
-                
-                // Role ke mutabiq sahi page par bhejna
-                if(result.role === "Admin") window.location.href = "admin-panel.html";
-                else if(result.role === "Officer") window.location.href = "officer-dashboard.html";
-                else window.location.href = "monitor.html";
+                localStorage.setItem("userEmail", email);
+                window.location.href = "officer-dashboard.html";
             } else {
-                alert("Email ya Password ghalat hai!");
+                alert("پاس ورڈ غلط ہے!");
+                btn.innerText = "سسٹم میں داخل ہوں";
+                btn.disabled = false;
             }
         } catch (e) {
-            alert("System Error! Link check karen.");
+            alert("لاگ ان ایرر!");
+            btn.innerText = "سسٹم میں داخل ہوں";
+            btn.disabled = false;
         }
     }
 </script>
+
 </body>
 </html>
