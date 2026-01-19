@@ -1,65 +1,28 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>SINDH PRICE CONTROL - LOGIN</title>
-    <style>
-        body { font-family: sans-serif; background: #1a5276; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #333; }
-        .card { background: white; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; }
-        #msg { margin-top: 15px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" width="80">
-        <h2 style="color:#1a5276">پرائس کنٹرول لاگ ان</h2>
-        <input type="email" id="email" placeholder="ای میل لکھیں">
-        <input type="password" id="pass" placeholder="پاس ورڈ لکھیں">
-        <button onclick="login()">لاگ ان کریں</button>
-        <div id="msg"></div>
-    </div>
+<script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
 
-    <script>
-        // Yahan apna naya Script URL paste karein
-        const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
+    async function doLogin() {
+        const email = document.getElementById('userEmail').value.trim();
+        const pass = document.getElementById('userPass').value.trim();
+        const msg = document.getElementById('msg');
 
-        async function login() {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('pass').value;
-            const msg = document.getElementById('msg');
-            
-            if(!email || !pass) { msg.innerText = "Dono khane pur karein"; return; }
-            msg.style.color = "blue";
-            msg.innerText = "Tasdeeq ho rahi hai...";
-            
-            try {
-                const res = await fetch(`${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`);
-                const data = await res.json();
+        try {
+            const response = await fetch(`${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`);
+            const result = await response.json();
 
-                if(data.status === "success") {
-                    localStorage.setItem("userRole", data.role);
-                    localStorage.setItem("userMarket", data.market);
-                    msg.style.color = "green";
-                    msg.innerText = "Kamyab! Dashboard par ja rahe hain...";
-                    
-                    setTimeout(() => {
-                        if(data.role.toLowerCase() === "admin") {
-                            window.location.href = "admin-dashboard.html";
-                        } else {
-                            window.location.href = "officer-dashboard.html";
-                        }
-                    }, 1500);
+            if (result.status === "success") {
+                localStorage.setItem("userRole", result.role);
+                localStorage.setItem("userMarket", result.market);
+                
+                // Aapki files ke mutabiq redirection
+                if (result.role.toLowerCase() === "admin") {
+                    window.location.href = "admin-panel.html";
                 } else {
-                    msg.style.color = "red";
-                    msg.innerText = "Ghalat Email ya Password!";
+                    window.location.href = "officer-dashboard.html";
                 }
-            } catch(e) { 
-                msg.style.color = "red";
-                msg.innerText = "Server error! Dobara try karein."; 
+            } else {
+                msg.innerText = "Ghalat Email ya Password!";
             }
-        }
-    </script>
-</body>
-</html>
+        } catch (e) { msg.innerText = "Server Error!"; }
+    }
+</script>
