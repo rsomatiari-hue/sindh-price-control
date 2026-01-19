@@ -1,54 +1,90 @@
-<script>
-    // 1. Apna Naya Web App URL yahan lazmi paste karein
-    const scriptURL = "APNA_NEW_DEPLOYMENT_URL_YAHAN_PASTE_KAREN";
-
-    async function registerOfficer() {
-        const name = document.getElementById('newName').value.trim();
-        const mobile = document.getElementById('newMobile').value.trim();
-        const pass = document.getElementById('newPass').value.trim();
-        const market = document.getElementById('newMarket').value.trim();
-        const msg = document.getElementById('regMsg');
-        const btn = document.getElementById('regBtn');
-
-        if(!name || !mobile || !pass || !market) {
-            msg.style.color = "red";
-            msg.innerText = "تمام خانے پُر کریں!";
-            return;
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ایڈمن پینل - سندھ پرائس کنٹرول</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; display: flex; }
+        
+        /* Sidebar Design */
+        .sidebar { 
+            width: 250px; background: #1a5276; height: 100vh; 
+            position: fixed; color: white; padding: 20px; box-sizing: border-box; 
         }
+        .sidebar h2 { text-align: center; font-size: 20px; border-bottom: 1px solid #ffffff33; padding-bottom: 15px; }
+        
+        /* Navigation Links */
+        .nav-links { margin-top: 20px; }
+        .nav-links a { 
+            display: block; color: white; text-decoration: none; padding: 12px; 
+            margin-bottom: 10px; border-radius: 8px; background: rgba(255,255,255,0.1); 
+            transition: 0.3s; font-size: 16px;
+        }
+        .nav-links a:hover { background: #27ae60; padding-right: 20px; }
+        
+        /* Main Content Area */
+        .main-content { margin-right: 250px; width: 100%; padding: 40px; }
+        .header { 
+            background: white; padding: 20px; border-radius: 12px; 
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .welcome-card { 
+            background: white; padding: 30px; border-radius: 15px; margin-top: 30px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center;
+        }
+        .logout-btn { 
+            background: #e74c3c; color: white; border: none; padding: 10px 20px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; 
+        }
+    </style>
+</head>
+<body>
 
-        msg.style.color = "blue";
-        msg.innerText = "ڈیٹا بھیجا جا رہا ہے...";
-        btn.disabled = true;
+    <div class="sidebar">
+        <div style="text-align: center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" width="60">
+        </div>
+        <h2>سندھ پرائس کنٹرول</h2>
+        
+        <div class="nav-links">
+            <a href="monitor.html">📊 مانیٹرنگ (Monitor)</a>
+            <a href="view-rates.html">📑 ریٹ لسٹ دیکھیں</a>
+            <a href="print-list.html">🖨️ لسٹ پرنٹ کریں</a>
+            <a href="officer-reg.html" style="background: #f39c12; color: black; font-weight: bold;">👤 آفیسر رجسٹریشن</a>
+            <a href="complaint.html">📩 عوامی شکایات</a>
+        </div>
+    </div>
 
-        // Mobile number ke shuru mein ' lagana taake Zero gayab na ho
-        const formattedMobile = "'" + mobile;
+    <div class="main-content">
+        <div class="header">
+            <h1 style="margin:0; color:#1a5276;">ایڈمنسٹریٹر ڈیش بورڈ</h1>
+            <button class="logout-btn" onclick="logout()">لاگ آؤٹ</button>
+        </div>
 
-        // Simple URL parameters ke zariye data bhejna (Sub se asaan aur kamyab tariqa)
-        const finalURL = `${scriptURL}?name=${encodeURIComponent(name)}&mobile=${encodeURIComponent(formattedMobile)}&pass=${encodeURIComponent(pass)}&market=${encodeURIComponent(market)}&action=register`;
+        <div class="welcome-card">
+            <h2>خوش آمدید، ایڈمن صاحب!</h2>
+            <p>سسٹم مینیج کرنے کے لیے بائیں جانب (Sidebar) موجود بٹن استعمال کریں۔</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="color: #666;">نوٹ: نئے آفیسر کو ایڈ کرنے کے لیے <b>"آفیسر رجسٹریشن"</b> والے پیلے بٹن پر کلک کریں۔</p>
+        </div>
+    </div>
 
-        try {
-            // Hum GET request hi bhej rahe hain kyunke ye zyada stable hai
-            const response = await fetch(finalURL);
-            const result = await response.json();
-
-            if(result.status === "success") {
-                msg.style.color = "green";
-                msg.innerText = "آفیسر کامیابی سے ایڈ ہو گیا!";
-                // Form clear karein
-                document.getElementById('newName').value = "";
-                document.getElementById('newMobile').value = "";
-                document.getElementById('newPass').value = "";
-                document.getElementById('newMarket').value = "";
-            } else {
-                msg.style.color = "red";
-                msg.innerText = "سرور کی طرف سے مسئلہ ہے: " + result.message;
-            }
-        } catch(e) {
-            msg.style.color = "red";
-            msg.innerText = "ڈیٹا محفوظ ہو گیا (یا سرور کا مسئلہ ہے)۔ براہ کرم شیٹ چیک کریں۔";
-            console.log(e);
-        } finally {
-            btn.disabled = false;
+<script>
+    // Security Check: Agar koi baghair login ke aaye to usey login page par bhej do
+    window.onload = function() {
+        const role = localStorage.getItem("userRole");
+        if (!role || role.toLowerCase() !== "admin") {
+            window.location.href = "login.html";
         }
     }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
 </script>
+
+</body>
+</html>
