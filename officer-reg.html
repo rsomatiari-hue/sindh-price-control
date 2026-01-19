@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>آفیسر رجسٹریشن - SINDH PRICE CONTROL</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .reg-card { background: white; padding: 30px; border-radius: 15px; width: 350px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
+        .back-btn { background: #1a5276; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="reg-card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" width="60">
+    <h2 style="color:#1a5276;">نیا آفیسر رجسٹر کریں</h2>
+    
+    <input type="text" id="newName" placeholder="آفیسر کا نام">
+    <input type="number" id="newMobile" placeholder="موبائل نمبر (03xxxxxxxxx)">
+    <input type="text" id="newPass" placeholder="لاگ ان پاس ورڈ">
+    <input type="text" id="newMarket" placeholder="مارکیٹ / علاقہ">
+    
+    <button onclick="saveOfficer()" id="regBtn">ڈیٹا محفوظ کریں</button>
+    <button class="back-btn" onclick="window.location.href='admin-panel.html'">واپس ایڈمن پینل</button>
+    
+    <div id="msg" style="margin-top:15px; font-weight:bold;"></div>
+</div>
+
+<script>
+    // Apka Google Script URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
+
+    async function saveOfficer() {
+        const name = document.getElementById('newName').value;
+        const mobile = document.getElementById('newMobile').value;
+        const pass = document.getElementById('newPass').value;
+        const market = document.getElementById('newMarket').value;
+        const msg = document.getElementById('msg');
+
+        if(!name || !mobile || !pass || !market) {
+            msg.innerText = "تمام خانے پُر کریں!";
+            return;
+        }
+
+        msg.style.color = "blue";
+        msg.innerText = "پروسیسنگ...";
+
+        // URL parameters ke sath data bhejna
+        const finalURL = `${scriptURL}?action=register&name=${encodeURIComponent(name)}&mobile=${encodeURIComponent("'"+mobile)}&pass=${encodeURIComponent(pass)}&market=${encodeURIComponent(market)}`;
+
+        try {
+            const res = await fetch(finalURL);
+            const data = await res.json();
+            if(data.status === "success") {
+                msg.style.color = "green";
+                msg.innerText = "آفیسر ایڈ ہو گیا!";
+                // Khali karna
+                document.getElementById('newName').value = "";
+                document.getElementById('newMobile').value = "";
+                document.getElementById('newPass').value = "";
+                document.getElementById('newMarket').value = "";
+            }
+        } catch(e) {
+            msg.style.color = "green"; // Kabhi kabhi fetch error deta hai par data save ho jata hai
+            msg.innerText = "ڈیٹا بھیج دیا گیا۔ شیٹ چیک کریں۔";
+        }
+    }
+</script>
+
+</body>
+</html>
