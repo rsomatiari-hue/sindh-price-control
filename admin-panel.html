@@ -1,104 +1,54 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN PANEL - SINDH PRICE CONTROL</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f7f6; margin: 0; }
-        .sidebar { width: 250px; background: #1a5276; height: 100vh; position: fixed; color: white; padding: 20px; }
-        .main-content { margin-right: 250px; padding: 30px; }
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
-        .nav-links a { display: block; color: white; text-decoration: none; padding: 10px; margin: 5px 0; background: rgba(255,255,255,0.1); border-radius: 5px; }
-        .nav-links a:hover { background: #2ecc71; }
-    </style>
-</head>
-<body>
-
-<div class="sidebar">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" width="60">
-    <h2>ایڈمن کنٹرول</h2>
-    <hr>
-    <div class="nav-links">
-        <a href="monitor.html">📊 مانیٹرنگ</a>
-        <a href="view-rates.html">📑 ریٹ لسٹ</a>
-        <a href="print-list.html">🖨️ پرنٹ لسٹ</a>
-        <a href="admin-panel.html">👤 آفیسر رجسٹریشن</a>
-    </div>
-    <button onclick="logout()" style="background:#e74c3c; margin-top:20px;">لاگ آؤٹ</button>
-</div>
-
-<div class="main-content">
-    <h1>سندھ پرائس کنٹرول ایڈمنسٹریشن</h1>
-    
-    <div class="card">
-        <h3>نیا آفیسر رجسٹر کریں (Add New Officer)</h3>
-        <p style="color: #666; font-size: 13px;">نوٹ: موبائل نمبر 03 سے شروع کریں (مثلاً 03469990100)</p>
-        
-        <input type="text" id="newName" placeholder="آفیسر کا نام">
-        <input type="number" id="newMobile" placeholder="موبائل نمبر">
-        <input type="text" id="newPass" placeholder="پاس ورڈ">
-        <input type="text" id="newMarket" placeholder="مارکیٹ / علاقہ">
-        
-        <button onclick="registerOfficer()" id="regBtn">آفیسر ڈیٹا محفوظ کریں</button>
-        <div id="regMsg" style="margin-top:10px; font-weight:bold;"></div>
-    </div>
-</div>
-
 <script>
-    // Security Check
-    if(localStorage.getItem("userRole") !== "Admin") { window.location.href = "login.html"; }
-
-    // Google Script URL
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
+    // 1. Apna Naya Web App URL yahan lazmi paste karein
+    const scriptURL = "APNA_NEW_DEPLOYMENT_URL_YAHAN_PASTE_KAREN";
 
     async function registerOfficer() {
-        const name = document.getElementById('newName').value;
-        const mobile = document.getElementById('newMobile').value;
-        const pass = document.getElementById('newPass').value;
-        const market = document.getElementById('newMarket').value;
+        const name = document.getElementById('newName').value.trim();
+        const mobile = document.getElementById('newMobile').value.trim();
+        const pass = document.getElementById('newPass').value.trim();
+        const market = document.getElementById('newMarket').value.trim();
         const msg = document.getElementById('regMsg');
+        const btn = document.getElementById('regBtn');
 
         if(!name || !mobile || !pass || !market) {
+            msg.style.color = "red";
             msg.innerText = "تمام خانے پُر کریں!";
             return;
         }
 
         msg.style.color = "blue";
         msg.innerText = "ڈیٹا بھیجا جا رہا ہے...";
+        btn.disabled = true;
 
-        // Mobile number ke sath ' (comma) lagana taake Google Sheet zero na mita sakay
+        // Mobile number ke shuru mein ' lagana taake Zero gayab na ho
         const formattedMobile = "'" + mobile;
 
-        const formData = new FormData();
-        formData.append('action', 'register');
-        formData.append('name', name);
-        formData.append('mobile', formattedMobile);
-        formData.append('pass', pass);
-        formData.append('market', market);
+        // Simple URL parameters ke zariye data bhejna (Sub se asaan aur kamyab tariqa)
+        const finalURL = `${scriptURL}?name=${encodeURIComponent(name)}&mobile=${encodeURIComponent(formattedMobile)}&pass=${encodeURIComponent(pass)}&market=${encodeURIComponent(market)}&action=register`;
 
         try {
-            await fetch(scriptURL, { method: 'POST', body: formData });
-            msg.style.color = "green";
-            msg.innerText = "آفیسر کامیابی سے ایڈ ہو گیا!";
-            // Form clear
-            document.getElementById('newName').value = "";
-            document.getElementById('newMobile').value = "";
-            document.getElementById('newPass').value = "";
-            document.getElementById('newMarket').value = "";
+            // Hum GET request hi bhej rahe hain kyunke ye zyada stable hai
+            const response = await fetch(finalURL);
+            const result = await response.json();
+
+            if(result.status === "success") {
+                msg.style.color = "green";
+                msg.innerText = "آفیسر کامیابی سے ایڈ ہو گیا!";
+                // Form clear karein
+                document.getElementById('newName').value = "";
+                document.getElementById('newMobile').value = "";
+                document.getElementById('newPass').value = "";
+                document.getElementById('newMarket').value = "";
+            } else {
+                msg.style.color = "red";
+                msg.innerText = "سرور کی طرف سے مسئلہ ہے: " + result.message;
+            }
         } catch(e) {
             msg.style.color = "red";
-            msg.innerText = "ایرر! دوبارہ کوشش کریں۔";
+            msg.innerText = "ڈیٹا محفوظ ہو گیا (یا سرور کا مسئلہ ہے)۔ براہ کرم شیٹ چیک کریں۔";
+            console.log(e);
+        } finally {
+            btn.disabled = false;
         }
     }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
 </script>
-
-</body>
-</html>
