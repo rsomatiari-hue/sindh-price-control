@@ -2,148 +2,64 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SINDH PRICE CONTROL - LOGIN</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        .login-card img {
-            width: 100px;
-            margin-bottom: 20px;
-        }
-        h2 {
-            color: #1a5276;
-            margin-bottom: 25px;
-            font-size: 24px;
-        }
-        input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-            outline: none;
-            transition: 0.3s;
-        }
-        input:focus {
-            border-color: #1a5276;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            background: #1a5276;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #154360;
-        }
-        #msg {
-            margin-top: 20px;
-            font-size: 15px;
-            font-weight: bold;
-        }
-        .error { color: #e74c3c; }
-        .success { color: #27ae60; }
-        .loading { color: #f39c12; }
+        body { font-family: sans-serif; background: #1a5276; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #333; }
+        .card { background: white; padding: 30px; border-radius: 15px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; }
+        #msg { margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" width="80">
+        <h2 style="color:#1a5276">پرائس کنٹرول لاگ ان</h2>
+        <input type="email" id="email" placeholder="ای میل لکھیں">
+        <input type="password" id="pass" placeholder="پاس ورڈ لکھیں">
+        <button onclick="login()">لاگ ان کریں</button>
+        <div id="msg"></div>
+    </div>
 
-<div class="login-card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" alt="Sindh Logo">
-    <h2>آفیسر لاگ ان (قاضی احمد)</h2>
-    
-    <input type="email" id="userEmail" placeholder="ای میل (Email)" required>
-    <input type="password" id="userPass" placeholder="پاس ورڈ (Password)" required>
-    
-    <button onclick="doLogin()" id="loginBtn">لاگ ان کریں</button>
-    
-    <div id="msg"></div>
-</div>
+    <script>
+        // Yahan apna naya Script URL paste karein
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
 
-<script>
-    // Aapka Google Script URL
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
-
-    async function doLogin() {
-        const email = document.getElementById('userEmail').value.trim();
-        const pass = document.getElementById('userPass').value.trim();
-        const msg = document.getElementById('msg');
-        const btn = document.getElementById('loginBtn');
-
-        if(!email || !pass) {
-            msg.className = "error";
-            msg.innerText = "برائے مہربانی ای میل اور پاس ورڈ لکھیں";
-            return;
-        }
-        
-        // UI Updates
-        msg.className = "loading";
-        msg.innerText = "تصدیق ہو رہی ہے، انتظار کریں...";
-        btn.disabled = true;
-        btn.style.opacity = "0.7";
-
-        try {
-            // URL format: scriptURL?email=...&pass=...
-            const finalURL = `${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`;
+        async function login() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            const msg = document.getElementById('msg');
             
-            const response = await fetch(finalURL);
-            const result = await response.json();
+            if(!email || !pass) { msg.innerText = "Dono khane pur karein"; return; }
+            msg.style.color = "blue";
+            msg.innerText = "Tasdeeq ho rahi hai...";
+            
+            try {
+                const res = await fetch(`${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`);
+                const data = await res.json();
 
-            if (result.status === "success") {
-                msg.className = "success";
-                msg.innerText = "لاگ ان کامیاب! ڈیش بورڈ پر جا رہے ہیں...";
-                
-                // Save user info in browser memory
-                localStorage.setItem("userRole", result.role);
-                localStorage.setItem("userMarket", result.market);
-                localStorage.setItem("isLoggedIn", "true");
-
-                // Dashboard par bhej dena
-                setTimeout(() => {
-                    window.location.href = "officer-dashboard.html";
-                }, 1500);
-                
-            } else {
-                msg.className = "error";
-                msg.innerText = "غلط ای میل یا پاس ورڈ!";
-                btn.disabled = false;
-                btn.style.opacity = "1";
+                if(data.status === "success") {
+                    localStorage.setItem("userRole", data.role);
+                    localStorage.setItem("userMarket", data.market);
+                    msg.style.color = "green";
+                    msg.innerText = "Kamyab! Dashboard par ja rahe hain...";
+                    
+                    setTimeout(() => {
+                        if(data.role.toLowerCase() === "admin") {
+                            window.location.href = "admin-dashboard.html";
+                        } else {
+                            window.location.href = "officer-dashboard.html";
+                        }
+                    }, 1500);
+                } else {
+                    msg.style.color = "red";
+                    msg.innerText = "Ghalat Email ya Password!";
+                }
+            } catch(e) { 
+                msg.style.color = "red";
+                msg.innerText = "Server error! Dobara try karein."; 
             }
-        } catch (error) {
-            console.error(error);
-            msg.className = "error";
-            msg.innerText = "سرور سے رابطہ نہیں ہو سکا۔ دوبارہ کوشش کریں";
-            btn.disabled = false;
-            btn.style.opacity = "1";
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
