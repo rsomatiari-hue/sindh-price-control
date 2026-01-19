@@ -1,107 +1,146 @@
 <!DOCTYPE html>
-<html lang="ur-pk" dir="rtl">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SINDH PRICE CONTROL - LOGIN</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; border-top: 8px solid #1a5276; }
-        img { width: 80px; margin-bottom: 20px; }
-        h2 { color: #1a5276; margin-bottom: 25px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #27ae60; color: white; font-weight: bold; font-size: 18px; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #219150; }
-        .hidden { display: none; }
-        #statusMsg { font-size: 14px; margin-top: 15px; color: #e67e22; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-card img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1a5276;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-color: #1a5276;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #1a5276;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #154360;
+        }
+        #msg {
+            margin-top: 20px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .error { color: #e74c3c; }
+        .success { color: #27ae60; }
+        .loading { color: #f39c12; }
     </style>
 </head>
 <body>
 
 <div class="login-card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png">
-    <h2>آفیسر لاگ ان</h2>
-
-    <div id="emailSection">
-        <input type="email" id="userEmail" placeholder="ای میل درج کریں">
-        <button onclick="sendOTP()">او ٹی پی حاصل کریں</button>
-    </div>
-
-    <div id="otpSection" class="hidden">
-        <p>آپ کی ای میل پر کوڈ بھیج دیا گیا ہے۔</p>
-        <input type="number" id="otpInput" placeholder="6 ہندسوں کا کوڈ">
-        <button onclick="verifyOTP()">کوڈ کی تصدیق کریں</button>
-    </div>
-
-    <div id="passwordSection" class="hidden">
-        <input type="password" id="userPass" placeholder="پاس ورڈ درج کریں">
-        <button onclick="finalLogin()">لاگ ان کریں</button>
-    </div>
-
-    <div id="statusMsg"></div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" alt="Sindh Logo">
+    <h2>آفیسر لاگ ان (قاضی احمد)</h2>
+    
+    <input type="email" id="userEmail" placeholder="ای میل (Email)" required>
+    <input type="password" id="userPass" placeholder="پاس ورڈ (Password)" required>
+    
+    <button onclick="doLogin()" id="loginBtn">لاگ ان کریں</button>
+    
+    <div id="msg"></div>
 </div>
 
 <script>
-    // Aapka active Script URL
+    // Aapka Google Script URL
     const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
-    
-    let generatedOTP = "";
 
-    async function sendOTP() {
-        const email = document.getElementById('userEmail').value;
-        if(!email) { alert("Email zaroori hai"); return; }
-        
-        const status = document.getElementById('statusMsg');
-        status.innerText = "OTP bheja ja raha hai... Intezar karen.";
-        
-        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    async function doLogin() {
+        const email = document.getElementById('userEmail').value.trim();
+        const pass = document.getElementById('userPass').value.trim();
+        const msg = document.getElementById('msg');
+        const btn = document.getElementById('loginBtn');
 
-        // Fix: fetch with mode 'no-cors' for Google Apps Script
-        const url = `${scriptURL}?type=sendOTP&email=${encodeURIComponent(email)}&otp=${generatedOTP}`;
-        
-        try {
-            await fetch(url, { mode: 'no-cors' });
-            // 'no-cors' mein response read nahi hota, par request chali jati hai
-            document.getElementById('emailSection').classList.add('hidden');
-            document.getElementById('otpSection').classList.remove('hidden');
-            status.innerText = "OTP bhej diya gaya! Apna Spam folder bhi check karen.";
-        } catch (e) {
-            status.innerText = "Error: Connection ka masla hai.";
-            console.error(e);
+        if(!email || !pass) {
+            msg.className = "error";
+            msg.innerText = "برائے مہربانی ای میل اور پاس ورڈ لکھیں";
+            return;
         }
-    }
-
-    function verifyOTP() {
-        const input = document.getElementById('otpInput').value;
-        if(input === generatedOTP) {
-            document.getElementById('otpSection').classList.add('hidden');
-            document.getElementById('passwordSection').classList.remove('hidden');
-            document.getElementById('statusMsg').innerText = "Tasdeeq mukammal!";
-        } else {
-            alert("Ghalat OTP! Dobara koshish karen.");
-        }
-    }
-
-    async function finalLogin() {
-        const email = document.getElementById('userEmail').value;
-        const pass = document.getElementById('userPass').value;
-        const status = document.getElementById('statusMsg');
-        status.innerText = "Checking password...";
+        
+        // UI Updates
+        msg.className = "loading";
+        msg.innerText = "تصدیق ہو رہی ہے، انتظار کریں...";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
 
         try {
-            // Login ke liye humein data chahiye, isliye isay normal fetch karenge
-            const response = await fetch(`${scriptURL}?type=login&email=${email}&pass=${pass}`);
+            // URL format: scriptURL?email=...&pass=...
+            const finalURL = `${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`;
+            
+            const response = await fetch(finalURL);
             const result = await response.json();
 
             if (result.status === "success") {
+                msg.className = "success";
+                msg.innerText = "لاگ ان کامیاب! ڈیش بورڈ پر جا رہے ہیں...";
+                
+                // Save user info in browser memory
                 localStorage.setItem("userRole", result.role);
                 localStorage.setItem("userMarket", result.market);
-                window.location.href = "officer-dashboard.html";
+                localStorage.setItem("isLoggedIn", "true");
+
+                // Dashboard par bhej dena
+                setTimeout(() => {
+                    window.location.href = "officer-dashboard.html";
+                }, 1500);
+                
             } else {
-                status.innerText = "Ghalat password!";
+                msg.className = "error";
+                msg.innerText = "غلط ای میل یا پاس ورڈ!";
+                btn.disabled = false;
+                btn.style.opacity = "1";
             }
-        } catch (e) {
-            status.innerText = "Login server error!";
+        } catch (error) {
+            console.error(error);
+            msg.className = "error";
+            msg.innerText = "سرور سے رابطہ نہیں ہو سکا۔ دوبارہ کوشش کریں";
+            btn.disabled = false;
+            btn.style.opacity = "1";
         }
     }
 </script>
