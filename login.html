@@ -1,28 +1,65 @@
-<script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN - SINDH PRICE CONTROL</title>
+    <style>
+        body { font-family: sans-serif; background: #1a5276; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 15px; width: 320px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; text-align: center; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 18px; }
+        #msg { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Emblem_of_Sindh.svg/1200px-Emblem_of_Sindh.svg.png" width="70">
+        <h2>لاگ ان پینل</h2>
+        <input type="email" id="email" placeholder="ای میل">
+        <input type="password" id="pass" placeholder="پاس ورڈ">
+        <button onclick="login()">داخل ہوں</button>
+        <div id="msg"></div>
+    </div>
 
-    async function doLogin() {
-        const email = document.getElementById('userEmail').value.trim();
-        const pass = document.getElementById('userPass').value.trim();
-        const msg = document.getElementById('msg');
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwUkNKtlw09iCloOAul_QEv0UDcpauWowCN2JIc0ZiEkhi4fYKxTW_o5AzTES-CHc35Ag/exec";
 
-        try {
-            const response = await fetch(`${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`);
-            const result = await response.json();
+        async function login() {
+            const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('pass').value.trim();
+            const msg = document.getElementById('msg');
+            
+            msg.style.color = "blue";
+            msg.innerText = "تصدیق ہو رہی ہے...";
 
-            if (result.status === "success") {
-                localStorage.setItem("userRole", result.role);
-                localStorage.setItem("userMarket", result.market);
-                
-                // Aapki files ke mutabiq redirection
-                if (result.role.toLowerCase() === "admin") {
-                    window.location.href = "admin-panel.html";
+            try {
+                const res = await fetch(`${scriptURL}?email=${encodeURIComponent(email)}&pass=${encodeURIComponent(pass)}`);
+                const data = await res.json();
+
+                if(data.status === "success") {
+                    localStorage.setItem("userRole", data.role);
+                    localStorage.setItem("userMarket", data.market);
+                    
+                    msg.style.color = "green";
+                    msg.innerText = "کامیاب! لوڈ ہو رہا ہے...";
+
+                    // Yahan humne file names ko bilkul SMALL letters mein rakha hai
+                    setTimeout(() => {
+                        if(data.role.toLowerCase() === "admin") {
+                            window.location.href = "admin-panel.html"; 
+                        } else {
+                            window.location.href = "officer-dashboard.html";
+                        }
+                    }, 1000);
                 } else {
-                    window.location.href = "officer-dashboard.html";
+                    msg.style.color = "red";
+                    msg.innerText = "غلط ای میل یا پاس ورڈ!";
                 }
-            } else {
-                msg.innerText = "Ghalat Email ya Password!";
+            } catch(e) { 
+                msg.style.color = "red";
+                msg.innerText = "سرور کا مسئلہ ہے!"; 
             }
-        } catch (e) { msg.innerText = "Server Error!"; }
-    }
-</script>
+        }
+    </script>
+</body>
+</html>
