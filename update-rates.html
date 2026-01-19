@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ریٹ اپڈیٹ - SINDH PRICE CONTROL</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #1a5276; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 10px; font-size: 18px; cursor: pointer; }
+        #msg { text-align: center; margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 style="text-align: center; color: #1a5276;">روزانہ ریٹ لسٹ اپڈیٹ</h2>
+    <p id="offInfo" style="text-align: center; color: #666;"></p>
+
+    <div class="input-group">
+        <label>آئٹم کا نام (مثلاً آلو، پیاز)</label>
+        <input type="text" id="itemName" placeholder="چیز کا نام لکھیں">
+    </div>
+
+    <div class="input-group">
+        <label>فی کلو / فی درجن ریٹ (PKR)</label>
+        <input type="number" id="itemPrice" placeholder="صرف نمبر لکھیں">
+    </div>
+
+    <button onclick="submitRate()" id="subBtn">ریٹ محفوظ کریں</button>
+    <div id="msg"></div>
+    
+    <button onclick="window.location.href='officer-dashboard.html'" style="background:#1a5276; margin-top:10px; font-size: 14px;">واپس ڈیش بورڈ</button>
+</div>
+
+<script>
+    const market = localStorage.getItem("userMarket");
+    const officer = "Officer"; // Aap yahan user ka naam bhi save karwa sakte hain
+    document.getElementById('offInfo').innerText = "مارکیٹ: " + market;
+
+    async function submitRate() {
+        const item = document.getElementById('itemName').value;
+        const price = document.getElementById('itemPrice').value;
+        const msg = document.getElementById('msg');
+        const scriptURL = "APNA_WEB_APP_URL_YAHAN_DALEIN";
+
+        if(!item || !price) {
+            msg.innerText = "دونوں خانے پُر کریں!";
+            return;
+        }
+
+        msg.style.color = "blue";
+        msg.innerText = "سیو ہو رہا ہے...";
+
+        const finalURL = `${scriptURL}?action=updateRate&item=${encodeURIComponent(item)}&price=${encodeURIComponent(price)}&market=${encodeURIComponent(market)}`;
+
+        try {
+            await fetch(finalURL, {mode: 'no-cors'});
+            msg.style.color = "green";
+            msg.innerText = "ریٹ کامیابی سے اپڈیٹ ہو گیا!";
+            document.getElementById('itemName').value = "";
+            document.getElementById('itemPrice').value = "";
+        } catch(e) {
+            msg.innerText = "کامیاب (شیٹ چیک کریں)";
+        }
+    }
+</script>
+</body>
+</html>
