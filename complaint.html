@@ -1,112 +1,99 @@
 <!DOCTYPE html>
-<html lang="ur-pk" dir="rtl">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verified Complaint - Sindh Govt</title>
+    <title>شکایت درج کریں - سندھ پرائس کنٹرول</title>
     <style>
-        body { font-family: sans-serif; background: #fdf2f2; margin: 0; padding: 15px; text-align: right; }
-        .header { background: #c0392b; color: white; padding: 20px; border-radius: 10px; text-align: center; }
-        .form-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 15px; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #c0392b; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; }
-        .btn-verify { background: #1a5276; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-top: 5px; width: 100%; }
-        .btn-submit { background: #c0392b; color: white; padding: 15px; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 25px; display: none; }
-        .status-msg { font-size: 12px; color: green; margin-top: 5px; font-weight: bold; }
-        #preview { width: 100%; border-radius: 10px; margin-top: 10px; display: none; border: 2px solid #ddd; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fdfdfd; margin: 0; padding-bottom: 30px; text-align: right; }
+        .header { background: #c0392b; color: white; padding: 20px; text-align: center; border-radius: 0 0 20px 20px; }
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; color: #333; margin-bottom: 5px; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; box-sizing: border-box; }
+        input:focus, textarea:focus { border-color: #c0392b; }
+        
+        /* Camera/Upload Style */
+        .upload-area { border: 2px dashed #bbb; padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; background: #f9f9f9; }
+        .upload-area:hover { background: #f0f0f0; border-color: #c0392b; }
+        
+        .btn-send { background: #c0392b; color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(192, 57, 43, 0.2); }
+        .back-btn { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
+        #preview { width: 100%; margin-top: 10px; border-radius: 10px; display: none; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>تصدیق شدہ شکایت سیل</h1>
-    <p>Live Location & Photo Evidence Required</p>
-</div>
+    <div class="header">
+        <h2 style="margin:0;">📝 شکایت درج کریں</h2>
+        <p style="margin:5px 0 0 0; font-size:14px;">آپ کی شکایت براہِ راست افسر کو جائے گی</p>
+    </div>
 
-<div class="form-card">
-    <form id="complaintForm">
-        <label>موبائل نمبر (برائے تصدیق):</label>
-        <input type="tel" id="phone" name="phone" placeholder="03XXXXXXXXX" required>
-        <button type="button" class="btn-verify" onclick="sendOTP()" id="otpBtn">OTP کوڈ بھیجیں</button>
-        
-        <div id="otpSection" style="display:none;">
-            <input type="text" id="otpCode" placeholder="Enter OTP" style="margin-top:10px;">
-            <button type="button" class="btn-verify" onclick="verifyOTP()" style="background:#27ae60;">تصدیق کریں (Verify)</button>
+    <div class="container">
+        <div class="input-group">
+            <label>آپ کا نام:</label>
+            <input type="text" id="compName" placeholder="اپنا نام لکھیں...">
         </div>
-        <p id="otpStatus" class="status-msg"></p>
 
-        <label>آپ کی موجودہ لوکیشن (Live Location):</label>
-        <button type="button" class="btn-verify" onclick="getLocation()" style="background:#8e44ad;">لوکیشن حاصل کریں (Required)</button>
-        <input type="hidden" id="lat" name="latitude" required>
-        <input type="hidden" id="long" name="longitude" required>
-        <p id="locStatus" class="status-msg"></p>
+        <div class="input-group">
+            <label>شہر / علاقہ:</label>
+            <select id="compCity">
+                <option value="Matiari">مٹیاری (Matiari)</option>
+                <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
+                <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
+            </select>
+        </div>
 
-        <label>دکان / ریٹ لسٹ کی تصویر (Live Photo):</label>
-        <input type="file" id="photo" name="evidence" accept="image/*" capture="camera" required onchange="previewImage(event)">
-        <img id="preview" alt="Preview">
+        <div class="input-group">
+            <label>دکان کا نام اور پتہ:</label>
+            <textarea id="compShop" rows="2" placeholder="دکان کا نام یا گلی کا نام لکھیں..."></textarea>
+        </div>
 
-        <label>دکان کا نام / پتہ:</label>
-        <input type="text" name="shop_info" required>
+        <div class="input-group">
+            <label>شکایت کی تفصیل:</label>
+            <textarea id="compDetail" rows="3" placeholder="کیا مسئلہ ہے؟ (مثلاً: ریٹ لسٹ نہیں ہے)"></textarea>
+        </div>
 
-        <label>شکایت کی تفصیل:</label>
-        <textarea name="details" rows="3"></textarea>
+        <div class="input-group">
+            <label>ثبوت کے طور پر تصویر (آپشنل):</label>
+            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                <span id="uploadText">📷 تصویر اپ لوڈ کریں یا کیمرہ کھولیں</span>
+                <input type="file" id="fileInput" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this)">
+                <img id="preview" alt="Preview">
+            </div>
+        </div>
 
-        <button type="submit" class="btn-submit" id="finalSubmitBtn">شکایت درج کریں (Submit)</button>
-    </form>
-</div>
+        <button class="btn-send" onclick="sendComplaint()">شکایت بھیجیں</button>
+        <a href="public-view.html" class="back-btn">واپس ریٹ لسٹ پر جائیں</a>
+    </div>
 
-<script>
-    let isPhoneVerified = false;
-    let isLocationCaptured = false;
-
-    // 1. OTP Simulation (Apne pas SMS API lagani hogi)
-    function sendOTP() {
-        const phone = document.getElementById('phone').value;
-        if(phone.length < 10) { alert("Sahi number likhen"); return; }
-        document.getElementById('otpSection').style.display = 'block';
-        document.getElementById('otpStatus').innerText = "کوڈ آپ کے نمبر پر بھیج دیا گیا ہے (Simulated)";
-    }
-
-    function verifyOTP() {
-        // Filhal hum simulation kar rahe hain
-        isPhoneVerified = true;
-        document.getElementById('otpStatus').innerText = "✔️ موبائل نمبر کی تصدیق ہو گئی";
-        checkRequirement();
-    }
-
-    // 2. Live Location Capture
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                document.getElementById('lat').value = position.coords.latitude;
-                document.getElementById('long').value = position.coords.longitude;
-                isLocationCaptured = true;
-                document.getElementById('locStatus').innerText = "✔️ لوکیشن کامیابی سے حاصل کر لی گئی";
-                checkRequirement();
-            }, () => { alert("Location access den"); });
+    <script>
+        function previewImage(input) {
+            const preview = document.getElementById('preview');
+            const text = document.getElementById('uploadText');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    text.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
         }
-    }
 
-    // 3. Photo Preview
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            const output = document.getElementById('preview');
-            output.src = reader.result;
-            output.style.display = 'block';
-            checkRequirement();
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
+        function sendComplaint() {
+            const name = document.getElementById('compName').value;
+            const shop = document.getElementById('compShop').value;
 
-    // Check if everything is done to show Submit button
-    function checkRequirement() {
-        const photo = document.getElementById('photo').files.length;
-        if(isPhoneVerified && isLocationCaptured && photo > 0) {
-            document.getElementById('finalSubmitBtn').style.display = 'block';
+            if(!name || !shop) {
+                alert("براہ کرم اپنا نام اور دکان کا پتہ لازمی لکھیں!");
+                return;
+            }
+
+            alert("شکریہ! آپ کی شکایت موصول ہوگئی ہے۔ متعلقہ اسسٹنٹ کمشنر کو کارروائی کے لیے بھیج دی گئی ہے۔");
+            window.location.href = "public-view.html";
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
