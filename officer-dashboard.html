@@ -3,87 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آفیسر ڈیش بورڈ - سندھ پرائس کنٹرول</title>
+    <title>آفیسر ڈیش بورڈ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 0; text-align: right; }
-        .header { background: #1a5276; color: white; padding: 25px; text-align: center; border-radius: 0 0 25px 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .container { padding: 20px; }
-        .welcome-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #e0e0e0; }
-        .market-badge { background: #e67e22; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; }
-        
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .menu-card { 
-            background: white; padding: 25px 10px; border-radius: 18px; text-align: center; 
-            text-decoration: none; color: #333; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease; border: 1.5px solid #fff;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .menu-card:active { transform: scale(0.95); background: #f8f9fa; border-color: #1a5276; }
-        .icon-circle { width: 60px; height: 60px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 30px; }
-        .card-title { font-weight: bold; font-size: 16px; color: #2c3e50; }
-
-        .logout-btn { 
-            width: 100%; margin-top: 40px; padding: 15px; background: #c0392b; 
-            color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
+        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
+        .welcome-box { background: white; margin: 20px; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .menu-item { background: white; padding: 25px 10px; border-radius: 15px; text-align: center; text-decoration: none; color: #2e7d32; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid #2e7d32; transition: 0.3s; }
+        .menu-item i { font-size: 30px; margin-bottom: 10px; display: block; }
+        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h2 style="margin: 0;">سندھ پرائس کنٹرول</h2>
-        <p style="margin: 5px 0 0 0; opacity: 0.9;">آفیسر کنٹرول پینل</p>
+    <div class="header-bg">
+        <div class="main-title">MARKET COMMITTEE PRICE CONTROL SYSTEM</div>
+        <div class="director-text">Director General Agriculture Marketing Sindh</div>
     </div>
 
-    <div class="container">
-        <div class="welcome-card">
-            <h3 style="margin: 0 0 10px 0;">خوش آمدید!</h3>
-            <span class="market-badge" id="mktLabel">مارکیٹ: لوڈنگ...</span>
-        </div>
-
-        <div class="menu-grid">
-            <a href="Update-rates.html" class="menu-card">
-                <div class="icon-circle">📝</div>
-                <div class="card-title">ریٹ اپڈیٹ</div>
-            </a>
-
-            <a href="fine-action.html" class="menu-card">
-                <div class="icon-circle">⚖️</div>
-                <div class="card-title">جرمانہ / کارروائی</div>
-            </a>
-
-            <a href="view-rates.html" class="menu-card">
-                <div class="icon-circle">📋</div>
-                <div class="card-title">ریٹ لسٹ دیکھیں</div>
-            </a>
-
-            <a href="reports.html" class="menu-card">
-                <div class="icon-circle">📊</div>
-                <div class="card-title">رپورٹس</div>
-            </a>
-        </div>
-
-        <button class="logout-btn" onclick="logout()">لاگ آؤٹ (Logout)</button>
+    <div class="welcome-box">
+        <h3 style="margin:0; color:#2e7d32;">خوش آمدید، آفیسر صاحب</h3>
+        <p id="officerInfo" style="margin:5px 0 0 0; color:#666;"></p>
     </div>
 
-<script>
-    window.onload = function() {
-        const market = localStorage.getItem("userMarket") || "Kazi Ahmed";
-        document.getElementById('mktLabel').innerText = "آپ کی مارکیٹ: " + market;
-        
-        // Security Check
-        const role = localStorage.getItem("userRole");
-        if (!role || role.toLowerCase() !== "officer") {
-            // Agar officer nahi hai to login pe bhejo (Optional)
-            // window.location.href = "login.html";
+    <div class="menu-grid">
+        <a href="Update-rates.html" class="menu-item"><i class="fas fa-edit"></i>ریٹ اپڈیٹ کریں</a>
+        <a href="public-view.html" class="menu-item"><i class="fas fa-eye"></i>ویب سائٹ دیکھیں</a>
+        <a href="complaints-list.html" class="menu-item"><i class="fas fa-bullhorn"></i>شکایات دیکھیں</a>
+        <a href="login.html" class="menu-item" style="color:#c0392b; border-color:#c0392b;"><i class="fas fa-sign-out-alt"></i>لاگ آؤٹ</a>
+    </div>
+
+    <footer class="footer">
+        <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            const city = localStorage.getItem("userMarket") || "Sindh";
+            const role = localStorage.getItem("userRole") || "Officer";
+            document.getElementById('officerInfo').innerText = `مارکیٹ: ${city} | عہدہ: ${role}`;
         }
-    }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = "login.html";
-    }
-</script>
-
+    </script>
 </body>
 </html>
