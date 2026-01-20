@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مکمل سرکاری ریٹ لسٹ - SINDH PRICE CONTROL</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding-bottom: 100px; }
+        .header { background: #004d40; color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        .market-info { background: #ff9800; color: white; font-size: 14px; padding: 6px; text-align: center; font-weight: bold; }
+        .category-tabs { display: flex; overflow-x: auto; background: white; padding: 10px; gap: 8px; border-bottom: 1px solid #ddd; }
+        .tab { white-space: nowrap; padding: 10px 18px; border-radius: 25px; border: 1.5px solid #004d40; color: #004d40; cursor: pointer; font-weight: bold; font-size: 13px; }
+        .tab.active { background: #004d40; color: white; }
+        .container { padding: 12px; }
+        .item-card { background: white; padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border-right: 6px solid #2e7d32; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .item-name-ur { font-size: 15px; font-weight: bold; color: #333; flex: 1; margin-left: 10px; line-height: 1.4; }
+        .price-input { width: 85px; padding: 12px; border: 1px solid #bbb; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold; color: #d84315; }
+        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: flex; gap: 10px; box-shadow: 0 -3px 15px rgba(0,0,0,0.15); }
+        .save-btn { flex: 2; background: #2e7d32; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
+        .back-btn { flex: 1; background: #78909c; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="header"><h2 style="margin:0;">سرکاری ریٹ لسٹ اپڈیٹ</h2></div>
+<div class="market-info" id="marketLabel">لوڈنگ...</div>
+
+<div class="category-tabs">
+    <div class="tab active" onclick="filterItems('veg', this)">سبزیات</div>
+    <div class="tab" onclick="filterItems('fruit', this)">پھل</div>
+    <div class="tab" onclick="filterItems('poultry', this)">پولٹری/گوشت</div>
+    <div class="tab" onclick="filterItems('dairy', this)">دودھ/دہی</div>
+    <div class="tab" onclick="filterItems('grocery', this)">کریانہ/دالیں</div>
+    <div class="tab" onclick="filterItems('bakery', this)">بیکری/نان</div>
+</div>
+
+<div class="container" id="itemsList"></div>
+
+<div class="footer-bar">
+    <button class="back-btn" onclick="window.location.href='officer-dashboard.html'">واپس</button>
+    <button class="save-btn" onclick="saveAllRates()" id="saveBtn">ڈیٹا محفوظ کریں</button>
+</div>
+
+<script>
+    const items = [
+        // --- VEGETABLES (Mukammal List) ---
+        { ur: "آلو درجہ اول (کلو)", cat: "veg" }, { ur: "آلو درجہ دوم (کلو)", cat: "veg" },
+        { ur: "پیاز درجہ اول (کلو)", cat: "veg" }, { ur: "پیاز درجہ دوم (کلو)", cat: "veg" },
+        { ur: "ٹماٹر درجہ اول (کلو)", cat: "veg" }, { ur: "ٹماٹر درجہ دوم (کلو)", cat: "veg" },
+        { ur: "ادرک چائنہ (کلو)", cat: "veg" }, { ur: "ادرک تھائی (کلو)", cat: "veg" },
+        { ur: "لہسن چائنہ (کلو)", cat: "veg" }, { ur: "لہسن دیسی (کلو)", cat: "veg" },
+        { ur: "لیموں چائنہ (کلو)", cat: "veg" }, { ur: "لیموں دیسی (کلو)", cat: "veg" },
+        { ur: "بھنڈی (کلو)", cat: "veg" }, { ur: "ٹینڈا دیسی (کلو)", cat: "veg" },
+        { ur: "ٹینڈا فارمی (کلو)", cat: "veg" }, { ur: "بینگن (کلو)", cat: "veg" },
+        { ur: "کھیرا (کلو)", cat: "veg" }, { ur: "گاجر (کلو)", cat: "veg" },
+        { ur: "مولی (کلو)", cat: "veg" }, { ur: "پالک (کلو)", cat: "veg" },
+        { ur: "مٹر (کلو)", cat: "veg" }, { ur: "بند گوبھی (کلو)", cat: "veg" },
+        { ur: "پھول گوبھی (کلو)", cat: "veg" }, { ur: "لوکی (کلو)", cat: "veg" },
+        { ur: "ہری مرچ (کلو)", cat: "veg" }, { ur: "ہرا دھنیا (گٹھی)", cat: "veg" },
+        { ur: "پودینہ (گٹھی)", cat: "veg" }, { ur: "کریلا (کلو)", cat: "veg" },
+        { ur: "اروی (کلو)", cat: "veg" }, { ur: "شملہ مرچ (کلو)", cat: "veg" },
+        { ur: "شلجم (کلو)", cat: "veg" }, { ur: "میتھی (کلو)", cat: "veg" },
+        { ur: "چکندر (کلو)", cat: "veg" }, { ur: "پھلی (کلو)", cat: "veg" },
+
+        // --- FRUITS (Mukammal List) ---
+        { ur: "کیلا درجہ اول (درجن)", cat: "fruit" }, { ur: "کیلا درجہ دوم (درجن)", cat: "fruit" },
+        { ur: "سیب کلو اول (کلو)", cat: "fruit" }, { ur: "سیب کلو دوم (کلو)", cat: "fruit" },
+        { ur: "سیب گاچا اول (کلو)", cat: "fruit" }, { ur: "سیب گاچا دوم (کلو)", cat: "fruit" },
+        { ur: "پپیتہ (کلو)", cat: "fruit" }, { ur: "انار قندھاری اول (کلو)", cat: "fruit" },
+        { ur: "انار قندھاری دوم (کلو)", cat: "fruit" }, { ur: "امرود اول (کلو)", cat: "fruit" },
+        { ur: "امرود دوم (کلو)", cat: "fruit" }, { ur: "چیکو اول (کلو)", cat: "fruit" },
+        { ur: "چیکو دوم (کلو)", cat: "fruit" }, { ur: "مالٹا اول (درجن)", cat: "fruit" },
+        { ur: "مالٹا دوم (درجن)", cat: "fruit" }, { ur: "کنو اول (درجن)", cat: "fruit" },
+        { ur: "کنو دوم (درجن)", cat: "fruit" }, { ur: "انگور سندر خانی (کلو)", cat: "fruit" },
+        { ur: "انگور کالا (کلو)", cat: "fruit" }, { ur: "انگور گولا (کلو)", cat: "fruit" },
+        { ur: "موسمی اول (درجن)", cat: "fruit" }, { ur: "موسمی دوم (درجن)", cat: "fruit" },
+        { ur: "خربوزہ اول (کلو)", cat: "fruit" }, { ur: "خربوزہ دوم (کلو)", cat: "fruit" },
+        { ur: "تربوز (کلو)", cat: "fruit" }, { ur: "کھجور اصیل (کلو)", cat: "fruit" },
+        { ur: "ناریل (فی دانہ)", cat: "fruit" }, { ur: "بیر (کلو)", cat: "fruit" },
+
+        // --- POULTRY & MEAT ---
+        { ur: "زندہ مرغی برائلر (کلو)", cat: "poultry" }, { ur: "مرغی گوشت (کلو)", cat: "poultry" },
+        { ur: "انڈے فارمی (درجن)", cat: "poultry" }, { ur: "بکرا گوشت (کلو)", cat: "poultry" },
+        { ur: "بیف بغیر ہڈی (کلو)", cat: "poultry" }, { ur: "بیف ہڈی والا (کلو)", cat: "poultry" },
+        { ur: "بچھیا گوشت بغیر ہڈی (کلو)", cat: "poultry" }, { ur: "بچھیا گوشت ہڈی والا (کلو)", cat: "poultry" },
+
+        // --- DAIRY ---
+        { ur: "تازہ دودھ (لیٹر)", cat: "dairy" }, { ur: "دہی (کلو)", cat: "dairy" },
+        { ur: "پنیر (کلو)", cat: "dairy" }, { ur: "مکھن (کلو)", cat: "dairy" },
+
+        // --- GROCERY & DAAL ---
+        { ur: "چینی (کلو)", cat: "grocery" }, { ur: "آٹا 10 کلو تھیلا", cat: "grocery" },
+        { ur: "آٹا 20 کلو تھیلا", cat: "grocery" }, { ur: "چاول باسمتی اول (کلو)", cat: "grocery" },
+        { ur: "چاول سیلہ اول (کلو)", cat: "grocery" }, { ur: "چاول اری 6 (کلو)", cat: "grocery" },
+        { ur: "دال ماش دھلی (کلو)", cat: "grocery" }, { ur: "دال مونگ دھلی (کلو)", cat: "grocery" },
+        { ur: "دال مسور اول (کلو)", cat: "grocery" }, { ur: "دال چنا اول (کلو)", cat: "grocery" },
+        { ur: "کالا چنا اول (کلو)", cat: "grocery" }, { ur: "بیسن اول (کلو)", cat: "grocery" },
+        { ur: "کوکنگ آئل (لیٹر)", cat: "grocery" }, { ur: "گھی کھلا (کلو)", cat: "grocery" },
+        { ur: "سرخ مرچ پاؤڈر (کلو)", cat: "grocery" }, { ur: "دھنیا پاؤڈر (کلو)", cat: "grocery" },
+        { ur: "ہلدی پاؤڈر (کلو)", cat: "grocery" }, { ur: "سفید چنا (کلو)", cat: "grocery" },
+
+        // --- BAKERY & TANDOOR ---
+        { ur: "چپاتی 100 گرام", cat: "bakery" }, { ur: "تندوری نان 120 گرام", cat: "bakery" },
+        { ur: "تندوری نان 180 گرام", cat: "bakery" }, { ur: "شیرمال (فی دانہ)", cat: "bakery" },
+        { ur: "تافتان (فی دانہ)", cat: "bakery" }, { ur: "ڈبل روٹی چھوٹی", cat: "bakery" },
+        { ur: "ڈبل روٹی بڑی", cat: "bakery" }, { ur: "بند (فی دانہ)", cat: "bakery" },
+        { ur: "رس / پاپے (کلو)", cat: "bakery" }, { ur: "کیک پیس (فی دانہ)", cat: "bakery" }
+    ];
+
+    const market = localStorage.getItem("userMarket") || "Karachi";
+    document.getElementById('marketLabel').innerText = "مارکیٹ: " + market;
+
+    function filterItems(category, element) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        element.classList.add('active');
+        const container = document.getElementById('itemsList');
+        container.innerHTML = "";
+        items.filter(i => i.cat === category).forEach(item => {
+            container.innerHTML += `
+                <div class="item-card">
+                    <span class="item-name-ur">${item.ur}</span>
+                    <input type="number" class="price-input" data-name="${item.ur}" placeholder="0">
+                </div>`;
+        });
+    }
+
+    async function saveAllRates() {
+        const btn = document.getElementById('saveBtn');
+        const inputs = document.querySelectorAll('.price-input');
+        const scriptURL = "APNA_WEB_APP_URL_YAHAN_DALEIN";
+        
+        let dataToSave = [];
+        inputs.forEach(input => { if(input.value > 0) dataToSave.push({ name: input.dataset.name, price: input.value }); });
+
+        if(dataToSave.length === 0) { alert("براہ کرم کچھ ریٹ درج کریں!"); return; }
+
+        btn.innerText = "محفوظ ہو رہا ہے..."; btn.disabled = true;
+
+        for(let entry of dataToSave) {
+            let url = `${scriptURL}?action=updateRate&item=${encodeURIComponent(entry.name)}&price=${encodeURIComponent(entry.price)}&market=${encodeURIComponent(market)}`;
+            await fetch(url, {mode: 'no-cors'});
+        }
+
+        alert("تمام ریٹ کامیابی سے اپڈیٹ ہو گئے۔");
+        btn.innerText = "ڈیٹا محفوظ کریں"; btn.disabled = false;
+        inputs.forEach(i => i.value = "");
+    }
+
+    window.onload = () => filterItems('veg', document.querySelector('.tab'));
+</script>
+</body>
+</html>
