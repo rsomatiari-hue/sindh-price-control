@@ -3,85 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آفیسر ڈیش بورڈ - سندھ پرائس کنٹرول</title>
+    <title>آفیسر ڈیش بورڈ</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
-        .header { background: #1a5276; color: white; padding: 25px; text-align: center; border-radius: 0 0 25px 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 0; text-align: right; }
+        .header { background: #1a5276; color: white; padding: 20px; text-align: center; }
         .container { padding: 20px; }
-        .welcome-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #e0e0e0; }
-        .market-badge { background: #e67e22; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; }
-        
-        /* Menu Grid */
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-card { 
-            background: white; padding: 25px 10px; border-radius: 18px; text-align: center; 
-            text-decoration: none; color: #333; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease; border: 1.5px solid #fff;
+            background: white; padding: 20px; border-radius: 15px; text-align: center; 
+            text-decoration: none; color: #333; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: block; border: 2px solid transparent;
         }
-        .menu-card:active { transform: scale(0.95); background: #f8f9fa; border-color: #1a5276; }
-        .icon-circle { width: 60px; height: 60px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 30px; }
-        .card-title { font-weight: bold; font-size: 16px; color: #2c3e50; }
-
-        .logout-btn { 
-            width: 100%; margin-top: 40px; padding: 15px; background: #c0392b; 
-            color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; 
-        }
+        .menu-card:active { border-color: #1a5276; background: #eef2f5; }
+        .icon { font-size: 30px; margin-bottom: 10px; }
+        .title { font-weight: bold; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h2 style="margin: 0;">سندھ پرائس کنٹرول</h2>
-        <p style="margin: 5px 0 0 0; opacity: 0.9;">آفیسر کنٹرول پینل</p>
+        <h2>سندھ پرائس کنٹرول</h2>
+        <p id="mktLabel">لوڈنگ مارکیٹ...</p>
     </div>
 
     <div class="container">
-        <div class="welcome-card">
-            <h3 style="margin: 0 0 10px 0;">خوش آمدید!</h3>
-            <span class="market-badge" id="mktLabel">مارکیٹ: لوڈنگ...</span>
-        </div>
-
         <div class="menu-grid">
-            <a href="update-rates.html" class="menu-card">
-                <div class="icon-circle">📝</div>
-                <div class="card-title">ریٹ اپڈیٹ</div>
+            <a href="official-rates.html" class="menu-card">
+                <div class="icon">📝</div>
+                <div class="title">ریٹ اپڈیٹ کریں</div>
             </a>
 
             <a href="fine-action.html" class="menu-card">
-                <div class="icon-circle">⚖️</div>
-                <div class="card-title">جرمانہ / کارروائی</div>
+                <div class="icon">⚖️</div>
+                <div class="title">جرمانہ / کارروائی</div>
             </a>
 
             <a href="view-rates.html" class="menu-card">
-                <div class="icon-circle">📋</div>
-                <div class="card-title">ریٹ لسٹ دیکھیں</div>
+                <div class="icon">📋</div>
+                <div class="title">ریٹ لسٹ دیکھیں</div>
             </a>
 
             <a href="reports.html" class="menu-card">
-                <div class="icon-circle">📊</div>
-                <div class="card-title">رپورٹس</div>
+                <div class="icon">📊</div>
+                <div class="title">رپورٹس</div>
             </a>
         </div>
-
-        <button class="logout-btn" onclick="logout()">لاگ آؤٹ (Logout)</button>
     </div>
 
 <script>
-    // Security check on load
     window.onload = function() {
-        const market = localStorage.getItem("userMarket");
-        const role = localStorage.getItem("userRole");
-
-        if (!role || role.toLowerCase() !== "officer") {
-            window.location.href = "login.html"; // Login par bhejo agar auth nahi hai
-        } else {
-            document.getElementById('mktLabel').innerText = "آپ کی مارکیٹ: " + (market || "Karachi");
-        }
-    }
-
-    function logout() {
-        localStorage.clear();
-        window.location.href = "login.html";
+        const market = localStorage.getItem("userMarket") || "Karachi";
+        document.getElementById('mktLabel').innerText = "آفیسر مارکیٹ: " + market;
     }
 </script>
 
