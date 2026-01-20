@@ -3,119 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مکمل سرکاری ریٹ لسٹ - SINDH PRICE CONTROL</title>
+    <title>Update Rates - Officer Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding-bottom: 100px; }
-        .header { background: #004d40; color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; }
-        .market-info { background: #ff9800; color: white; font-size: 14px; padding: 6px; text-align: center; font-weight: bold; }
-        .category-tabs { display: flex; overflow-x: auto; background: white; padding: 10px; gap: 8px; border-bottom: 1px solid #ddd; }
-        .tab { white-space: nowrap; padding: 10px 18px; border-radius: 25px; border: 1.5px solid #004d40; color: #004d40; cursor: pointer; font-weight: bold; font-size: 13px; }
-        .tab.active { background: #004d40; color: white; }
-        .container { padding: 12px; }
-        .item-card { background: white; padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border-right: 6px solid #2e7d32; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .item-name-ur { font-size: 15px; font-weight: bold; color: #333; flex: 1; margin-left: 10px; line-height: 1.4; }
-        .price-input { width: 85px; padding: 10px; border: 1px solid #bbb; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold; color: #d84315; }
-        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: flex; gap: 10px; box-shadow: 0 -3px 15px rgba(0,0,0,0.15); }
-        .save-btn { flex: 2; background: #2e7d32; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
-        .back-btn { flex: 1; background: #78909c; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 16px; cursor: pointer; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; text-align: right; padding-bottom: 50px; }
+        .header { background: #2e7d32; color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+        
+        .form-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+        
+        input, select { 
+            width: 100%; padding: 12px; border: 1.5px solid #ddd; border-radius: 10px; 
+            font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s;
+        }
+        input:focus { border-color: #2e7d32; box-shadow: 0 0 8px rgba(46,125,50,0.2); }
+
+        .btn-submit { 
+            background: #2e7d32; color: white; border: none; width: 100%; padding: 15px; 
+            border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; 
+            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-submit:disabled { background: #95a5a6; cursor: not-allowed; }
+        .btn-submit:hover { background: #1b5e20; }
+
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #2e7d32; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="header"><h2 style="margin:0;">سرکاری ریٹ لسٹ اپڈیٹ</h2></div>
-<div class="market-info" id="marketLabel">لوڈنگ...</div>
+    <div class="header">
+        <h2 style="margin:0;">آفیسر پینل - ریٹ اپڈیٹ</h2>
+        <p style="margin:5px 0 0 0; font-size:14px;">ڈیٹا براہِ راست گوگل شیٹ میں محفوظ ہوگا</p>
+    </div>
 
-<div class="category-tabs">
-    <div class="tab active" onclick="filterItems('veg', this)">سبزیات</div>
-    <div class="tab" onclick="filterItems('fruit', this)">پھل</div>
-    <div class="tab" onclick="filterItems('poultry', this)">پولٹری/گوشت</div>
-    <div class="tab" onclick="filterItems('dairy', this)">دودھ/دہی</div>
-    <div class="tab" onclick="filterItems('grocery', this)">کریانہ/دالیں</div>
-    <div class="tab" onclick="filterItems('bakery', this)">بیکری/نان</div>
-</div>
+    <div class="container">
+        <div class="form-card">
+            <div class="input-group">
+                <label>شہر (City):</label>
+                <select id="itemCity">
+                    <option value="Matiari">مٹیاری (Matiari)</option>
+                    <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
+                    <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
+                </select>
+            </div>
 
-<div class="container" id="itemsList"></div>
+            <div class="input-group">
+                <label>کیٹیگری (Category):</label>
+                <select id="itemCategory">
+                    <option value="veg">سبزیاں (Vegetables)</option>
+                    <option value="fruit">پھل (Fruits)</option>
+                    <option value="poultry">مرغی / انڈے</option>
+                    <option value="grocery">کریانہ (Grocery)</option>
+                </select>
+            </div>
 
-<div class="footer-bar">
-    <button class="back-btn" onclick="window.location.href='officer-dashboard.html'">واپس</button>
-    <button class="save-btn" onclick="saveAllRates()" id="saveBtn">ڈیٹا محفوظ کریں</button>
-</div>
+            <div class="input-group">
+                <label>چیز کا نام (Item Name):</label>
+                <input type="text" id="itemName" placeholder="مثلاً: آلو درجہ اول">
+            </div>
 
-<script>
-    const items = [
-        // --- VEGETABLES ---
-        { ur: "آلو درجہ اول (کلو)", cat: "veg" }, { ur: "آلو درجہ دوم (کلو)", cat: "veg" },
-        { ur: "پیاز درجہ اول (کلو)", cat: "veg" }, { ur: "پیاز درجہ دوم (کلو)", cat: "veg" },
-        { ur: "ٹماٹر درجہ اول (کلو)", cat: "veg" }, { ur: "ٹماٹر درجہ دوم (کلو)", cat: "veg" },
-        { ur: "ادرک چائنہ (کلو)", cat: "veg" }, { ur: "لہسن چائنہ (کلو)", cat: "veg" },
-        { ur: "بھنڈی (کلو)", cat: "veg" }, { ur: "ہری مرچ (کلو)", cat: "veg" },
-        { ur: "گاجر (کلو)", cat: "veg" }, { ur: "مولی (کلو)", cat: "veg" },
-        { ur: "مٹر (کلو)", cat: "veg" }, { ur: "پالک (کلو)", cat: "veg" },
+            <div class="input-group">
+                <label>نئی قیمت (New Price):</label>
+                <input type="number" id="itemPrice" placeholder="مثلاً: 60">
+            </div>
 
-        // --- FRUITS ---
-        { ur: "کیلا درجہ اول (درجن)", cat: "fruit" }, { ur: "کیلا درجہ دوم (درجن)", cat: "fruit" },
-        { ur: "سیب کلو درجہ اول (کلو)", cat: "fruit" }, { ur: "سیب گاچا (کلو)", cat: "fruit" },
-        { ur: "پپیتہ (کلو)", cat: "fruit" }, { ur: "امرود (کلو)", cat: "fruit" },
-        { ur: "مالٹا (درجن)", cat: "fruit" }, { ur: "انار قندھاری (کلو)", cat: "fruit" },
+            <button class="btn-submit" onclick="submitUpdate()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span id="btnText">ریٹ اپڈیٹ کریں</span>
+            </button>
+        </div>
 
-        // --- POULTRY & MEAT ---
-        { ur: "زندہ مرغی برائلر (کلو)", cat: "poultry" }, { ur: "مرغی گوشت (کلو)", cat: "poultry" },
-        { ur: "انڈے فارمی (درجن)", cat: "poultry" }, { ur: "بکرا گوشت (کلو)", cat: "poultry" },
-        { ur: "بیف بغیر ہڈی (کلو)", cat: "poultry" }, { ur: "بیف ہڈی والا (کلو)", cat: "poultry" },
+        <a href="dashboard.html" class="back-link">← واپس ڈیش بورڈ پر جائیں</a>
+    </div>
 
-        // --- DAIRY ---
-        { ur: "تازہ دودھ (فی لیٹر)", cat: "dairy" }, { ur: "دہی (فی کلو)", cat: "dairy" },
+    <script>
+        // Aapka Google Apps Script URL
+        const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
 
-        // --- GROCERY & DAAL ---
-        { ur: "چینی ریٹیل (کلو)", cat: "grocery" }, { ur: "آٹا 10 کلو تھیلا", cat: "grocery" },
-        { ur: "دال ماش دھلی (کلو)", cat: "grocery" }, { ur: "دال مونگ دھلی (کلو)", cat: "grocery" },
-        { ur: "دال چنا (کلو)", cat: "grocery" }, { ur: "باسمتی چاول (کلو)", cat: "grocery" },
+        async function submitUpdate() {
+            const name = document.getElementById('itemName').value;
+            const price = document.getElementById('itemPrice').value;
+            const category = document.getElementById('itemCategory').value;
+            const city = document.getElementById('itemCity').value;
 
-        // --- BAKERY & NAAN ---
-        { ur: "چپاتی 100 گرام", cat: "bakery" }, { ur: "تندوری نان 120 گرام", cat: "bakery" },
-        { ur: "تندوری نان 180 گرام", cat: "bakery" }, { ur: "ڈبل روٹی 400 گرام", cat: "bakery" }
-    ];
+            if (!name || !price) {
+                alert("براہ کرم چیز کا نام اور قیمت لازمی لکھیں!");
+                return;
+            }
 
-    const market = localStorage.getItem("userMarket") || "Karachi";
-    document.getElementById('marketLabel').innerText = "مارکیٹ: " + market;
+            const btn = document.querySelector('.btn-submit');
+            const btnText = document.getElementById('btnText');
+            
+            // Loading state
+            btn.disabled = true;
+            btnText.innerText = "اپڈیٹ ہو رہا ہے...";
 
-    function filterItems(category, element) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        element.classList.add('active');
-        const container = document.getElementById('itemsList');
-        container.innerHTML = "";
-        items.filter(i => i.cat === category).forEach(item => {
-            container.innerHTML += `
-                <div class="item-card">
-                    <span class="item-name-ur">${item.ur}</span>
-                    <input type="number" class="price-input" data-name="${item.ur}" placeholder="0">
-                </div>`;
-        });
-    }
+            const payload = {
+                name: name,
+                price: price,
+                category: category,
+                city: city
+            };
 
-    async function saveAllRates() {
-        const btn = document.getElementById('saveBtn');
-        const inputs = document.querySelectorAll('.price-input');
-        const scriptURL = "APNA_WEB_APP_URL_YAHAN_DALEIN"; // <--- Yahan URL lazmi dalein
-        
-        let dataToSave = [];
-        inputs.forEach(input => { if(input.value > 0) dataToSave.push({ name: input.dataset.name, price: input.value }); });
+            try {
+                // Sending data to Google Sheets
+                await fetch(sheetURL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-        if(dataToSave.length === 0) { alert("براہ کرم کچھ ریٹ درج کریں!"); return; }
+                alert("کامیابی! ریٹ گوگل شیٹ میں اپڈیٹ ہو گیا ہے۔");
+                
+                // Form clear karein
+                document.getElementById('itemName').value = "";
+                document.getElementById('itemPrice').value = "";
 
-        btn.innerText = "محفوظ ہو رہا ہے..."; btn.disabled = true;
-
-        for(let entry of dataToSave) {
-            let url = `${scriptURL}?action=updateRate&item=${encodeURIComponent(entry.name)}&price=${encodeURIComponent(entry.price)}&market=${encodeURIComponent(market)}`;
-            await fetch(url, {mode: 'no-cors'});
+            } catch (error) {
+                console.error("Error:", error);
+                alert("سسٹم میں خرابی ہے، دوبارہ کوشش کریں۔");
+            } finally {
+                btn.disabled = false;
+                btnText.innerText = "ریٹ اپڈیٹ کریں";
+            }
         }
-
-        alert("تمام ریٹ کامیابی سے اپڈیٹ ہو گئے۔");
-        btn.innerText = "ڈیٹا محفوظ کریں"; btn.disabled = false;
-        inputs.forEach(i => i.value = "");
-    }
-
-    window.onload = () => filterItems('veg', document.querySelector('.tab'));
-</script>
+    </script>
 </body>
 </html>
