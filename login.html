@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لاگ ان - سندھ پرائس کنٹرول سسٹم</title>
+    <title>لاگ ان - سندھ پرائس کنٹرول</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #e8f5e9; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
@@ -15,27 +15,23 @@
         .login-card h2 { text-align: center; color: #1b5e20; margin-bottom: 25px; }
         .input-group { margin-bottom: 20px; position: relative; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1.5px solid #ddd; border-radius: 12px; box-sizing: border-box; outline: none; font-size: 16px; text-align: left; direction: ltr; }
+        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1.5px solid #ddd; border-radius: 12px; box-sizing: border-box; outline: none; font-size: 16px; text-align: left; }
         .input-group i { position: absolute; left: 12px; top: 42px; color: #1b5e20; }
         .btn-login { width: 100%; background: #1b5e20; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-login:disabled { background: #95a5a6; }
         
-        /* Back to Home Button Style */
-        .btn-back { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #1b5e20; font-weight: bold; font-size: 14px; padding: 12px; border: 1.5px solid #1b5e20; border-radius: 12px; transition: 0.3s; }
-        .btn-back:hover { background: #f1f8e9; }
+        /* Light Red Back Button */
+        .btn-back { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #c0392b; font-weight: bold; font-size: 14px; padding: 12px; border: 1.5px solid #e74c3c; border-radius: 12px; transition: 0.3s; background: #fdf2f2; }
         
         #errorMsg { color: #c0392b; text-align: center; margin-top: 15px; display: none; background: #fdeaea; padding: 10px; border-radius: 8px; font-weight: bold; }
         .footer { background: #1b5e20; color: white; padding: 15px; text-align: center; border-top: 3px solid #f1c40f; font-size: 12px; }
     </style>
 </head>
 <body>
-
     <div class="header-bg">
         <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
         <div class="under-control">Under Control</div>
         <div style="font-size: 12px; font-weight: bold; margin-top: 5px;">Director General Agriculture Marketing Sindh</div>
     </div>
-
     <div class="login-container">
         <div class="login-card">
             <h2>لاگ ان پورٹل</h2>
@@ -49,71 +45,31 @@
                 <input type="password" id="password" placeholder="******">
                 <i class="fas fa-lock"></i>
             </div>
-            <button class="btn-login" onclick="handleLogin()">
-                <span>لاگ ان کریں</span>
-                <i class="fas fa-sign-in-alt"></i>
-            </button>
-            
-            <a href="public-view.html" class="btn-back">
-                <i class="fas fa-arrow-right"></i> 
-                <span>واپس ہوم پیج پر جائیں</span>
-            </a>
-
+            <button class="btn-login" onclick="handleLogin()">لاگ ان کریں <i class="fas fa-sign-in-alt"></i></button>
+            <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i> <span>واپس ہوم پیج پر جائیں</span></a>
             <div id="errorMsg"></div>
         </div>
     </div>
-
-    <footer class="footer">
-        GOVERNMENT OF SINDH
-    </footer>
+    <footer class="footer">GOVERNMENT OF SINDH</footer>
 
     <script>
         const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
-
         async function handleLogin() {
             const mobile = document.getElementById('mobile').value;
             const pass = document.getElementById('password').value;
             const errorMsg = document.getElementById('errorMsg');
-            const btn = document.querySelector('.btn-login');
-
-            if (!mobile || !pass) {
-                errorMsg.innerText = "معلومات درج کریں";
-                errorMsg.style.display = "block";
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = 'چیک ہو رہا ہے... <i class="fas fa-spinner fa-spin"></i>';
-            errorMsg.style.display = "none";
-
+            if (!mobile || !pass) { errorMsg.innerText = "معلومات درج کریں"; errorMsg.style.display = "block"; return; }
             try {
                 const response = await fetch(`${sheetURL}?action=login&mobile=${mobile}&pass=${pass}`);
                 const result = await response.json();
-
                 if (result.status === "success") {
                     localStorage.setItem("userMarket", result.city);
                     localStorage.setItem("userRole", result.role);
-                    
-                    // --- MUKAMMAL REDIRECT LOGIC ---
-                    // Trim() aur UpperCase() taake koi ghalti na ho
                     let role = result.role.trim().toUpperCase(); 
-
-                    if (role === "ADMIN") {
-                        window.location.href = "admin-panel.html";
-                    } else {
-                        window.location.href = "officer-dashboard.html";
-                    }
-                } else {
-                    errorMsg.innerText = "غلط موبائل نمبر یا پاس ورڈ!";
-                    errorMsg.style.display = "block";
-                }
-            } catch (error) {
-                errorMsg.innerText = "نیٹ ورک کا مسئلہ ہے";
-                errorMsg.style.display = "block";
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = 'لاگ ان کریں <i class="fas fa-sign-in-alt"></i>';
-            }
+                    if (role === "ADMIN") { window.location.href = "admin-panel.html"; }
+                    else { window.location.href = "officer-dashboard.html"; }
+                } else { errorMsg.innerText = "غلط موبائل نمبر یا پاس ورڈ!"; errorMsg.style.display = "block"; }
+            } catch (e) { errorMsg.innerText = "سرور کا مسئلہ ہے"; errorMsg.style.display = "block"; }
         }
     </script>
 </body>
