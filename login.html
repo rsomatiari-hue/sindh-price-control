@@ -16,11 +16,11 @@
         .login-card h2 { text-align: center; color: #2e7d32; margin-bottom: 25px; }
         .input-group { margin-bottom: 20px; position: relative; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1.5px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; font-size: 16px; }
+        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1.5px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; font-size: 16px; text-align: left; direction: ltr; }
         .input-group i { position: absolute; left: 12px; top: 42px; color: #2e7d32; }
         .btn-login { width: 100%; background: #2e7d32; color: white; border: none; padding: 14px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         #errorMsg { color: #c0392b; text-align: center; margin-top: 15px; display: none; background: #fdeaea; padding: 10px; border-radius: 5px; }
-        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; }
+        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -36,7 +36,7 @@
             <h2>آفیسر لاگ ان</h2>
             <div class="input-group">
                 <label>موبائل نمبر</label>
-                <input type="text" id="mobile" placeholder="03040937610">
+                <input type="text" id="mobile" placeholder="03XXXXXXXXX">
                 <i class="fas fa-phone"></i>
             </div>
             <div class="input-group">
@@ -53,7 +53,7 @@
     </div>
 
     <footer class="footer">
-        <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
+        GOVERNMENT OF SINDH
     </footer>
 
     <script>
@@ -66,7 +66,7 @@
             const btn = document.querySelector('.btn-login');
 
             if (!mobile || !pass) {
-                errorMsg.innerText = "موبائل نمبر اور پاس ورڈ درج کریں";
+                errorMsg.innerText = "معلومات درج کریں";
                 errorMsg.style.display = "block";
                 return;
             }
@@ -84,14 +84,14 @@
                     localStorage.setItem("userMarket", result.city);
                     localStorage.setItem("userRole", result.role);
                     
-                    // --- FIXED REDIRECT TO SMALL CASE FILE NAME ---
+                    // --- YE LINE SAB SE ZAROORI HAI ---
                     window.location.href = "officer-dashboard.html";
                 } else {
-                    errorMsg.innerText = "غلط موبائل نمبر یا پاس ورڈ!";
+                    errorMsg.innerText = "غلط معلومات!";
                     errorMsg.style.display = "block";
                 }
             } catch (error) {
-                errorMsg.innerText = "سرور کا مسئلہ ہے";
+                errorMsg.innerText = "نیٹ ورک کا مسئلہ";
                 errorMsg.style.display = "block";
             } finally {
                 btn.disabled = false;
