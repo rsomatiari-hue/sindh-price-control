@@ -3,45 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آفیسر ڈیش بورڈ</title>
+    <title>آفیسر ڈیش بورڈ - پرائس کنٹرول</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
-        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
-        .welcome-box { background: white; margin: 20px; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .menu-item { background: white; padding: 25px 10px; border-radius: 15px; text-align: center; text-decoration: none; color: #2e7d32; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid #2e7d32; transition: 0.3s; }
-        .menu-item i { font-size: 30px; margin-bottom: 10px; display: block; }
-        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; }
+        
+        /* Official Header */
+        .header-bg { background: #1b5e20; color: white; padding: 20px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
+        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; }
+        .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; }
+        .director-text { font-size: 13px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
+
+        /* Welcome Card */
+        .welcome-card { background: white; margin: 20px; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-right: 6px solid #2e7d32; text-align: center; }
+        .welcome-card i { font-size: 40px; color: #2e7d32; margin-bottom: 10px; }
+        .welcome-card h2 { margin: 0; color: #2e7d32; font-size: 22px; }
+        .officer-details { margin-top: 10px; color: #666; font-size: 14px; font-weight: bold; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 20px 20px; }
+        .menu-item { background: white; padding: 25px 10px; border-radius: 15px; text-align: center; text-decoration: none; color: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; border: 1.5px solid #eee; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .menu-item:active { transform: scale(0.95); background: #f9f9f9; }
+        .menu-item i { font-size: 32px; color: #2e7d32; margin-bottom: 12px; }
+        .menu-item span { font-weight: bold; font-size: 14px; }
+
+        /* Special Buttons */
+        .btn-logout { background: #fdeaea !important; border: 1.5px solid #c0392b !important; color: #c0392b !important; }
+        .btn-logout i { color: #c0392b !important; }
+
+        /* Footer */
+        .footer-info { margin-top: auto; background: #1b5e20; color: white; padding: 20px; text-align: center; border-top: 3px solid #f1c40f; font-size: 12px; }
     </style>
 </head>
 <body>
+
     <div class="header-bg">
-        <div class="main-title">MARKET COMMITTEE PRICE CONTROL SYSTEM</div>
+        <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
+        <div class="under-control">Under Control</div>
         <div class="director-text">Director General Agriculture Marketing Sindh</div>
     </div>
 
-    <div class="welcome-box">
-        <h3 style="margin:0; color:#2e7d32;">خوش آمدید، آفیسر صاحب</h3>
-        <p id="officerInfo" style="margin:5px 0 0 0; color:#666;"></p>
+    <div class="welcome-card">
+        <i class="fas fa-user-circle"></i>
+        <h2>آفیسر ڈیش بورڈ</h2>
+        <div id="displayInfo" class="officer-details">لوڈ ہو رہا ہے...</div>
     </div>
 
     <div class="menu-grid">
-        <a href="Update-rates.html" class="menu-item"><i class="fas fa-edit"></i>ریٹ اپڈیٹ کریں</a>
-        <a href="public-view.html" class="menu-item"><i class="fas fa-eye"></i>ویب سائٹ دیکھیں</a>
-        <a href="complaints-list.html" class="menu-item"><i class="fas fa-bullhorn"></i>شکایات دیکھیں</a>
-        <a href="login.html" class="menu-item" style="color:#c0392b; border-color:#c0392b;"><i class="fas fa-sign-out-alt"></i>لاگ آؤٹ</a>
+        <a href="Update-rates.html" class="menu-item">
+            <i class="fas fa-edit"></i>
+            <span>ریٹ اپڈیٹ کریں</span>
+        </a>
+        <a href="public-view.html" class="menu-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>عوامی لسٹ دیکھیں</span>
+        </a>
+        <a href="complaints-list.html" class="menu-item">
+            <i class="fas fa-clipboard-list"></i>
+            <span>شکایات کی لسٹ</span>
+        </a>
+        <a href="#" class="menu-item btn-logout" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>لاگ آؤٹ</span>
+        </a>
     </div>
 
-    <footer class="footer">
-        <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
+    <footer class="footer-info">
+        GOVERNMENT OF SINDH<br>
+        Agriculture Marketing Department Sindh
     </footer>
 
     <script>
         window.onload = function() {
-            const city = localStorage.getItem("userMarket") || "Sindh";
-            const role = localStorage.getItem("userRole") || "Officer";
-            document.getElementById('officerInfo').innerText = `مارکیٹ: ${city} | عہدہ: ${role}`;
+            // LocalStorage se data check karna
+            const city = localStorage.getItem("userMarket");
+            const role = localStorage.getItem("userRole");
+
+            if (!city) {
+                window.location.href = "login.html"; // Agar login nahi to wapas bhej do
+            } else {
+                document.getElementById('displayInfo').innerText = `ضلع/شہر: ${city} | عہدہ: ${role}`;
+            }
+        };
+
+        function logout() {
+            if(confirm("کیا آپ لاگ آؤٹ کرنا چاہتے ہیں؟")) {
+                localStorage.clear();
+                window.location.href = "login.html";
+            }
         }
     </script>
 </body>
