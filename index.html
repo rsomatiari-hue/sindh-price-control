@@ -1,80 +1,101 @@
 <!DOCTYPE html>
-<html lang="ur-pk" dir="rtl">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Price Control System - Govt of Sindh</title>
+    <title>سندھ سرکاری ریٹ لسٹ - عوام کے لیے</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Arial', sans-serif; margin: 0; background: #f0f2f5; text-align: center; color: #333; }
-        .hero { background: linear-gradient(rgba(26, 82, 118, 0.8), rgba(26, 82, 118, 0.8)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000'); 
-                background-size: cover; padding: 50px 20px; color: white; border-bottom: 5px solid #27ae60; }
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: right; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 80px; text-align: right; }
+        .top-nav { background: #2e7d32; color: white; padding: 15px; text-align: center; }
         
-        h2 { color: #1a5276; border-bottom: 2px solid #27ae60; padding-bottom: 10px; margin-top: 0; }
-        p { line-height: 1.6; font-size: 16px; }
+        /* City Selector Styling */
+        .city-selector { background: #1b5e20; padding: 10px; display: flex; justify-content: center; gap: 10px; align-items: center; }
+        .city-select { background: white; color: #333; padding: 8px; border-radius: 8px; border: none; font-weight: bold; width: 60%; }
 
-        label { font-weight: bold; display: block; margin-top: 15px; color: #1a5276; }
-        select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 2px solid #ddd; font-size: 16px; outline: none; }
-        select:focus { border-color: #27ae60; }
+        .search-container { padding: 15px; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        .search-box { width: 100%; padding: 12px; border: 1.5px solid #2e7d32; border-radius: 10px; font-size: 15px; outline: none; }
 
-        .btn-next { background: #27ae60; color: white; padding: 15px; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 20px; transition: 0.3s; }
-        .btn-next:hover { background: #1e8449; }
-        
-        .complaint-link { display: block; margin-top: 20px; color: #e74c3c; text-decoration: none; font-weight: bold; font-size: 18px; }
+        /* Action Buttons (Download/Share) */
+        .action-bar { display: flex; justify-content: space-around; padding: 10px; background: white; border-bottom: 1px solid #eee; }
+        .action-btn { background: #f9f9f9; border: 1px solid #ddd; padding: 10px 15px; border-radius: 10px; font-size: 13px; color: #333; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .action-btn i { color: #2e7d32; font-size: 16px; }
+
+        .price-list { padding: 15px; }
+        .price-card { background: white; margin-bottom: 8px; padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .price-tag { color: #2e7d32; font-weight: bold; font-size: 18px; }
+
+        @media print { .top-nav, .city-selector, .search-container, .action-bar, .complaint-btn { display: none; } }
     </style>
 </head>
 <body>
 
-<div class="hero">
-    <h1>ڈیجیٹل پرائس کنٹرول سسٹم</h1>
-    <p>ڈائریکٹوریٹ آف ایگریکلچر مارکیٹنگ، حکومت سندھ</p>
-</div>
-
-<div class="container">
-    <div class="card">
-        <h2>خوش آمدید (Welcome)</h2>
-        <p>یہ سسٹم حکومت سندھ کی جانب سے عوام کو اشیاء خوردونوش کے تازہ ترین اور درست نرخ فراہم کرنے کے لیے بنایا گیا ہے۔ آپ اپنی متعلقہ مارکیٹ اور کیٹیگری منتخب کر کے فوری طور پر سرکاری ریٹ لسٹ دیکھ اور ڈاؤن لوڈ کر سکتے ہیں۔</p>
+    <div class="top-nav">
+        <h3 style="margin:0;">سندھ پرائس کنٹرول</h3>
+        <small id="todayDate"></small>
     </div>
 
-    <div class="card">
-        <h2>آج کے تازہ نرخ (Today's Rates)</h2>
-        
-        <label>1. مارکیٹ کمیٹی منتخب کریں:</label>
-        <select id="market">
-            <option value="Kazi Ahmed">Kazi Ahmed (قاضی احمد)</option>
-            <option value="Halla">Halla (ہالا)</option>
-            <option value="Hyderabad">Hyderabad (حیدرآباد)</option>
-            <option value="Karachi">Karachi (کراچی)</option>
-            <option value="Matiari">Matiari (مٹیاری)</option>
-            <option value="Sakrand">Sakrand (سکرنڈ)</option>
+    <div class="city-selector">
+        <span style="color:white; font-size: 14px;">اپنا شہر منتخب کریں:</span>
+        <select class="city-select" id="cityChoose" onchange="updateCityData()">
+            <option value="Matiari">مٹیاری (Matiari)</option>
+            <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
+            <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
         </select>
-
-        <label>2. کیٹیگری منتخب کریں:</label>
-        <select id="category">
-            <option value="Vegetables">Vegetables List (سبزیاں)</option>
-            <option value="Fruits">Fruit List (پھل)</option>
-            <option value="Meat">Meat List (گوشت)</option>
-            <option value="Kariyana">Kariyana List (کریانہ)</option>
-            <option value="Milk">Milk List (دودھ)</option>
-            <option value="Sweets">Sweets List (مٹھائیاں)</option>
-        </select>
-
-        <button class="btn-next" onclick="proceed()">آگے بڑھیں (Next) ➔</button>
-        
-        <a href="complaint.html" class="complaint-link">📢 شکایت درج کروانے کے لیے یہاں کلک کریں</a>
     </div>
-</div>
 
-<script>
-    function proceed() {
-        const m = document.getElementById('market').value;
-        const c = document.getElementById('category').value;
-        
-        // Next page par selection bhej rahe hain
-        window.location.href = `view-rates.html?market=${encodeURIComponent(m)}&cat=${encodeURIComponent(c)}`;
-    }
-</script>
+    <div class="action-bar">
+        <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> پرنٹ</button>
+        <button class="action-btn" onclick="shareToWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ</button>
+        <button class="action-btn" onclick="downloadImage()"><i class="fas fa-download"></i> ڈاؤن لوڈ</button>
+    </div>
 
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
+    </div>
+
+    <div class="price-list" id="publicList"></div>
+
+    <script>
+        // Mix Data for testing
+        const ratesData = {
+            "Matiari": [ {n: "آلو", p: "65"}, {n: "پیاز", p: "160"}, {n: "ٹماٹر", p: "90"} ],
+            "Kazi Ahmed": [ {n: "آلو", p: "60"}, {n: "پیاز", p: "150"}, {n: "ٹماٹر", p: "80"} ],
+            "Hyderabad": [ {n: "آلو", p: "70"}, {n: "پیاز", p: "180"}, {n: "ٹماٹر", p: "100"} ]
+        };
+
+        function updateCityData() {
+            const city = document.getElementById('cityChoose').value;
+            const data = ratesData[city];
+            const list = document.getElementById('publicList');
+            list.innerHTML = "";
+            data.forEach(item => {
+                list.innerHTML += `
+                    <div class="price-card">
+                        <span><b>${item.n}</b></span>
+                        <span class="price-tag">Rs. ${item.p}</span>
+                    </div>`;
+            });
+        }
+
+        function shareToWhatsApp() {
+            const city = document.getElementById('cityChoose').value;
+            const text = `آج کے سرکاری ریٹ (${city}):\nآلو: Rs. 60\nپیاز: Rs. 150\nمزید معلومات کے لیے ویب سائٹ دیکھیں!`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+        }
+
+        function searchItems() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('price-card');
+            for (let card of cards) {
+                card.style.display = card.innerText.toLowerCase().includes(input) ? "flex" : "none";
+            }
+        }
+
+        window.onload = function() {
+            document.getElementById('todayDate').innerText = new Date().toLocaleDateString('ur-PK');
+            updateCityData();
+        }
+    </script>
 </body>
 </html>
