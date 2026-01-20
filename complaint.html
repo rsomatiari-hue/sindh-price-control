@@ -3,97 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شکایت درج کریں - سندھ پرائس کنٹرول</title>
+    <title>موصولہ شکایات - پرائس کنٹرول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #fdfdfd; margin: 0; padding-bottom: 30px; text-align: right; }
-        .header { background: #c0392b; color: white; padding: 20px; text-align: center; border-radius: 0 0 20px 20px; }
-        .container { padding: 20px; max-width: 500px; margin: auto; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; color: #333; margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 16px; outline: none; box-sizing: border-box; }
-        input:focus, textarea:focus { border-color: #c0392b; }
+        :root { --sindh-green: #1b5e20; --vip-black: #1a1a1a; --vip-golden: #d4af37; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f1f8e9; margin: 0; text-align: right; padding-bottom: 80px; }
         
-        /* Camera/Upload Style */
-        .upload-area { border: 2px dashed #bbb; padding: 20px; text-align: center; border-radius: 12px; cursor: pointer; background: #f9f9f9; }
-        .upload-area:hover { background: #f0f0f0; border-color: #c0392b; }
+        .header-bg { background: var(--sindh-green); color: white; padding: 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
         
-        .btn-send { background: #c0392b; color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 10px rgba(192, 57, 43, 0.2); }
-        .back-btn { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
-        #preview { width: 100%; margin-top: 10px; border-radius: 10px; display: none; }
+        .container { padding: 15px; }
+        .complaint-card { 
+            background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-right: 5px solid var(--sindh-green);
+        }
+        .complaint-header { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px; }
+        .status-badge { background: #f39c12; color: white; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+        
+        .detail-row { margin-bottom: 5px; font-size: 14px; }
+        .detail-row strong { color: var(--sindh-green); }
+
+        .btn-call { 
+            display: inline-block; background: #27ae60; color: white; 
+            padding: 8px 15px; border-radius: 8px; text-decoration: none; margin-top: 10px; font-size: 14px;
+        }
+        
+        #loading { text-align: center; padding: 20px; font-weight: bold; color: var(--sindh-green); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h2 style="margin:0;">📝 شکایت درج کریں</h2>
-        <p style="margin:5px 0 0 0; font-size:14px;">آپ کی شکایت براہِ راست افسر کو جائے گی</p>
+    <div class="header-bg">
+        <h2 style="margin:0; font-size: 18px;">موصولہ شکایات (Complaints)</h2>
+        <div id="officerCity" style="font-size: 13px; color: #f1c40f;">شہر: لوڈ ہو رہا ہے...</div>
     </div>
 
-    <div class="container">
-        <div class="input-group">
-            <label>آپ کا نام:</label>
-            <input type="text" id="compName" placeholder="اپنا نام لکھیں...">
-        </div>
+    <div class="container" id="complaintsContainer">
+        <div id="loading"><i class="fas fa-spinner fa-spin"></i> شکایات لوڈ ہو رہی ہیں...</div>
+    </div>
 
-        <div class="input-group">
-            <label>شہر / علاقہ:</label>
-            <select id="compCity">
-                <option value="Matiari">مٹیاری (Matiari)</option>
-                <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
-                <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
-            </select>
-        </div>
-
-        <div class="input-group">
-            <label>دکان کا نام اور پتہ:</label>
-            <textarea id="compShop" rows="2" placeholder="دکان کا نام یا گلی کا نام لکھیں..."></textarea>
-        </div>
-
-        <div class="input-group">
-            <label>شکایت کی تفصیل:</label>
-            <textarea id="compDetail" rows="3" placeholder="کیا مسئلہ ہے؟ (مثلاً: ریٹ لسٹ نہیں ہے)"></textarea>
-        </div>
-
-        <div class="input-group">
-            <label>ثبوت کے طور پر تصویر (آپشنل):</label>
-            <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                <span id="uploadText">📷 تصویر اپ لوڈ کریں یا کیمرہ کھولیں</span>
-                <input type="file" id="fileInput" accept="image/*" capture="environment" style="display:none" onchange="previewImage(this)">
-                <img id="preview" alt="Preview">
-            </div>
-        </div>
-
-        <button class="btn-send" onclick="sendComplaint()">شکایت بھیجیں</button>
-        <a href="public-view.html" class="back-btn">واپس ریٹ لسٹ پر جائیں</a>
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; background: #c8e6c9; display: flex; justify-content: space-around; padding: 12px; border-top: 3px solid var(--sindh-green);">
+        <a href="officer-dashboard.html" style="color: #2e7d32; text-decoration: none; text-align: center; font-size: 12px; font-weight: bold;"><i class="fas fa-home" style="display: block; font-size: 22px;"></i>ہوم</a>
+        <a href="login.html" style="color: #c0392b; text-decoration: none; text-align: center; font-size: 12px; font-weight: bold;"><i class="fas fa-sign-out-alt" style="display: block; font-size: 22px;"></i>لاگ آؤٹ</a>
     </div>
 
     <script>
-        function previewImage(input) {
-            const preview = document.getElementById('preview');
-            const text = document.getElementById('uploadText');
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    text.style.display = 'none';
+        const sheetURL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // Apna Script URL yahan dalein
+        const officerCity = localStorage.getItem("userMarket");
+
+        document.getElementById('officerCity').innerText = "شہر: " + officerCity;
+
+        async function fetchComplaints() {
+            try {
+                const response = await fetch(`${sheetURL}?action=getComplaints&city=${officerCity}`);
+                const data = await response.json();
+                
+                const container = document.getElementById('complaintsContainer');
+                container.innerHTML = "";
+
+                if (data.length === 0) {
+                    container.innerHTML = "<p style='text-align:center;'>کوئی شکایت موصول نہیں ہوئی۔</p>";
+                    return;
                 }
-                reader.readAsDataURL(input.files[0]);
+
+                data.forEach(c => {
+                    const card = `
+                        <div class="complaint-card">
+                            <div class="complaint-header">
+                                <strong>${c.name}</strong>
+                                <span class="status-badge">${c.status}</span>
+                            </div>
+                            <div class="detail-row"><strong>دکان:</strong> ${c.shop}</div>
+                            <div class="detail-row"><strong>تفصیل:</strong> ${c.detail}</div>
+                            <div class="detail-row"><strong>تاریخ:</strong> ${c.date}</div>
+                            <a href="tel:${c.phone}" class="btn-call"><i class="fas fa-phone"></i> رابطہ کریں</a>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            } catch (error) {
+                document.getElementById('complaintsContainer').innerHTML = "ڈیٹا لوڈ کرنے میں مسئلہ ہے۔";
             }
         }
 
-        function sendComplaint() {
-            const name = document.getElementById('compName').value;
-            const shop = document.getElementById('compShop').value;
-
-            if(!name || !shop) {
-                alert("براہ کرم اپنا نام اور دکان کا پتہ لازمی لکھیں!");
-                return;
-            }
-
-            alert("شکریہ! آپ کی شکایت موصول ہوگئی ہے۔ متعلقہ اسسٹنٹ کمشنر کو کارروائی کے لیے بھیج دی گئی ہے۔");
-            window.location.href = "public-view.html";
-        }
+        window.onload = fetchComplaints;
     </script>
 </body>
 </html>
