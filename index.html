@@ -3,61 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سندھ سرکاری ریٹ لسٹ - عوام کے لیے</title>
+    <title>Sarkari Rate List - Sindh</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 80px; text-align: right; }
-        .top-nav { background: #2e7d32; color: white; padding: 15px; text-align: center; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 100px; text-align: right; }
         
-        /* City Selector Styling */
-        .city-selector { background: #1b5e20; padding: 10px; display: flex; justify-content: center; gap: 10px; align-items: center; }
-        .city-select { background: white; color: #333; padding: 8px; border-radius: 8px; border: none; font-weight: bold; width: 60%; }
+        /* New Professional Header */
+        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 4px solid #f1c40f; }
+        .main-title { font-size: 18px; font-weight: bold; line-height: 1.4; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sub-title { font-size: 13px; margin-top: 8px; color: #d1ffd6; font-weight: normal; font-style: italic; }
+        .director-text { font-size: 14px; margin-top: 5px; font-weight: bold; color: #ffffff; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
+        .date-box { background: rgba(0,0,0,0.2); display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 12px; margin-top: 10px; }
 
-        .search-container { padding: 15px; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .search-box { width: 100%; padding: 12px; border: 1.5px solid #2e7d32; border-radius: 10px; font-size: 15px; outline: none; }
+        /* Controls Section */
+        .controls { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; font-size: 16px; margin-bottom: 10px; outline: none; background: #f9fff9; }
+        .search-box { width: 100%; padding: 12px; border: 1.2px solid #ccc; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
 
-        /* Action Buttons (Download/Share) */
-        .action-bar { display: flex; justify-content: space-around; padding: 10px; background: white; border-bottom: 1px solid #eee; }
-        .action-btn { background: #f9f9f9; border: 1px solid #ddd; padding: 10px 15px; border-radius: 10px; font-size: 13px; color: #333; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .action-btn i { color: #2e7d32; font-size: 16px; }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .action-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 10px 5px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.2s; }
+        .action-btn:active { background: #e2e6ea; }
+        .action-btn i { color: #2e7d32; }
 
-        .price-list { padding: 15px; }
-        .price-card { background: white; margin-bottom: 8px; padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .price-tag { color: #2e7d32; font-weight: bold; font-size: 18px; }
+        /* List Section */
+        #capture-area { padding: 15px; background: #f0f4f8; }
+        .price-card { background: white; margin-bottom: 10px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 5px solid #2e7d32; }
+        .price-tag { color: #2e7d32; font-weight: bold; font-size: 20px; }
+        .item-name { font-size: 18px; font-weight: bold; color: #333; }
 
-        @media print { .top-nav, .city-selector, .search-container, .action-bar, .complaint-btn { display: none; } }
+        /* Floating Button */
+        .complaint-float { position: fixed; bottom: 20px; left: 15px; right: 15px; background: #c0392b; color: white; padding: 16px; border-radius: 50px; text-decoration: none; text-align: center; font-weight: bold; box-shadow: 0 5px 20px rgba(192,57,43,0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <h3 style="margin:0;">سندھ پرائس کنٹرول</h3>
-        <small id="todayDate"></small>
+    <div class="header-bg">
+        <div class="main-title">Market Committee Price Control Daily Rate Updates & Online Complain Database System</div>
+        <div class="sub-title">Under Control</div>
+        <div class="director-text">Director General Agriculture Marketing Sindh</div>
+        <br>
+        <div class="date-box" id="todayDate"></div>
     </div>
 
-    <div class="city-selector">
-        <span style="color:white; font-size: 14px;">اپنا شہر منتخب کریں:</span>
+    <div class="controls">
         <select class="city-select" id="cityChoose" onchange="updateCityData()">
             <option value="Matiari">مٹیاری (Matiari)</option>
             <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
             <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
         </select>
-    </div>
 
-    <div class="action-bar">
-        <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> پرنٹ</button>
-        <button class="action-btn" onclick="shareToWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ</button>
-        <button class="action-btn" onclick="downloadImage()"><i class="fas fa-download"></i> ڈاؤن لوڈ</button>
-    </div>
-
-    <div class="search-container">
         <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
+
+        <div class="action-grid">
+            <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> پرنٹ</button>
+            <button class="action-btn" onclick="shareToWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ</button>
+            <button class="action-btn" onclick="downloadAsImage()"><i class="fas fa-download"></i> ڈاؤن لوڈ</button>
+        </div>
     </div>
 
-    <div class="price-list" id="publicList"></div>
+    <div id="capture-area">
+        <div id="publicList">
+            </div>
+    </div>
+
+    <a href="complaint.html" class="complaint-float">
+        <i class="fas fa-bullhorn"></i> شکایت درج کریں (Complaint)
+    </a>
 
     <script>
-        // Mix Data for testing
         const ratesData = {
             "Matiari": [ {n: "آلو", p: "65"}, {n: "پیاز", p: "160"}, {n: "ٹماٹر", p: "90"} ],
             "Kazi Ahmed": [ {n: "آلو", p: "60"}, {n: "پیاز", p: "150"}, {n: "ٹماٹر", p: "80"} ],
@@ -72,16 +86,10 @@
             data.forEach(item => {
                 list.innerHTML += `
                     <div class="price-card">
-                        <span><b>${item.n}</b></span>
+                        <span class="item-name">${item.n}</span>
                         <span class="price-tag">Rs. ${item.p}</span>
                     </div>`;
             });
-        }
-
-        function shareToWhatsApp() {
-            const city = document.getElementById('cityChoose').value;
-            const text = `آج کے سرکاری ریٹ (${city}):\nآلو: Rs. 60\nپیاز: Rs. 150\nمزید معلومات کے لیے ویب سائٹ دیکھیں!`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
         function searchItems() {
@@ -92,8 +100,24 @@
             }
         }
 
+        function downloadAsImage() {
+            const area = document.body; // Full page screenshot for better look
+            html2canvas(area).then(canvas => {
+                let link = document.createElement("a");
+                link.download = "Sindh-Market-Rates.png";
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        function shareToWhatsApp() {
+            const city = document.getElementById('cityChoose').value;
+            const text = `آج کے سرکاری ریٹ (${city}) معلوم کرنے کے لیے لنک پر کلک کریں: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+        }
+
         window.onload = function() {
-            document.getElementById('todayDate').innerText = new Date().toLocaleDateString('ur-PK');
+            document.getElementById('todayDate').innerText = new Date().toLocaleDateString('ur-PK', { day: '2-digit', month: '2-digit', year: 'numeric' });
             updateCityData();
         }
     </script>
