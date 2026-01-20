@@ -41,35 +41,31 @@
         btn.disabled = true;
         errorDiv.style.display = "none";
 
-        // --- JSONP TECHNIQUE ---
-        // Browser security ko bypass karne ke liye script tag banate hain
+        // --- ASLI FIX: JSONP Bypass ---
         const script = document.createElement('script');
-        script.id = "jsonp-script";
+        script.id = "jsonp-loader";
         script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse`;
         
         script.onerror = function() {
-            errorDiv.innerText = "انٹرنیٹ یا سرور کا مسئلہ ہے!";
+            errorDiv.innerText = "سرور سے رابطہ نہیں ہو سکا!";
             errorDiv.style.display = "block";
             btn.innerText = "لاگ ان کریں";
             btn.disabled = false;
         };
 
-        // Purana script tag delete karein agar maujood ho
-        const oldScript = document.getElementById('jsonp-script');
+        const oldScript = document.getElementById('jsonp-loader');
         if(oldScript) oldScript.remove();
-
         document.body.appendChild(script);
     }
 
-    // Server se jawab lenay wala function
-    function loginResponse(result) {
+    // SERVER KA JAWAB LENAY WALA FUNCTION
+    window.loginResponse = function(result) {
         const btn = document.getElementById('loginBtn');
         const errorDiv = document.getElementById('error-msg');
 
         if (result.status === "success") {
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userCity", result.city);
-            // Kamyabi! Dashboard par bhej dein
             window.location.href = "complaints-list.html";
         } else {
             errorDiv.innerText = "موبائل نمبر یا پاس ورڈ غلط ہے!";
@@ -77,8 +73,7 @@
             btn.innerText = "لاگ ان کریں";
             btn.disabled = false;
         }
-    }
+    };
 </script>
-
 </body>
 </html>
