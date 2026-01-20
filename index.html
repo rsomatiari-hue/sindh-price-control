@@ -3,73 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سندھ سرکاری ریٹ لسٹ</title>
+    <title>سندھ سرکاری ریٹ لسٹ - ہوم پیج</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #f0f4f8; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            text-align: right; 
+        }
         
         /* Official Header */
-        .header-bg { background: #1b5e20; color: white; padding: 20px 15px; text-align: center; border-bottom: 4px solid #f1c40f; position: relative; }
-        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; padding: 0 50px; }
-        .director-text { font-size: 13px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
-
-        /* Login Button on Home Page */
-        .login-link { 
-            position: absolute; 
-            top: 15px; 
-            left: 15px; 
-            background: rgba(255,255,255,0.2); 
+        .header-bg { 
+            background: #1b5e20; 
             color: white; 
-            text-decoration: none; 
-            padding: 8px 12px; 
-            border-radius: 8px; 
-            font-size: 12px; 
-            border: 1px solid rgba(255,255,255,0.4);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            padding: 20px 15px; 
+            text-align: center; 
+            border-bottom: 4px solid #f1c40f; 
         }
-        .login-link:hover { background: #f1c40f; color: #1b5e20; }
+        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; }
+        .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; text-transform: uppercase; }
+        .director-text { 
+            font-size: 13px; margin-top: 5px; font-weight: bold; 
+            border-top: 1px solid rgba(255,255,255,0.2); 
+            display: inline-block; padding-top: 5px; 
+        }
 
         /* Controls Section */
-        .controls { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; margin-bottom: 10px; outline: none; }
+        .controls { 
+            background: white; padding: 15px; 
+            border-bottom: 1px solid #ddd; 
+            position: sticky; top: 0; z-index: 100; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        }
+        .city-select { 
+            width: 100%; padding: 12px; border: 2px solid #2e7d32; 
+            border-radius: 10px; font-weight: bold; margin-bottom: 10px; outline: none; 
+        }
         
-        .cat-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; scrollbar-width: none; }
+        .cat-container { 
+            display: flex; overflow-x: auto; gap: 8px; 
+            padding-bottom: 10px; scrollbar-width: none; 
+        }
         .cat-container::-webkit-scrollbar { display: none; }
-        .cat-btn { background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; transition: 0.3s; }
-        .cat-btn.active { background: #2e7d32; color: white; box-shadow: 0 3px 8px rgba(46,125,50,0.3); }
+        .cat-btn { 
+            background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; 
+            padding: 8px 18px; border-radius: 20px; font-size: 13px; 
+            font-weight: bold; white-space: nowrap; cursor: pointer; 
+        }
+        .cat-btn.active { background: #2e7d32; color: white; }
 
-        .search-box { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
+        .search-box { 
+            width: 100%; padding: 10px; border: 1px solid #ccc; 
+            border-radius: 8px; font-size: 14px; margin-bottom: 10px; 
+            box-sizing: border-box; outline: none;
+        }
 
-        /* Action Buttons */
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .action-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 10px 5px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; }
-        .action-btn i { color: #2e7d32; }
-
-        /* List Styling */
-        #capture-area { flex: 1; }
-        .price-card { background: white; margin: 10px 15px; padding: 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 6px solid #2e7d32; }
+        /* List Area */
+        #capture-area { padding-bottom: 80px; } 
+        .price-card { 
+            background: white; margin: 10px 15px; padding: 18px; 
+            border-radius: 12px; display: flex; justify-content: space-between; 
+            align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            border-right: 6px solid #2e7d32; 
+        }
         .price-tag { color: #2e7d32; font-weight: bold; font-size: 22px; }
-        .item-name { font-size: 18px; font-weight: bold; color: #333; }
+        .item-name { font-size: 18px; font-weight: bold; }
 
-        /* Footer */
-        .footer { background: #1b5e20; color: white; padding: 25px 10px; text-align: center; border-top: 4px solid #f1c40f; margin-top: auto; }
-        .footer-bottom { font-size: 11px; color: #d1ffd6; margin-top: 10px; }
+        /* Bottom Fixed Action Bar */
+        .bottom-action-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            display: grid; grid-template-columns: 1fr 1fr;
+            z-index: 1000; box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
+        }
+        .bottom-btn {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; padding: 18px 5px; font-size: 15px; font-weight: bold;
+            text-decoration: none; color: white; border: none;
+        }
+        .btn-login-side { background: #2e7d32; border-right: 1px solid rgba(255,255,255,0.2); }
+        .btn-complaint-side { background: #c0392b; }
+        .bottom-btn:active { opacity: 0.8; transform: scale(0.98); }
 
-        /* Floating Complaint Button */
-        .complaint-float { position: fixed; bottom: 85px; left: 15px; right: 15px; background: #c0392b; color: white; padding: 15px; border-radius: 50px; text-decoration: none; text-align: center; font-weight: bold; box-shadow: 0 5px 15px rgba(192,57,43,0.3); z-index: 99; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .footer-info { 
+            background: #f8f9fa; padding: 15px; text-align: center; 
+            font-size: 11px; color: #666; border-top: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
 
     <div class="header-bg">
-        <a href="login.html" class="login-link">
-            <i class="fas fa-user-lock"></i> آفیسر لاگ ان
-        </a>
         <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
-        <div style="font-size: 11px; margin-top: 5px;">Under Control</div>
+        <div class="under-control">Under Control</div>
         <div class="director-text">Director General Agriculture Marketing Sindh</div>
     </div>
 
@@ -82,37 +112,31 @@
 
         <div class="cat-container">
             <button class="cat-btn active" onclick="filterCat('all', this)">تمام اشیاء</button>
-            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں (Veg)</button>
-            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل (Fruits)</button>
+            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں</button>
+            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل</button>
             <button class="cat-btn" onclick="filterCat('poultry', this)">مرغی/انڈے</button>
-            <button class="cat-btn" onclick="filterCat('grocery', this)">کریانہ</button>
         </div>
 
         <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
-
-        <div class="action-grid">
-            <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> پرنٹ</button>
-            <button class="action-btn" onclick="shareToWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ</button>
-            <button class="action-btn" onclick="downloadAsImage()"><i class="fas fa-download"></i> ڈاؤن لوڈ</button>
-        </div>
     </div>
 
     <div id="capture-area">
         <div id="publicList">
             </div>
+        <div class="footer-info">
+            حکومتِ سندھ - محکمہ زراعت (ایگریکلچر مارکیٹنگ)<br>
+            © 2026 Price Control System Sindh
+        </div>
     </div>
 
-    <a href="complaint.html" class="complaint-float">
-        <i class="fas fa-bullhorn"></i> شکایت درج کریں (Complaint)
-    </a>
-
-    <footer class="footer">
-        <span style="font-weight: bold; letter-spacing: 1px;">GOVERNMENT OF SINDH</span>
-        <div class="footer-bottom">
-            © 2026 Price Control System | Agriculture Marketing Sindh. <br>
-            All Rights Reserved.
-        </div>
-    </footer>
+    <div class="bottom-action-bar">
+        <a href="login.html" class="bottom-btn btn-login-side">
+            <i class="fas fa-user-lock"></i> آفیسر لاگ ان
+        </a>
+        <a href="complaint.html" class="bottom-btn btn-complaint-side">
+            <i class="fas fa-bullhorn"></i> شکایت درج کریں
+        </a>
+    </div>
 
     <script>
         const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
@@ -121,33 +145,24 @@
 
         async function fetchLiveRates() {
             const list = document.getElementById('publicList');
-            list.innerHTML = "<p style='text-align:center; padding:20px;'>تازہ ترین ریٹس لوڈ ہو رہے ہیں...</p>";
-            
+            list.innerHTML = "<p style='text-align:center; padding:30px;'>لوڈ ہو رہا ہے...</p>";
             try {
                 const response = await fetch(sheetURL);
                 allLiveRates = await response.json();
                 updateCityData();
             } catch (error) {
-                list.innerHTML = "<p style='color:red; text-align:center; padding:20px;'>ڈیٹا لوڈ کرنے میں مسئلہ ہوا ہے۔</p>";
+                list.innerHTML = "<p style='color:red; text-align:center;'>کنکشن کا مسئلہ!</p>";
             }
         }
 
         function updateCityData() {
             const city = document.getElementById('cityChoose').value;
             let data = allLiveRates.filter(item => item.city === city);
-            
-            if(currentCat !== 'all') {
-                data = data.filter(item => item.c === currentCat);
-            }
+            if(currentCat !== 'all') data = data.filter(item => item.c === currentCat);
 
             const list = document.getElementById('publicList');
-            list.innerHTML = "";
+            list.innerHTML = data.length ? "" : "<p style='text-align:center; padding:20px;'>کوئی ڈیٹا نہیں ملا۔</p>";
             
-            if(data.length === 0) {
-                list.innerHTML = "<p style='text-align:center; padding:20px;'>فی الحال اس کیٹیگری میں کوئی ڈیٹا دستیاب نہیں ہے۔</p>";
-                return;
-            }
-
             data.forEach(item => {
                 list.innerHTML += `
                     <div class="price-card">
@@ -170,22 +185,6 @@
             for (let card of cards) {
                 card.style.display = card.innerText.toLowerCase().includes(input) ? "flex" : "none";
             }
-        }
-
-        function downloadAsImage() {
-            const area = document.getElementById("capture-area");
-            html2canvas(area).then(canvas => {
-                let link = document.createElement("a");
-                link.download = "Sindh-Market-Rates.png";
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        }
-
-        function shareToWhatsApp() {
-            const city = document.getElementById('cityChoose').value;
-            const text = `آج کے سرکاری ریٹ (${city}) معلوم کرنے کے لیے لنک پر کلک کریں: ${window.location.href}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
         window.onload = fetchLiveRates;
