@@ -1,20 +1,82 @@
-function handleLogin() {
-    const mobile = document.getElementById('mobileNumber').value;
-    const pass = document.getElementById('password').value;
-    
-    // Purana fetch hata diya, ab ye script tag use hoga
-    const script = document.createElement('script');
-    script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse`;
-    document.body.appendChild(script);
-}
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آفیسر لاگ ان - سندھ پرائس کنٹرول</title>
+    <style>
+        /* Aapka purana CSS yahan aayega */
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; text-align: center; padding: 20px; }
+        .login-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 95%; padding: 10px; background: #1b5e20; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #error-msg { color: red; display: none; margin-top: 10px; }
+    </style>
+</head>
+<body>
 
-// Ye function server ka jawab receive karega
-function loginResponse(result) {
-    if (result.status === "success") {
-        localStorage.setItem("userRole", result.role);
-        localStorage.setItem("userCity", result.city);
-        window.location.href = "complaints-list.html"; // Agla step
-    } else {
-        alert("Mobile ya Password galat hai!");
+<div class="login-box">
+    <h2>لاگ ان پورٹل</h2>
+    <input type="number" id="mobileNumber" placeholder="موبائل نمبر درج کریں">
+    <input type="password" id="password" placeholder="پاس ورڈ درج کریں">
+    <button onclick="handleLogin()" class="btn-submit">لاگ ان کریں</button>
+    <div id="error-msg"></div>
+</div>
+
+<script>
+    // 1. AAPKA VERSION 9 URL
+    const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec"; 
+
+    function handleLogin() {
+        const mobile = document.getElementById('mobileNumber').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        const btn = document.querySelector('.btn-submit');
+        const errorDiv = document.getElementById('error-msg');
+
+        if(!mobile || !pass) {
+            alert("براہ کرم موبائل نمبر اور پاس ورڈ درج کریں");
+            return;
+        }
+
+        btn.innerText = "رابطہ ہو رہا ہے...";
+        btn.disabled = true;
+        errorDiv.style.display = "none";
+
+        // 2. JSONP CONNECTION (Direct Script Tag)
+        // Ye browser ki har security ko bypass kar dega
+        const script = document.createElement('script');
+        script.src = `${sheetURL}?action=login&mobile=${encodeURIComponent(mobile)}&pass=${encodeURIComponent(pass)}&callback=loginResponse`;
+        
+        script.onerror = function() {
+            errorDiv.innerText = "کنکشن کا مسئلہ! انٹرنیٹ چیک کریں۔";
+            errorDiv.style.display = "block";
+            btn.innerText = "لاگ ان کریں";
+            btn.disabled = false;
+        };
+
+        document.body.appendChild(script);
     }
-}
+
+    // 3. SERVER RESPONSE HANDLER
+    function loginResponse(result) {
+        const btn = document.querySelector('.btn-submit');
+        const errorDiv = document.getElementById('error-msg');
+        
+        if (result.status === "success") {
+            // Data save karke aage bhej do
+            localStorage.setItem("userRole", result.role);
+            localStorage.setItem("userCity", result.city);
+            
+            // Is page par redirect karein
+            window.location.href = "complaints-list.html"; 
+        } else {
+            errorDiv.innerText = "موبائل نمبر یا پاس ورڈ غلط ہے!";
+            errorDiv.style.display = "block";
+            btn.innerText = "لاگ ان کریں";
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
