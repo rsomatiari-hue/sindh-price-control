@@ -3,77 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لاگ ان پورٹل</title>
+    <title>Sindh Price Control - Login</title>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; text-align: left; }
-        .btn-submit { width: 100%; padding: 12px; background: #1b5e20; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; margin-top: 10px; }
-        .error-box { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 15px; display: none; font-size: 14px; }
+        body { font-family: sans-serif; background: #e8f5e9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 90%; max-width: 380px; text-align: center; border-top: 6px solid #1b5e20; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn { width: 100%; padding: 12px; background: #1b5e20; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; }
+        #error { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 15px; display: none; border: 1px solid #ffcdd2; }
     </style>
 </head>
 <body>
 
-<div class="login-card">
-    <h2 style="color: #1b5e20;">لاگ ان پورٹل</h2>
-    <input type="number" id="mobileNumber" placeholder="Mobile Number">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="handleLogin()" class="btn-submit" id="loginBtn">لاگ ان کریں</button>
-    <div id="error-msg" class="error-box"></div>
+<div class="card">
+    <h2 style="color: #1b5e20;">آفیسر لاگ ان</h2>
+    <input type="number" id="mob" placeholder="Mobile Number">
+    <input type="password" id="pw" placeholder="Password">
+    <button onclick="login()" class="btn" id="lBtn">لاگ ان کریں</button>
+    <div id="error"></div>
 </div>
 
 <script>
-    // AAPKA VERSION 9 URL
-    const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
+    // AAPKA V9 URL
+    const api = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
 
-    function handleLogin() {
-        const mobile = document.getElementById('mobileNumber').value.trim();
-        const pass = document.getElementById('password').value.trim();
-        const btn = document.getElementById('loginBtn');
-        const errorDiv = document.getElementById('error-msg');
+    function login() {
+        const m = document.getElementById('mob').value;
+        const p = document.getElementById('pw').value;
+        const b = document.getElementById('lBtn');
+        const e = document.getElementById('error');
 
-        if (!mobile || !pass) {
-            alert("Maaloomat darj karein!");
-            return;
-        }
+        if(!m || !p) { alert("Details likhein!"); return; }
 
-        btn.innerText = "رابطہ ہو رہا ہے...";
-        btn.disabled = true;
-        errorDiv.style.display = "none";
+        b.innerText = "Connecting...";
+        b.disabled = true;
+        e.style.display = "none";
 
-        // --- ASLI FIX: JSONP Bypass ---
-        const script = document.createElement('script');
-        script.id = "jsonp-loader";
-        script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse`;
-        
-        script.onerror = function() {
-            errorDiv.innerText = "سرور سے رابطہ نہیں ہو سکا!";
-            errorDiv.style.display = "block";
-            btn.innerText = "لاگ ان کریں";
-            btn.disabled = false;
-        };
-
-        const oldScript = document.getElementById('jsonp-loader');
-        if(oldScript) oldScript.remove();
-        document.body.appendChild(script);
+        // JSONP BYPASS - Yeh bhootni ko bhagayega
+        const s = document.createElement('script');
+        s.src = `${api}?action=login&mobile=${m}&pass=${p}&callback=res`;
+        document.body.appendChild(s);
     }
 
-    // SERVER KA JAWAB LENAY WALA FUNCTION
-    window.loginResponse = function(result) {
-        const btn = document.getElementById('loginBtn');
-        const errorDiv = document.getElementById('error-msg');
-
-        if (result.status === "success") {
-            localStorage.setItem("userRole", result.role);
-            localStorage.setItem("userCity", result.city);
+    window.res = function(r) {
+        const b = document.getElementById('lBtn');
+        if (r.status === "success") {
+            localStorage.setItem("userRole", r.role);
+            localStorage.setItem("userCity", r.city);
             window.location.href = "complaints-list.html";
         } else {
-            errorDiv.innerText = "موبائل نمبر یا پاس ورڈ غلط ہے!";
-            errorDiv.style.display = "block";
-            btn.innerText = "لاگ ان کریں";
-            btn.disabled = false;
+            document.getElementById('error').innerText = "Ghalat Maloomat!";
+            document.getElementById('error').style.display = "block";
+            b.innerText = "لاگ ان کریں";
+            b.disabled = false;
         }
-    };
+    }
 </script>
 </body>
 </html>
