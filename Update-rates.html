@@ -14,7 +14,7 @@
         .container { padding: 12px; }
         .item-card { background: white; padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; border-right: 6px solid #2e7d32; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .item-name-ur { font-size: 15px; font-weight: bold; color: #333; flex: 1; margin-left: 10px; line-height: 1.4; }
-        .price-input { width: 85px; padding: 12px; border: 1px solid #bbb; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold; color: #d84315; }
+        .price-input { width: 85px; padding: 10px; border: 1px solid #bbb; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold; color: #d84315; }
         .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: flex; gap: 10px; box-shadow: 0 -3px 15px rgba(0,0,0,0.15); }
         .save-btn { flex: 2; background: #2e7d32; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; }
         .back-btn { flex: 1; background: #78909c; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 16px; cursor: pointer; }
@@ -43,68 +43,37 @@
 
 <script>
     const items = [
-        // --- VEGETABLES (Mukammal List) ---
+        // --- VEGETABLES ---
         { ur: "آلو درجہ اول (کلو)", cat: "veg" }, { ur: "آلو درجہ دوم (کلو)", cat: "veg" },
         { ur: "پیاز درجہ اول (کلو)", cat: "veg" }, { ur: "پیاز درجہ دوم (کلو)", cat: "veg" },
         { ur: "ٹماٹر درجہ اول (کلو)", cat: "veg" }, { ur: "ٹماٹر درجہ دوم (کلو)", cat: "veg" },
-        { ur: "ادرک چائنہ (کلو)", cat: "veg" }, { ur: "ادرک تھائی (کلو)", cat: "veg" },
-        { ur: "لہسن چائنہ (کلو)", cat: "veg" }, { ur: "لہسن دیسی (کلو)", cat: "veg" },
-        { ur: "لیموں چائنہ (کلو)", cat: "veg" }, { ur: "لیموں دیسی (کلو)", cat: "veg" },
-        { ur: "بھنڈی (کلو)", cat: "veg" }, { ur: "ٹینڈا دیسی (کلو)", cat: "veg" },
-        { ur: "ٹینڈا فارمی (کلو)", cat: "veg" }, { ur: "بینگن (کلو)", cat: "veg" },
-        { ur: "کھیرا (کلو)", cat: "veg" }, { ur: "گاجر (کلو)", cat: "veg" },
-        { ur: "مولی (کلو)", cat: "veg" }, { ur: "پالک (کلو)", cat: "veg" },
-        { ur: "مٹر (کلو)", cat: "veg" }, { ur: "بند گوبھی (کلو)", cat: "veg" },
-        { ur: "پھول گوبھی (کلو)", cat: "veg" }, { ur: "لوکی (کلو)", cat: "veg" },
-        { ur: "ہری مرچ (کلو)", cat: "veg" }, { ur: "ہرا دھنیا (گٹھی)", cat: "veg" },
-        { ur: "پودینہ (گٹھی)", cat: "veg" }, { ur: "کریلا (کلو)", cat: "veg" },
-        { ur: "اروی (کلو)", cat: "veg" }, { ur: "شملہ مرچ (کلو)", cat: "veg" },
-        { ur: "شلجم (کلو)", cat: "veg" }, { ur: "میتھی (کلو)", cat: "veg" },
-        { ur: "چکندر (کلو)", cat: "veg" }, { ur: "پھلی (کلو)", cat: "veg" },
+        { ur: "ادرک چائنہ (کلو)", cat: "veg" }, { ur: "لہسن چائنہ (کلو)", cat: "veg" },
+        { ur: "بھنڈی (کلو)", cat: "veg" }, { ur: "ہری مرچ (کلو)", cat: "veg" },
+        { ur: "گاجر (کلو)", cat: "veg" }, { ur: "مولی (کلو)", cat: "veg" },
+        { ur: "مٹر (کلو)", cat: "veg" }, { ur: "پالک (کلو)", cat: "veg" },
 
-        // --- FRUITS (Mukammal List) ---
+        // --- FRUITS ---
         { ur: "کیلا درجہ اول (درجن)", cat: "fruit" }, { ur: "کیلا درجہ دوم (درجن)", cat: "fruit" },
-        { ur: "سیب کلو اول (کلو)", cat: "fruit" }, { ur: "سیب کلو دوم (کلو)", cat: "fruit" },
-        { ur: "سیب گاچا اول (کلو)", cat: "fruit" }, { ur: "سیب گاچا دوم (کلو)", cat: "fruit" },
-        { ur: "پپیتہ (کلو)", cat: "fruit" }, { ur: "انار قندھاری اول (کلو)", cat: "fruit" },
-        { ur: "انار قندھاری دوم (کلو)", cat: "fruit" }, { ur: "امرود اول (کلو)", cat: "fruit" },
-        { ur: "امرود دوم (کلو)", cat: "fruit" }, { ur: "چیکو اول (کلو)", cat: "fruit" },
-        { ur: "چیکو دوم (کلو)", cat: "fruit" }, { ur: "مالٹا اول (درجن)", cat: "fruit" },
-        { ur: "مالٹا دوم (درجن)", cat: "fruit" }, { ur: "کنو اول (درجن)", cat: "fruit" },
-        { ur: "کنو دوم (درجن)", cat: "fruit" }, { ur: "انگور سندر خانی (کلو)", cat: "fruit" },
-        { ur: "انگور کالا (کلو)", cat: "fruit" }, { ur: "انگور گولا (کلو)", cat: "fruit" },
-        { ur: "موسمی اول (درجن)", cat: "fruit" }, { ur: "موسمی دوم (درجن)", cat: "fruit" },
-        { ur: "خربوزہ اول (کلو)", cat: "fruit" }, { ur: "خربوزہ دوم (کلو)", cat: "fruit" },
-        { ur: "تربوز (کلو)", cat: "fruit" }, { ur: "کھجور اصیل (کلو)", cat: "fruit" },
-        { ur: "ناریل (فی دانہ)", cat: "fruit" }, { ur: "بیر (کلو)", cat: "fruit" },
+        { ur: "سیب کلو درجہ اول (کلو)", cat: "fruit" }, { ur: "سیب گاچا (کلو)", cat: "fruit" },
+        { ur: "پپیتہ (کلو)", cat: "fruit" }, { ur: "امرود (کلو)", cat: "fruit" },
+        { ur: "مالٹا (درجن)", cat: "fruit" }, { ur: "انار قندھاری (کلو)", cat: "fruit" },
 
         // --- POULTRY & MEAT ---
         { ur: "زندہ مرغی برائلر (کلو)", cat: "poultry" }, { ur: "مرغی گوشت (کلو)", cat: "poultry" },
         { ur: "انڈے فارمی (درجن)", cat: "poultry" }, { ur: "بکرا گوشت (کلو)", cat: "poultry" },
         { ur: "بیف بغیر ہڈی (کلو)", cat: "poultry" }, { ur: "بیف ہڈی والا (کلو)", cat: "poultry" },
-        { ur: "بچھیا گوشت بغیر ہڈی (کلو)", cat: "poultry" }, { ur: "بچھیا گوشت ہڈی والا (کلو)", cat: "poultry" },
 
         // --- DAIRY ---
-        { ur: "تازہ دودھ (لیٹر)", cat: "dairy" }, { ur: "دہی (کلو)", cat: "dairy" },
-        { ur: "پنیر (کلو)", cat: "dairy" }, { ur: "مکھن (کلو)", cat: "dairy" },
+        { ur: "تازہ دودھ (فی لیٹر)", cat: "dairy" }, { ur: "دہی (فی کلو)", cat: "dairy" },
 
         // --- GROCERY & DAAL ---
-        { ur: "چینی (کلو)", cat: "grocery" }, { ur: "آٹا 10 کلو تھیلا", cat: "grocery" },
-        { ur: "آٹا 20 کلو تھیلا", cat: "grocery" }, { ur: "چاول باسمتی اول (کلو)", cat: "grocery" },
-        { ur: "چاول سیلہ اول (کلو)", cat: "grocery" }, { ur: "چاول اری 6 (کلو)", cat: "grocery" },
+        { ur: "چینی ریٹیل (کلو)", cat: "grocery" }, { ur: "آٹا 10 کلو تھیلا", cat: "grocery" },
         { ur: "دال ماش دھلی (کلو)", cat: "grocery" }, { ur: "دال مونگ دھلی (کلو)", cat: "grocery" },
-        { ur: "دال مسور اول (کلو)", cat: "grocery" }, { ur: "دال چنا اول (کلو)", cat: "grocery" },
-        { ur: "کالا چنا اول (کلو)", cat: "grocery" }, { ur: "بیسن اول (کلو)", cat: "grocery" },
-        { ur: "کوکنگ آئل (لیٹر)", cat: "grocery" }, { ur: "گھی کھلا (کلو)", cat: "grocery" },
-        { ur: "سرخ مرچ پاؤڈر (کلو)", cat: "grocery" }, { ur: "دھنیا پاؤڈر (کلو)", cat: "grocery" },
-        { ur: "ہلدی پاؤڈر (کلو)", cat: "grocery" }, { ur: "سفید چنا (کلو)", cat: "grocery" },
+        { ur: "دال چنا (کلو)", cat: "grocery" }, { ur: "باسمتی چاول (کلو)", cat: "grocery" },
 
-        // --- BAKERY & TANDOOR ---
+        // --- BAKERY & NAAN ---
         { ur: "چپاتی 100 گرام", cat: "bakery" }, { ur: "تندوری نان 120 گرام", cat: "bakery" },
-        { ur: "تندوری نان 180 گرام", cat: "bakery" }, { ur: "شیرمال (فی دانہ)", cat: "bakery" },
-        { ur: "تافتان (فی دانہ)", cat: "bakery" }, { ur: "ڈبل روٹی چھوٹی", cat: "bakery" },
-        { ur: "ڈبل روٹی بڑی", cat: "bakery" }, { ur: "بند (فی دانہ)", cat: "bakery" },
-        { ur: "رس / پاپے (کلو)", cat: "bakery" }, { ur: "کیک پیس (فی دانہ)", cat: "bakery" }
+        { ur: "تندوری نان 180 گرام", cat: "bakery" }, { ur: "ڈبل روٹی 400 گرام", cat: "bakery" }
     ];
 
     const market = localStorage.getItem("userMarket") || "Karachi";
@@ -127,7 +96,7 @@
     async function saveAllRates() {
         const btn = document.getElementById('saveBtn');
         const inputs = document.querySelectorAll('.price-input');
-        const scriptURL = "APNA_WEB_APP_URL_YAHAN_DALEIN";
+        const scriptURL = "APNA_WEB_APP_URL_YAHAN_DALEIN"; // <--- Yahan URL lazmi dalein
         
         let dataToSave = [];
         inputs.forEach(input => { if(input.value > 0) dataToSave.push({ name: input.dataset.name, price: input.value }); });
