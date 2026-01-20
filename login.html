@@ -6,76 +6,21 @@
     <title>لاگ ان - سندھ پرائس کنٹرول سسٹم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: #f0f4f8; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            text-align: right;
-        }
-        
-        .header-bg { 
-            background: #1b5e20; 
-            color: white; 
-            padding: 25px 15px; 
-            text-align: center; 
-            border-bottom: 4px solid #f1c40f; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
+        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
         .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; }
         .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; }
-        .director-text { 
-            font-size: 13px; margin-top: 5px; font-weight: bold; 
-            border-top: 1px solid rgba(255,255,255,0.2); 
-            display: inline-block; padding-top: 5px; 
-        }
-
-        .login-container { 
-            flex: 1; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px; 
-        }
-        .login-card { 
-            background: white; 
-            width: 100%; 
-            max-width: 400px; 
-            padding: 30px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
-            border-top: 5px solid #2e7d32; 
-        }
+        .director-text { font-size: 13px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
+        .login-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .login-card { background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 5px solid #2e7d32; }
         .login-card h2 { text-align: center; color: #2e7d32; margin-bottom: 25px; }
-        
         .input-group { margin-bottom: 20px; position: relative; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-        .input-group input { 
-            width: 100%; padding: 12px 12px 12px 40px; 
-            border: 1.5px solid #ddd; border-radius: 10px; 
-            box-sizing: border-box; outline: none; font-size: 16px; 
-        }
+        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1.5px solid #ddd; border-radius: 10px; box-sizing: border-box; outline: none; font-size: 16px; }
         .input-group i { position: absolute; left: 12px; top: 42px; color: #2e7d32; }
-
-        .btn-login { 
-            width: 100%; background: #2e7d32; color: white; border: none; 
-            padding: 14px; border-radius: 10px; font-size: 18px; 
-            font-weight: bold; cursor: pointer; transition: 0.3s; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
-        }
-        .btn-login:hover { background: #1b5e20; }
-        .btn-login:disabled { background: #95a5a6; }
-
-        #errorMsg { 
-            color: #c0392b; text-align: center; margin-top: 15px; 
-            display: none; background: #fdeaea; padding: 10px; border-radius: 5px; 
-        }
-
-        .footer {
-            background: #1b5e20; color: white; padding: 20px 10px;
-            text-align: center; border-top: 3px solid #f1c40f; margin-top: auto;
-        }
+        .btn-login { width: 100%; background: #2e7d32; color: white; border: none; padding: 14px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        #errorMsg { color: #c0392b; text-align: center; margin-top: 15px; display: none; background: #fdeaea; padding: 10px; border-radius: 5px; }
+        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; }
     </style>
 </head>
 <body>
@@ -89,35 +34,29 @@
     <div class="login-container">
         <div class="login-card">
             <h2>آفیسر لاگ ان</h2>
-            
             <div class="input-group">
                 <label>موبائل نمبر</label>
                 <input type="text" id="mobile" placeholder="03040937610">
                 <i class="fas fa-phone"></i>
             </div>
-
             <div class="input-group">
                 <label>پاس ورڈ</label>
                 <input type="password" id="password" placeholder="******">
                 <i class="fas fa-lock"></i>
             </div>
-
             <button class="btn-login" onclick="handleLogin()">
                 <span>داخل ہوں</span>
                 <i class="fas fa-sign-in-alt"></i>
             </button>
-
             <div id="errorMsg"></div>
         </div>
     </div>
 
     <footer class="footer">
         <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
-        <div style="font-size: 11px; margin-top: 10px;">© 2026 Price Control System Sindh</div>
     </footer>
 
     <script>
-        // Aapka Google Web App URL
         const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
 
         async function handleLogin() {
@@ -141,19 +80,18 @@
                 const result = await response.json();
 
                 if (result.status === "success") {
-                    // Data browser mein save karna
                     localStorage.setItem("userMobile", mobile);
                     localStorage.setItem("userMarket", result.city);
                     localStorage.setItem("userRole", result.role);
                     
-                    // --- YAHAN CHANGE KIYA HAI: Officer-dashboard par bhejne ke liye ---
-                    window.location.href = "Officer-dashboard.html";
+                    // --- FIXED REDIRECT TO SMALL CASE FILE NAME ---
+                    window.location.href = "officer-dashboard.html";
                 } else {
                     errorMsg.innerText = "غلط موبائل نمبر یا پاس ورڈ!";
                     errorMsg.style.display = "block";
                 }
             } catch (error) {
-                errorMsg.innerText = "سرور کا مسئلہ ہے، دوبارہ کوشش کریں";
+                errorMsg.innerText = "سرور کا مسئلہ ہے";
                 errorMsg.style.display = "block";
             } finally {
                 btn.disabled = false;
