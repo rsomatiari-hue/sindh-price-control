@@ -6,71 +6,26 @@
     <title>لاگ ان - سندھ پرائس کنٹرول سسٹم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: #e8f5e9; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            text-align: right;
-        }
-        
-        /* Official Header */
-        .header-bg { 
-            background: #1b5e20; 
-            color: white; 
-            padding: 20px 15px; 
-            text-align: center; 
-            border-bottom: 4px solid #f1c40f; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #e8f5e9; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
+        .header-bg { background: #1b5e20; color: white; padding: 20px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
         .main-title { font-size: 14px; font-weight: bold; line-height: 1.4; margin: 0; }
         .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; }
-
-        .login-container { 
-            flex: 1; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 20px; 
-        }
-        .login-card { 
-            background: white; 
-            width: 100%; 
-            max-width: 400px; 
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            border-top: 5px solid #1b5e20; 
-        }
+        .login-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .login-card { background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid #1b5e20; }
         .login-card h2 { text-align: center; color: #1b5e20; margin-bottom: 25px; }
-        
         .input-group { margin-bottom: 20px; position: relative; }
         .input-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-        .input-group input { 
-            width: 100%; padding: 12px 12px 12px 40px; 
-            border: 1.5px solid #ddd; border-radius: 12px; 
-            box-sizing: border-box; outline: none; font-size: 16px; 
-        }
+        .input-group input { width: 100%; padding: 12px 12px 12px 40px; border: 1.5px solid #ddd; border-radius: 12px; box-sizing: border-box; outline: none; font-size: 16px; text-align: left; direction: ltr; }
         .input-group i { position: absolute; left: 12px; top: 42px; color: #1b5e20; }
-
-        .btn-login { 
-            width: 100%; background: #1b5e20; color: white; border: none; 
-            padding: 14px; border-radius: 12px; font-size: 18px; 
-            font-weight: bold; cursor: pointer; transition: 0.3s; 
-            display: flex; align-items: center; justify-content: center; gap: 10px; 
-        }
+        .btn-login { width: 100%; background: #1b5e20; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-login:disabled { background: #95a5a6; }
-
-        #errorMsg { 
-            color: #c0392b; text-align: center; margin-top: 15px; 
-            display: none; background: #fdeaea; padding: 10px; border-radius: 8px; 
-        }
-
-        .footer {
-            background: #1b5e20; color: white; padding: 15px;
-            text-align: center; border-top: 3px solid #f1c40f; font-size: 12px;
-        }
+        
+        /* Back to Home Button Style */
+        .btn-back { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #1b5e20; font-weight: bold; font-size: 14px; padding: 12px; border: 1.5px solid #1b5e20; border-radius: 12px; transition: 0.3s; }
+        .btn-back:hover { background: #f1f8e9; }
+        
+        #errorMsg { color: #c0392b; text-align: center; margin-top: 15px; display: none; background: #fdeaea; padding: 10px; border-radius: 8px; font-weight: bold; }
+        .footer { background: #1b5e20; color: white; padding: 15px; text-align: center; border-top: 3px solid #f1c40f; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -84,34 +39,35 @@
     <div class="login-container">
         <div class="login-card">
             <h2>لاگ ان پورٹل</h2>
-            
             <div class="input-group">
                 <label>موبائل نمبر</label>
                 <input type="text" id="mobile" placeholder="03XXXXXXXXX">
                 <i class="fas fa-phone"></i>
             </div>
-
             <div class="input-group">
                 <label>پاس ورڈ</label>
                 <input type="password" id="password" placeholder="******">
                 <i class="fas fa-lock"></i>
             </div>
-
             <button class="btn-login" onclick="handleLogin()">
                 <span>لاگ ان کریں</span>
                 <i class="fas fa-sign-in-alt"></i>
             </button>
+            
+            <a href="public-view.html" class="btn-back">
+                <i class="fas fa-arrow-right"></i> 
+                <span>واپس ہوم پیج پر جائیں</span>
+            </a>
 
             <div id="errorMsg"></div>
         </div>
     </div>
 
     <footer class="footer">
-        GOVERNMENT OF SINDH<br>Agriculture Marketing Department
+        GOVERNMENT OF SINDH
     </footer>
 
     <script>
-        // Aapka Google Web App URL
         const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
 
         async function handleLogin() {
@@ -135,13 +91,14 @@
                 const result = await response.json();
 
                 if (result.status === "success") {
-                    // Local Storage mein data save karna
-                    localStorage.setItem("userMobile", mobile);
                     localStorage.setItem("userMarket", result.city);
                     localStorage.setItem("userRole", result.role);
                     
-                    // --- REDIRECT LOGIC ---
-                    if (result.role === "Admin") {
+                    // --- MUKAMMAL REDIRECT LOGIC ---
+                    // Trim() aur UpperCase() taake koi ghalti na ho
+                    let role = result.role.trim().toUpperCase(); 
+
+                    if (role === "ADMIN") {
                         window.location.href = "admin-panel.html";
                     } else {
                         window.location.href = "officer-dashboard.html";
@@ -151,7 +108,7 @@
                     errorMsg.style.display = "block";
                 }
             } catch (error) {
-                errorMsg.innerText = "سرور کا مسئلہ ہے، دوبارہ کوشش کریں";
+                errorMsg.innerText = "نیٹ ورک کا مسئلہ ہے";
                 errorMsg.style.display = "block";
             } finally {
                 btn.disabled = false;
