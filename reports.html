@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رپورٹس اور کارکردگی - سندھ پرائس کنٹرول</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding-bottom: 30px; text-align: right; }
+        .header { background: #2c3e50; color: white; padding: 20px; text-align: center; }
+        .container { padding: 15px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .stat-number { display: block; font-size: 24px; font-weight: bold; color: #1a5276; }
+        .stat-label { font-size: 13px; color: #7f8c8d; margin-top: 5px; }
+        
+        .recent-list { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .list-title { border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; margin-bottom: 10px; font-weight: bold; color: #2c3e50; }
+        .report-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+        .status-badge { background: #27ae60; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+
+        .btn-back { display: block; width: 100%; padding: 15px; background: #1a5276; color: white; text-align: center; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2 style="margin:0;">📊 روزانہ کی رپورٹ</h2>
+    </div>
+
+    <div class="container">
+        <div class="stat-grid">
+            <div class="stat-card">
+                <span class="stat-number" id="totalUpdates">45</span>
+                <span class="stat-label">ریٹ اپڈیٹس</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="totalFines">08</span>
+                <span class="stat-label">کل چالان</span>
+            </div>
+            <div class="stat-card" style="grid-column: span 2;">
+                <span class="stat-number" style="color: #c0392b;">RS. 25,000</span>
+                <span class="stat-label">جمع شدہ جرمانہ</span>
+            </div>
+        </div>
+
+        <div class="recent-list">
+            <div class="list-title">حالیہ کارروائی (Recent Activity)</div>
+            
+            <div class="report-item">
+                <span>احمد جنرل اسٹور - گراں فروشی</span>
+                <span class="status-badge">RS. 5000</span>
+            </div>
+            <div class="report-item">
+                <span>علی فروٹ شاپ - ریٹ لسٹ غائب</span>
+                <span class="status-badge">RS. 2000</span>
+            </div>
+            <div class="report-item">
+                <span>سبزی مارکیٹ - ریٹ اپڈیٹ</span>
+                <span style="color: #27ae60;">مکمل</span>
+            </div>
+        </div>
+
+        <a href="officer-dashboard.html" class="btn-back">واپس ڈیش بورڈ</a>
+    </div>
+
+    <script>
+        // Future: Yahan hum Google Sheets se live data fetch karke dikhayenge
+        window.onload = function() {
+            console.log("Report Page Loaded");
+        }
+    </script>
+</body>
+</html>
