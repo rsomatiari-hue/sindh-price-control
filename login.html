@@ -6,7 +6,6 @@
     <title>لاگ ان - سندھ پرائس کنٹرول سسٹم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Basic Setup */
         body { 
             font-family: 'Segoe UI', sans-serif; 
             background: #f0f4f8; 
@@ -17,7 +16,6 @@
             text-align: right;
         }
         
-        /* Official Header */
         .header-bg { 
             background: #1b5e20; 
             color: white; 
@@ -25,14 +23,14 @@
             text-align: center; 
             border-bottom: 4px solid #f1c40f; 
         }
-        .main-title { font-size: 16px; font-weight: bold; line-height: 1.4; margin: 0; }
+        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; }
+        .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; }
         .director-text { 
-            font-size: 14px; margin-top: 5px; font-weight: bold; 
+            font-size: 13px; margin-top: 5px; font-weight: bold; 
             border-top: 1px solid rgba(255,255,255,0.2); 
             display: inline-block; padding-top: 5px; 
         }
 
-        /* Login Card Section */
         .login-container { 
             flex: 1; 
             display: flex; 
@@ -74,19 +72,9 @@
             display: none; background: #fdeaea; padding: 10px; border-radius: 5px; 
         }
 
-        /* Official Footer */
         .footer {
-            background: #1b5e20;
-            color: white;
-            padding: 20px 10px;
-            text-align: center;
-            border-top: 3px solid #f1c40f;
-            margin-top: auto;
-        }
-        .footer-links a { color: #f1c40f; text-decoration: none; margin: 0 10px; font-size: 13px; }
-        .footer-bottom { 
-            font-size: 11px; color: #d1ffd6; border-top: 1px solid rgba(255,255,255,0.1); 
-            padding-top: 10px; margin-top: 10px; 
+            background: #1b5e20; color: white; padding: 20px 10px;
+            text-align: center; border-top: 3px solid #f1c40f; margin-top: auto;
         }
     </style>
 </head>
@@ -94,7 +82,7 @@
 
     <div class="header-bg">
         <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
-        <div style="font-size: 11px; margin-top: 5px;">Under Control</div>
+        <div class="under-control">Under Control</div>
         <div class="director-text">Director General Agriculture Marketing Sindh</div>
     </div>
 
@@ -125,16 +113,11 @@
 
     <footer class="footer">
         <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
-        <div class="footer-links">
-            <a href="public-view.html">عوامی ریٹ لسٹ</a> | 
-            <a href="complaint.html">شکایت درج کریں</a>
-        </div>
-        <div class="footer-bottom">
-            © 2026 Price Control System | Agriculture Marketing Sindh.
-        </div>
+        <div style="font-size: 11px; margin-top: 10px;">© 2026 Price Control System Sindh</div>
     </footer>
 
     <script>
+        // Aapka Google Web App URL
         const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
 
         async function handleLogin() {
@@ -158,10 +141,13 @@
                 const result = await response.json();
 
                 if (result.status === "success") {
+                    // Data browser mein save karna
                     localStorage.setItem("userMobile", mobile);
                     localStorage.setItem("userMarket", result.city);
                     localStorage.setItem("userRole", result.role);
-                    window.location.href = "dashboard.html";
+                    
+                    // --- YAHAN CHANGE KIYA HAI: Officer-dashboard par bhejne ke liye ---
+                    window.location.href = "Officer-dashboard.html";
                 } else {
                     errorMsg.innerText = "غلط موبائل نمبر یا پاس ورڈ!";
                     errorMsg.style.display = "block";
