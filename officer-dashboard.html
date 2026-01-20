@@ -3,36 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آفیسر ڈیش بورڈ - پرائس کنٹرول</title>
+    <title>آفیسر ڈیش بورڈ - وی آئی پی لک</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
+        :root {
+            --sindh-green: #1b5e20;
+            --light-bg: #f1f8e9;
+            --vip-black: #1a1a1a;
+            --vip-golden: #d4af37;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light-bg); margin: 0; text-align: right; padding-bottom: 80px; }
         
-        /* Official Header */
-        .header-bg { background: #1b5e20; color: white; padding: 20px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
-        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; }
-        .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; }
-        .director-text { font-size: 13px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
+        /* Header */
+        .header-bg { background: var(--sindh-green); color: white; padding: 20px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
+        .main-title { font-size: 14px; font-weight: bold; line-height: 1.4; }
+        .under-control { font-size: 11px; color: #f1c40f; font-weight: bold; margin-top: 5px; }
 
-        /* Welcome Card */
-        .welcome-card { background: white; margin: 20px; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-right: 6px solid #2e7d32; text-align: center; }
-        .welcome-card i { font-size: 40px; color: #2e7d32; margin-bottom: 10px; }
-        .welcome-card h2 { margin: 0; color: #2e7d32; font-size: 22px; }
-        .officer-details { margin-top: 10px; color: #666; font-size: 14px; font-weight: bold; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        /* Updated Colorful Welcome Card */
+        .welcome-card { 
+            background: linear-gradient(135deg, #2e7d32, #1b5e20); /* Green Gradient */
+            margin: 20px; 
+            padding: 25px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            text-align: center;
+            border: 2px solid var(--vip-golden); /* Golden Border */
+            color: white;
+        }
+        .welcome-card i { font-size: 50px; color: var(--vip-golden); margin-bottom: 10px; }
+        .welcome-card h2 { margin: 0; font-size: 24px; color: white; }
+        
+        .officer-info-box {
+            background: rgba(255, 255, 255, 0.15);
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--vip-golden);
+            border: 1px dashed var(--vip-golden);
+        }
 
-        /* Menu Grid */
-        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 20px 20px; }
-        .menu-item { background: white; padding: 25px 10px; border-radius: 15px; text-align: center; text-decoration: none; color: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; border: 1.5px solid #eee; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .menu-item:active { transform: scale(0.95); background: #f9f9f9; }
-        .menu-item i { font-size: 32px; color: #2e7d32; margin-bottom: 12px; }
-        .menu-item span { font-weight: bold; font-size: 14px; }
+        /* VIP Buttons Grid */
+        .menu-grid { padding: 0 20px; }
+        .menu-item { 
+            background: var(--vip-black); 
+            margin-bottom: 15px;
+            padding: 20px; 
+            border-radius: 15px; 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none; 
+            color: var(--vip-golden); 
+            border: 1px solid var(--vip-golden);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        .menu-item i { font-size: 24px; margin-left: 15px; width: 35px; text-align: center; }
+        .menu-item span { font-weight: bold; font-size: 16px; flex: 1; }
 
-        /* Special Buttons */
-        .btn-logout { background: #fdeaea !important; border: 1.5px solid #c0392b !important; color: #c0392b !important; }
-        .btn-logout i { color: #c0392b !important; }
-
-        /* Footer */
-        .footer-info { margin-top: auto; background: #1b5e20; color: white; padding: 20px; text-align: center; border-top: 3px solid #f1c40f; font-size: 12px; }
+        /* Bottom Nav */
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            background: #c8e6c9; 
+            display: flex; justify-content: space-around; 
+            padding: 10px; border-top: 3px solid var(--sindh-green);
+        }
+        .nav-link { color: #2e7d32; text-decoration: none; text-align: center; font-size: 12px; font-weight: bold; }
+        .nav-link i { display: block; font-size: 22px; margin-bottom: 3px; }
     </style>
 </head>
 <body>
@@ -40,57 +78,46 @@
     <div class="header-bg">
         <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
         <div class="under-control">Under Control</div>
-        <div class="director-text">Director General Agriculture Marketing Sindh</div>
+        <div style="font-size: 12px; font-weight: bold; margin-top: 5px;">Director General Agriculture Marketing Sindh</div>
     </div>
 
     <div class="welcome-card">
         <i class="fas fa-user-circle"></i>
         <h2>آفیسر ڈیش بورڈ</h2>
-        <div id="displayInfo" class="officer-details">لوڈ ہو رہا ہے...</div>
+        <div id="displayInfo" class="officer-info-box">ڈیٹا لوڈ ہو رہا ہے...</div>
     </div>
 
     <div class="menu-grid">
         <a href="Update-rates.html" class="menu-item">
             <i class="fas fa-edit"></i>
-            <span>ریٹ اپڈیٹ کریں</span>
-        </a>
-        <a href="public-view.html" class="menu-item">
-            <i class="fas fa-external-link-alt"></i>
-            <span>عوامی لسٹ دیکھیں</span>
+            <span>روزانہ ریٹ اپڈیٹ کریں (Update Rates)</span>
         </a>
         <a href="complaints-list.html" class="menu-item">
             <i class="fas fa-clipboard-list"></i>
-            <span>شکایات کی لسٹ</span>
+            <span>موصولہ شکایات (View Complaints)</span>
         </a>
-        <a href="#" class="menu-item btn-logout" onclick="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>لاگ آؤٹ</span>
+        <a href="public-view.html" class="menu-item">
+            <i class="fas fa-eye"></i>
+            <span>عوامی ریٹ لسٹ دیکھیں (Live View)</span>
         </a>
     </div>
 
-    <footer class="footer-info">
-        GOVERNMENT OF SINDH<br>
-        Agriculture Marketing Department Sindh
-    </footer>
+    <div class="bottom-nav">
+        <a href="officer-dashboard.html" class="nav-link"><i class="fas fa-home"></i>ہوم</a>
+        <a href="public-view.html" class="nav-link"><i class="fas fa-globe"></i>ویب سائٹ</a>
+        <a href="#" onclick="logout()" class="nav-link" style="color: #c0392b;"><i class="fas fa-sign-out-alt"></i>لاگ آؤٹ</a>
+    </div>
 
     <script>
         window.onload = function() {
-            // LocalStorage se data check karna
-            const city = localStorage.getItem("userMarket");
-            const role = localStorage.getItem("userRole");
-
-            if (!city) {
-                window.location.href = "login.html"; // Agar login nahi to wapas bhej do
-            } else {
-                document.getElementById('displayInfo').innerText = `ضلع/شہر: ${city} | عہدہ: ${role}`;
-            }
+            const city = localStorage.getItem("userMarket") || "Kazi Ahmed";
+            const role = localStorage.getItem("userRole") || "Admin";
+            document.getElementById('displayInfo').innerText = `ضلع/شہر: ${city} | عہدہ: ${role}`;
         };
 
         function logout() {
-            if(confirm("کیا آپ لاگ آؤٹ کرنا چاہتے ہیں؟")) {
-                localStorage.clear();
-                window.location.href = "login.html";
-            }
+            localStorage.clear();
+            window.location.href = "login.html";
         }
     </script>
 </body>
