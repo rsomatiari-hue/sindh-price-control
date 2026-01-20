@@ -10,26 +10,64 @@
         body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
         
         /* Official Header */
-        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
-        .main-title { font-size: 16px; font-weight: bold; line-height: 1.4; margin: 0; }
-        .director-text { font-size: 14px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
+        .header-bg { background: #1b5e20; color: white; padding: 20px 15px; text-align: center; border-bottom: 4px solid #f1c40f; position: relative; }
+        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; padding: 0 50px; }
+        .director-text { font-size: 13px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
 
-        .controls { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; margin-bottom: 10px; }
+        /* Login Button on Home Page */
+        .login-link { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            background: rgba(255,255,255,0.2); 
+            color: white; 
+            text-decoration: none; 
+            padding: 8px 12px; 
+            border-radius: 8px; 
+            font-size: 12px; 
+            border: 1px solid rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .login-link:hover { background: #f1c40f; color: #1b5e20; }
+
+        /* Controls Section */
+        .controls { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; margin-bottom: 10px; outline: none; }
         
         .cat-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; scrollbar-width: none; }
-        .cat-btn { background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; }
-        .cat-btn.active { background: #2e7d32; color: white; }
+        .cat-container::-webkit-scrollbar { display: none; }
+        .cat-btn { background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; transition: 0.3s; }
+        .cat-btn.active { background: #2e7d32; color: white; box-shadow: 0 3px 8px rgba(46,125,50,0.3); }
 
-        .price-card { background: white; margin: 10px 15px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 5px solid #2e7d32; }
-        .price-tag { color: #2e7d32; font-weight: bold; font-size: 20px; }
+        .search-box { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
+
+        /* Action Buttons */
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .action-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 10px 5px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .action-btn i { color: #2e7d32; }
+
+        /* List Styling */
+        #capture-area { flex: 1; }
+        .price-card { background: white; margin: 10px 15px; padding: 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 6px solid #2e7d32; }
+        .price-tag { color: #2e7d32; font-weight: bold; font-size: 22px; }
+        .item-name { font-size: 18px; font-weight: bold; color: #333; }
 
         /* Footer */
-        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; }
+        .footer { background: #1b5e20; color: white; padding: 25px 10px; text-align: center; border-top: 4px solid #f1c40f; margin-top: auto; }
+        .footer-bottom { font-size: 11px; color: #d1ffd6; margin-top: 10px; }
+
+        /* Floating Complaint Button */
+        .complaint-float { position: fixed; bottom: 85px; left: 15px; right: 15px; background: #c0392b; color: white; padding: 15px; border-radius: 50px; text-decoration: none; text-align: center; font-weight: bold; box-shadow: 0 5px 15px rgba(192,57,43,0.3); z-index: 99; display: flex; align-items: center; justify-content: center; gap: 8px; }
     </style>
 </head>
 <body>
+
     <div class="header-bg">
+        <a href="login.html" class="login-link">
+            <i class="fas fa-user-lock"></i> آفیسر لاگ ان
+        </a>
         <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
         <div style="font-size: 11px; margin-top: 5px;">Under Control</div>
         <div class="director-text">Director General Agriculture Marketing Sindh</div>
@@ -41,18 +79,39 @@
             <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
             <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
         </select>
+
         <div class="cat-container">
             <button class="cat-btn active" onclick="filterCat('all', this)">تمام اشیاء</button>
-            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں</button>
-            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل</button>
+            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں (Veg)</button>
+            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل (Fruits)</button>
+            <button class="cat-btn" onclick="filterCat('poultry', this)">مرغی/انڈے</button>
+            <button class="cat-btn" onclick="filterCat('grocery', this)">کریانہ</button>
+        </div>
+
+        <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
+
+        <div class="action-grid">
+            <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> پرنٹ</button>
+            <button class="action-btn" onclick="shareToWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ</button>
+            <button class="action-btn" onclick="downloadAsImage()"><i class="fas fa-download"></i> ڈاؤن لوڈ</button>
         </div>
     </div>
 
-    <div id="capture-area"><div id="publicList"></div></div>
+    <div id="capture-area">
+        <div id="publicList">
+            </div>
+    </div>
+
+    <a href="complaint.html" class="complaint-float">
+        <i class="fas fa-bullhorn"></i> شکایت درج کریں (Complaint)
+    </a>
 
     <footer class="footer">
-        <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
-        <div class="footer-bottom" style="font-size: 11px; margin-top: 10px;">© 2026 Price Control System | Sindh</div>
+        <span style="font-weight: bold; letter-spacing: 1px;">GOVERNMENT OF SINDH</span>
+        <div class="footer-bottom">
+            © 2026 Price Control System | Agriculture Marketing Sindh. <br>
+            All Rights Reserved.
+        </div>
     </footer>
 
     <script>
@@ -61,24 +120,41 @@
         let currentCat = 'all';
 
         async function fetchLiveRates() {
+            const list = document.getElementById('publicList');
+            list.innerHTML = "<p style='text-align:center; padding:20px;'>تازہ ترین ریٹس لوڈ ہو رہے ہیں...</p>";
+            
             try {
                 const response = await fetch(sheetURL);
                 allLiveRates = await response.json();
                 updateCityData();
-            } catch (e) { console.error(e); }
+            } catch (error) {
+                list.innerHTML = "<p style='color:red; text-align:center; padding:20px;'>ڈیٹا لوڈ کرنے میں مسئلہ ہوا ہے۔</p>";
+            }
         }
 
         function updateCityData() {
             const city = document.getElementById('cityChoose').value;
             let data = allLiveRates.filter(item => item.city === city);
-            if(currentCat !== 'all') data = data.filter(item => item.c === currentCat);
             
+            if(currentCat !== 'all') {
+                data = data.filter(item => item.c === currentCat);
+            }
+
             const list = document.getElementById('publicList');
-            list.innerHTML = data.map(item => `
-                <div class="price-card">
-                    <span style="font-size:18px; font-weight:bold;">${item.n}</span>
-                    <span class="price-tag">Rs. ${item.p}</span>
-                </div>`).join('');
+            list.innerHTML = "";
+            
+            if(data.length === 0) {
+                list.innerHTML = "<p style='text-align:center; padding:20px;'>فی الحال اس کیٹیگری میں کوئی ڈیٹا دستیاب نہیں ہے۔</p>";
+                return;
+            }
+
+            data.forEach(item => {
+                list.innerHTML += `
+                    <div class="price-card">
+                        <span class="item-name">${item.n}</span>
+                        <span class="price-tag">Rs. ${item.p}</span>
+                    </div>`;
+            });
         }
 
         function filterCat(cat, btn) {
@@ -86,6 +162,30 @@
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             updateCityData();
+        }
+
+        function searchItems() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('price-card');
+            for (let card of cards) {
+                card.style.display = card.innerText.toLowerCase().includes(input) ? "flex" : "none";
+            }
+        }
+
+        function downloadAsImage() {
+            const area = document.getElementById("capture-area");
+            html2canvas(area).then(canvas => {
+                let link = document.createElement("a");
+                link.download = "Sindh-Market-Rates.png";
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        function shareToWhatsApp() {
+            const city = document.getElementById('cityChoose').value;
+            const text = `آج کے سرکاری ریٹ (${city}) معلوم کرنے کے لیے لنک پر کلک کریں: ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
         }
 
         window.onload = fetchLiveRates;
