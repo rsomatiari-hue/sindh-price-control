@@ -3,41 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarkari Rate List - Sindh</title>
+    <title>سندھ سرکاری ریٹ لسٹ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 120px; text-align: right; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; display: flex; flex-direction: column; min-height: 100vh; text-align: right; }
         
-        /* Header Section */
+        /* Official Header */
         .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
         .main-title { font-size: 16px; font-weight: bold; line-height: 1.4; margin: 0; }
         .director-text { font-size: 14px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
 
-        /* Controls Section */
-        .controls { background: white; padding: 10px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; font-size: 16px; outline: none; margin-bottom: 8px; }
+        .controls { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; margin-bottom: 10px; }
         
-        /* Category Buttons Styling */
-        .cat-container { display: flex; overflow-x: auto; gap: 8px; padding: 5px 0 10px; scrollbar-width: none; }
-        .cat-container::-webkit-scrollbar { display: none; }
-        .cat-btn { background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; transition: 0.3s; }
-        .cat-btn.active { background: #2e7d32; color: white; box-shadow: 0 3px 8px rgba(46,125,50,0.3); }
+        .cat-container { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 10px; scrollbar-width: none; }
+        .cat-btn { background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; }
+        .cat-btn.active { background: #2e7d32; color: white; }
 
-        .search-box { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 8px; }
-
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
-        .action-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 8px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; }
-
-        /* List Styling */
         .price-card { background: white; margin: 10px 15px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 5px solid #2e7d32; }
         .price-tag { color: #2e7d32; font-weight: bold; font-size: 20px; }
 
-        .complaint-float { position: fixed; bottom: 20px; left: 15px; right: 15px; background: #c0392b; color: white; padding: 16px; border-radius: 50px; text-decoration: none; text-align: center; font-weight: bold; z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        /* Footer */
+        .footer { background: #1b5e20; color: white; padding: 20px 10px; text-align: center; border-top: 3px solid #f1c40f; margin-top: auto; }
     </style>
 </head>
 <body>
-
     <div class="header-bg">
         <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
         <div style="font-size: 11px; margin-top: 5px;">Under Control</div>
@@ -50,69 +41,44 @@
             <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
             <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
         </select>
-
         <div class="cat-container">
             <button class="cat-btn active" onclick="filterCat('all', this)">تمام اشیاء</button>
-            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں (Veg)</button>
-            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل (Fruits)</button>
-            <button class="cat-btn" onclick="filterCat('poultry', this)">مرغی/انڈے</button>
-            <button class="cat-btn" onclick="filterCat('grocery', this)">کریانہ</button>
-        </div>
-
-        <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
-
-        <div class="action-grid">
-            <button class="action-btn" onclick="window.print()"><i class="fas fa-print"></i> پرنٹ</button>
-            <button class="action-btn" onclick="shareToWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ</button>
-            <button class="action-btn" onclick="downloadAsImage()"><i class="fas fa-download"></i> ڈاؤن لوڈ</button>
+            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں</button>
+            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل</button>
         </div>
     </div>
 
-    <div id="capture-area">
-        <div id="publicList"></div>
-    </div>
+    <div id="capture-area"><div id="publicList"></div></div>
 
-    <a href="complaint.html" class="complaint-float">
-        <i class="fas fa-bullhorn"></i> شکایت درج کریں (Complaint)
-    </a>
+    <footer class="footer">
+        <span style="font-weight: bold;">GOVERNMENT OF SINDH</span>
+        <div class="footer-bottom" style="font-size: 11px; margin-top: 10px;">© 2026 Price Control System | Sindh</div>
+    </footer>
 
     <script>
-        const ratesData = {
-            "Matiari": [
-                {n: "آلو درجہ اول", p: "65", c: "veg"},
-                {n: "پیاز", p: "160", c: "veg"},
-                {n: "سیب", p: "250", c: "fruit"},
-                {n: "مرغی گوشت", p: "600", c: "poultry"}
-            ],
-            "Kazi Ahmed": [
-                {n: "آلو", p: "60", c: "veg"},
-                {n: "کیلا", p: "120", c: "fruit"}
-            ],
-            "Hyderabad": [
-                {n: "آلو", p: "70", c: "veg"},
-                {n: "چینی", p: "150", c: "grocery"}
-            ]
-        };
-
+        const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
+        let allLiveRates = [];
         let currentCat = 'all';
+
+        async function fetchLiveRates() {
+            try {
+                const response = await fetch(sheetURL);
+                allLiveRates = await response.json();
+                updateCityData();
+            } catch (e) { console.error(e); }
+        }
 
         function updateCityData() {
             const city = document.getElementById('cityChoose').value;
-            let data = ratesData[city];
+            let data = allLiveRates.filter(item => item.city === city);
+            if(currentCat !== 'all') data = data.filter(item => item.c === currentCat);
             
-            if(currentCat !== 'all') {
-                data = data.filter(item => item.c === currentCat);
-            }
-
             const list = document.getElementById('publicList');
-            list.innerHTML = "";
-            data.forEach(item => {
-                list.innerHTML += `
-                    <div class="price-card">
-                        <span style="font-size:18px; font-weight:bold;">${item.n}</span>
-                        <span class="price-tag">Rs. ${item.p}</span>
-                    </div>`;
-            });
+            list.innerHTML = data.map(item => `
+                <div class="price-card">
+                    <span style="font-size:18px; font-weight:bold;">${item.n}</span>
+                    <span class="price-tag">Rs. ${item.p}</span>
+                </div>`).join('');
         }
 
         function filterCat(cat, btn) {
@@ -122,28 +88,7 @@
             updateCityData();
         }
 
-        function searchItems() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('price-card');
-            for (let card of cards) {
-                card.style.display = card.innerText.toLowerCase().includes(input) ? "flex" : "none";
-            }
-        }
-
-        function downloadAsImage() {
-            html2canvas(document.body).then(canvas => {
-                let link = document.createElement("a");
-                link.download = "Sindh-Rates.png";
-                link.href = canvas.toDataURL();
-                link.click();
-            });
-        }
-
-        function shareToWhatsApp() {
-            window.open(`https://wa.me/?text=آج کے سرکاری ریٹ دیکھیں: ${window.location.href}`);
-        }
-
-        window.onload = updateCityData;
+        window.onload = fetchLiveRates;
     </script>
 </body>
 </html>
