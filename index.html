@@ -7,43 +7,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 100px; text-align: right; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; margin: 0; padding-bottom: 120px; text-align: right; }
         
-        /* New Professional Header */
-        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-bottom: 4px solid #f1c40f; }
-        .main-title { font-size: 18px; font-weight: bold; line-height: 1.4; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
-        .sub-title { font-size: 13px; margin-top: 8px; color: #d1ffd6; font-weight: normal; font-style: italic; }
-        .director-text { font-size: 14px; margin-top: 5px; font-weight: bold; color: #ffffff; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
-        .date-box { background: rgba(0,0,0,0.2); display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 12px; margin-top: 10px; }
+        /* Header Section */
+        .header-bg { background: #1b5e20; color: white; padding: 25px 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
+        .main-title { font-size: 16px; font-weight: bold; line-height: 1.4; margin: 0; }
+        .director-text { font-size: 14px; margin-top: 5px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block; padding-top: 5px; }
 
         /* Controls Section */
-        .controls { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; font-size: 16px; margin-bottom: 10px; outline: none; background: #f9fff9; }
-        .search-box { width: 100%; padding: 12px; border: 1.2px solid #ccc; border-radius: 10px; font-size: 15px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
+        .controls { background: white; padding: 10px; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        .city-select { width: 100%; padding: 12px; border: 2px solid #2e7d32; border-radius: 10px; font-weight: bold; font-size: 16px; outline: none; margin-bottom: 8px; }
+        
+        /* Category Buttons Styling */
+        .cat-container { display: flex; overflow-x: auto; gap: 8px; padding: 5px 0 10px; scrollbar-width: none; }
+        .cat-container::-webkit-scrollbar { display: none; }
+        .cat-btn { background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; white-space: nowrap; cursor: pointer; transition: 0.3s; }
+        .cat-btn.active { background: #2e7d32; color: white; box-shadow: 0 3px 8px rgba(46,125,50,0.3); }
 
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .action-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 10px 5px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.2s; }
-        .action-btn:active { background: #e2e6ea; }
-        .action-btn i { color: #2e7d32; }
+        .search-box { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 8px; }
 
-        /* List Section */
-        #capture-area { padding: 15px; background: #f0f4f8; }
-        .price-card { background: white; margin-bottom: 10px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 5px solid #2e7d32; }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+        .action-btn { background: #f8f9fa; border: 1px solid #ddd; padding: 8px; border-radius: 8px; font-size: 11px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 4px; }
+
+        /* List Styling */
+        .price-card { background: white; margin: 10px 15px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-right: 5px solid #2e7d32; }
         .price-tag { color: #2e7d32; font-weight: bold; font-size: 20px; }
-        .item-name { font-size: 18px; font-weight: bold; color: #333; }
 
-        /* Floating Button */
-        .complaint-float { position: fixed; bottom: 20px; left: 15px; right: 15px; background: #c0392b; color: white; padding: 16px; border-radius: 50px; text-decoration: none; text-align: center; font-weight: bold; box-shadow: 0 5px 20px rgba(192,57,43,0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .complaint-float { position: fixed; bottom: 20px; left: 15px; right: 15px; background: #c0392b; color: white; padding: 16px; border-radius: 50px; text-decoration: none; text-align: center; font-weight: bold; z-index: 1000; display: flex; align-items: center; justify-content: center; gap: 10px; }
     </style>
 </head>
 <body>
 
     <div class="header-bg">
-        <div class="main-title">Market Committee Price Control Daily Rate Updates & Online Complain Database System</div>
-        <div class="sub-title">Under Control</div>
+        <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
+        <div style="font-size: 11px; margin-top: 5px;">Under Control</div>
         <div class="director-text">Director General Agriculture Marketing Sindh</div>
-        <br>
-        <div class="date-box" id="todayDate"></div>
     </div>
 
     <div class="controls">
@@ -52,6 +50,14 @@
             <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
             <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
         </select>
+
+        <div class="cat-container">
+            <button class="cat-btn active" onclick="filterCat('all', this)">تمام اشیاء</button>
+            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں (Veg)</button>
+            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل (Fruits)</button>
+            <button class="cat-btn" onclick="filterCat('poultry', this)">مرغی/انڈے</button>
+            <button class="cat-btn" onclick="filterCat('grocery', this)">کریانہ</button>
+        </div>
 
         <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
 
@@ -63,8 +69,7 @@
     </div>
 
     <div id="capture-area">
-        <div id="publicList">
-            </div>
+        <div id="publicList"></div>
     </div>
 
     <a href="complaint.html" class="complaint-float">
@@ -73,23 +78,48 @@
 
     <script>
         const ratesData = {
-            "Matiari": [ {n: "آلو", p: "65"}, {n: "پیاز", p: "160"}, {n: "ٹماٹر", p: "90"} ],
-            "Kazi Ahmed": [ {n: "آلو", p: "60"}, {n: "پیاز", p: "150"}, {n: "ٹماٹر", p: "80"} ],
-            "Hyderabad": [ {n: "آلو", p: "70"}, {n: "پیاز", p: "180"}, {n: "ٹماٹر", p: "100"} ]
+            "Matiari": [
+                {n: "آلو درجہ اول", p: "65", c: "veg"},
+                {n: "پیاز", p: "160", c: "veg"},
+                {n: "سیب", p: "250", c: "fruit"},
+                {n: "مرغی گوشت", p: "600", c: "poultry"}
+            ],
+            "Kazi Ahmed": [
+                {n: "آلو", p: "60", c: "veg"},
+                {n: "کیلا", p: "120", c: "fruit"}
+            ],
+            "Hyderabad": [
+                {n: "آلو", p: "70", c: "veg"},
+                {n: "چینی", p: "150", c: "grocery"}
+            ]
         };
+
+        let currentCat = 'all';
 
         function updateCityData() {
             const city = document.getElementById('cityChoose').value;
-            const data = ratesData[city];
+            let data = ratesData[city];
+            
+            if(currentCat !== 'all') {
+                data = data.filter(item => item.c === currentCat);
+            }
+
             const list = document.getElementById('publicList');
             list.innerHTML = "";
             data.forEach(item => {
                 list.innerHTML += `
                     <div class="price-card">
-                        <span class="item-name">${item.n}</span>
+                        <span style="font-size:18px; font-weight:bold;">${item.n}</span>
                         <span class="price-tag">Rs. ${item.p}</span>
                     </div>`;
             });
+        }
+
+        function filterCat(cat, btn) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateCityData();
         }
 
         function searchItems() {
@@ -101,25 +131,19 @@
         }
 
         function downloadAsImage() {
-            const area = document.body; // Full page screenshot for better look
-            html2canvas(area).then(canvas => {
+            html2canvas(document.body).then(canvas => {
                 let link = document.createElement("a");
-                link.download = "Sindh-Market-Rates.png";
+                link.download = "Sindh-Rates.png";
                 link.href = canvas.toDataURL();
                 link.click();
             });
         }
 
         function shareToWhatsApp() {
-            const city = document.getElementById('cityChoose').value;
-            const text = `آج کے سرکاری ریٹ (${city}) معلوم کرنے کے لیے لنک پر کلک کریں: ${window.location.href}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`);
+            window.open(`https://wa.me/?text=آج کے سرکاری ریٹ دیکھیں: ${window.location.href}`);
         }
 
-        window.onload = function() {
-            document.getElementById('todayDate').innerText = new Date().toLocaleDateString('ur-PK', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            updateCityData();
-        }
+        window.onload = updateCityData;
     </script>
 </body>
 </html>
