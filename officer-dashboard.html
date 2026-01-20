@@ -1,69 +1,88 @@
 <!DOCTYPE html>
-<html lang="ur-pk" dir="rtl">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OFFICER DASHBOARD - SINDH PRICE CONTROL</title>
+    <title>آفیسر ڈیش بورڈ - سندھ پرائس کنٹرول</title>
     <style>
-        body { font-family: sans-serif; background: #f0f3f5; margin: 0; padding: 0; text-align: center; }
-        .header { background: #1a5276; color: white; padding: 40px 20px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .welcome-msg { margin-top: 10px; font-size: 18px; opacity: 0.9; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        .header { background: #1a5276; color: white; padding: 25px; text-align: center; border-radius: 0 0 25px 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .container { padding: 20px; }
+        .welcome-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border: 1px solid #e0e0e0; }
+        .market-badge { background: #e67e22; color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; }
         
-        .container { padding: 25px; max-width: 500px; margin: auto; }
-        
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menu-card { 
-            background: white; border-radius: 20px; padding: 25px; margin-bottom: 25px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; cursor: pointer;
-            display: flex; align-items: center; border-right: 10px solid #27ae60;
-            text-align: right; text-decoration: none; color: inherit;
+            background: white; padding: 25px 10px; border-radius: 18px; text-align: center; 
+            text-decoration: none; color: #333; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease; border: 1.5px solid #fff;
         }
-        .menu-card:active { transform: scale(0.95); }
-        .menu-card h3 { margin: 0; color: #1a5276; font-size: 22px; }
-        .menu-card p { margin: 5px 0 0; color: #666; font-size: 14px; }
-        .icon { font-size: 45px; margin-left: 20px; }
+        .menu-card:active { transform: scale(0.95); background: #f8f9fa; border-color: #1a5276; }
+        .icon-circle { width: 60px; height: 60px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 30px; }
+        .card-title { font-weight: bold; font-size: 16px; color: #2c3e50; }
 
-        .fine-card { border-right-color: #e67e22; }
-        .logout-btn { color: #c0392b; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 30px; border: 1px solid #c0392b; padding: 10px 20px; border-radius: 10px; }
+        .logout-btn { 
+            width: 100%; margin-top: 40px; padding: 15px; background: #c0392b; 
+            color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; 
+        }
     </style>
 </head>
 <body>
 
+    <div class="header">
+        <h2 style="margin: 0;">سندھ پرائس کنٹرول</h2>
+        <p style="margin: 5px 0 0 0; opacity: 0.9;">آفیسر کنٹرول پینل</p>
+    </div>
+
+    <div class="container">
+        <div class="welcome-card">
+            <h3 style="margin: 0 0 10px 0;">خوش آمدید!</h3>
+            <span class="market-badge" id="mktLabel">مارکیٹ: لوڈنگ...</span>
+        </div>
+
+        <div class="menu-grid">
+            <a href="update-rates.html" class="menu-card">
+                <div class="icon-circle">📝</div>
+                <div class="card-title">ریٹ اپڈیٹ</div>
+            </a>
+
+            <a href="fine-action.html" class="menu-card">
+                <div class="icon-circle">⚖️</div>
+                <div class="card-title">جرمانہ / کارروائی</div>
+            </a>
+
+            <a href="view-rates.html" class="menu-card">
+                <div class="icon-circle">📋</div>
+                <div class="card-title">ریٹ لسٹ دیکھیں</div>
+            </a>
+
+            <a href="reports.html" class="menu-card">
+                <div class="icon-circle">📊</div>
+                <div class="card-title">رپورٹس</div>
+            </a>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">لاگ آؤٹ (Logout)</button>
+    </div>
+
 <script>
-    // Security: Check agar koi login ke baghair yahan aaye
-    if (!localStorage.getItem("userRole")) {
+    // Security check on load
+    window.onload = function() {
+        const market = localStorage.getItem("userMarket");
+        const role = localStorage.getItem("userRole");
+
+        if (!role || role.toLowerCase() !== "officer") {
+            window.location.href = "login.html"; // Login par bhejo agar auth nahi hai
+        } else {
+            document.getElementById('mktLabel').innerText = "آپ کی مارکیٹ: " + (market || "Karachi");
+        }
+    }
+
+    function logout() {
+        localStorage.clear();
         window.location.href = "login.html";
     }
-</script>
-
-<div class="header">
-    <h1 id="officerName">خوش آمدید، آفیسر</h1>
-    <div class="welcome-msg" id="officerMarket">مارکیٹ کنٹرول پینل</div>
-</div>
-
-<div class="container">
-    <a href="officer-rate-update.html" class="menu-card">
-        <div class="icon">📉</div>
-        <div class="card-text">
-            <h3>روزانہ نرخ اپڈیٹ</h3>
-            <p>سبزی، پھل اور کریانہ کے سرکاری ریٹ یہاں سے تبدیل کریں</p>
-        </div>
-    </a>
-
-    <a href="officer-fine-action.html" class="menu-card fine-card">
-        <div class="icon">⚖️</div>
-        <div class="card-text">
-            <h3>جرمانہ اور کارروائی</h3>
-            <p>عوام کی شکایات پر ایکشن لیں اور آن اسپاٹ جرمانہ کریں</p>
-        </div>
-    </a>
-
-    <a href="login.html" class="logout-btn" onclick="localStorage.clear()">لاگ آؤٹ (Logout)</a>
-</div>
-
-<script>
-    // Dashboard par officer ka naam aur market dikhana
-    document.getElementById('officerName').innerText = "خوش آمدید، " + (localStorage.getItem("userName") || "آفیسر");
-    document.getElementById('officerMarket').innerText = "متعلقہ علاقہ: " + (localStorage.getItem("userMarket") || "Matiari");
 </script>
 
 </body>
