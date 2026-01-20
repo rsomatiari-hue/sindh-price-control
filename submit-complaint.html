@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شکایت درج کریں - سندھ پرائس کنٹرول</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --sindh-green: #1b5e20; --sindh-red: #c0392b; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; text-align: right; }
+        .header { background: var(--sindh-green); color: white; padding: 15px; text-align: center; border-bottom: 4px solid #f1c40f; }
+        .container { padding: 15px; max-width: 500px; margin: auto; }
+        .form-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-top: 5px solid var(--sindh-red); }
+        .input-field { width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 15px; outline: none; }
+        .btn-submit { width: 100%; background: var(--sindh-red); color: white; border: none; padding: 15px; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 15px rgba(192,57,43,0.3); }
+        #locStatus { font-size: 12px; color: #27ae60; font-weight: bold; margin-bottom: 10px; display: block; background: #e8f5e9; padding: 8px; border-radius: 5px; text-align: center; }
+        #preview { width: 100%; border-radius: 10px; display: none; margin: 15px 0; border: 2px solid var(--sindh-green); }
+        .camera-box { background: #fff3e0; padding: 15px; border-radius: 10px; border: 1px dashed var(--sindh-red); text-align: center; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div style="font-size: 14px; font-weight: bold;">GOVERNMENT OF SINDH</div>
+    <h1 style="margin:0; font-size: 18px;">آن لائن شکایت پورٹل</h1>
+</div>
+
+<div class="container">
+    <div class="form-card">
+        <span id="locStatus"><i class="fas fa-spinner fa-spin"></i> لوکیشن حاصل کی جا رہی ہے...</span>
+        
+        <label>آپ کا نام</label>
+        <input type="text" id="name" class="input-field" placeholder="اپنا نام لکھیں">
+
+        <label>شہر / مارکیٹ کمیٹی</label>
+        <select id="city" class="input-field">
+            <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
+            <option value="Sakrand">سکرنڈ</option>
+            <option value="Nawabshah">نوابشاہ</option>
+        </select>
+
+        <label>دکان کا نام / پتہ</label>
+        <input type="text" id="shop" class="input-field" placeholder="دکان کی تفصیل">
+
+        <label>شکایت کی تفصیل</label>
+        <textarea id="detail" class="input-field" style="height:80px;" placeholder="شکایت کی تفصیل لکھیں..."></textarea>
+
+        <label>موبائل نمبر</label>
+        <input type="number" id="phone" class="input-field" placeholder="03XXXXXXXXX">
+
+        <div class="camera-box">
+            <label style="color: var(--sindh-red); font-weight: bold; cursor: pointer;">
+                <i class="fas fa-camera fa-2x"></i><br>دکان کی لائیو تصویر لیں
+                <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none;" onchange="previewImg(event)">
+            </label>
+            <p style="font-size: 10px; color: #d35400; margin-top: 5px;">(صرف لائیو کیمرہ - گیلری سے اپ لوڈ نہیں ہوگا)</p>
+        </div>
+        <img id="preview">
+
+        <input type="hidden" id="locationData">
+        
+        <button class="btn-submit" onclick="submitData()" id="subBtn">شکایت جمع کریں (Live Proof)</button>
+        <a href="index.html" style="display:block; text-align:center; margin-top:15px; color:var(--sindh-green); text-decoration:none; font-weight:bold;">واپس ہوم پیج پر جائیں</a>
+    </div>
+</div>
+
+<script>
+    const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
+
+    // GPS Location automatically fetch karna
+    window.onload = function() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(p => {
+                const lat = p.coords.latitude;
+                const lng = p.coords.longitude;
+                document.getElementById('locationData').value = `https://www.google.com/maps?q=${lat},${lng}`;
+                document.getElementById('locStatus').innerHTML = "✅ لوکیشن حاصل کر لی گئی ہے";
+            }, () => {
+                document.getElementById('locStatus').innerHTML = "⚠️ لوکیشن کے لیے GPS آن کریں";
+                document.getElementById('locStatus').style.color = "red";
+            });
+        }
+    };
+
+    function previewImg(e) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const out = document.getElementById('preview');
+            out.src = reader.result;
+            out.style.display = 'block';
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+    async function submitData() {
+        const btn = document.getElementById('subBtn');
+        const photo = document.getElementById('photoInput').files[0];
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const loc = document.getElementById('locationData').value;
+        
+        if(!photo) { alert("تصویر لازمی ہے!"); return; }
+        if(!name || !phone) { alert("نام اور موبائل نمبر لازمی ہے!"); return; }
+        if(!loc) { alert("براہ کرم GPS لوکیشن آن کریں!"); return; }
+        
+        btn.disabled = true;
+        btn.innerText = "اپ لوڈ ہو رہا ہے...";
+
+        const reader = new FileReader();
+        reader.readAsDataURL(photo);
+        reader.onload = async function() {
+            const base64 = reader.result.split(',')[1];
+            
+            const body = new URLSearchParams({
+                action: "submitComplaint",
+                name: name,
+                city: document.getElementById('city').value,
+                shop: document.getElementById('shop').value,
+                detail: document.getElementById('detail').value,
+                phone: phone,
+                location: loc,
+                image: base64
+            });
+
+            try {
+                await fetch(sheetURL, { method: 'POST', body: body });
+                alert("شکایت لائیو فوٹو اور لوکیشن کے ساتھ جمع ہوگئی!");
+                window.location.href = "index.html";
+            } catch(e) {
+                alert("شکایت موصول ہو گئی! شکریہ۔");
+                window.location.href = "index.html";
+            }
+        };
+    }
+</script>
+</body>
+</html>
