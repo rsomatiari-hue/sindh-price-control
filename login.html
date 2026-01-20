@@ -7,7 +7,7 @@
     <style>
         body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .login-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; text-align: left; }
         .btn-submit { width: 100%; padding: 12px; background: #1b5e20; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; margin-top: 10px; }
         .error-box { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 15px; display: none; font-size: 14px; }
     </style>
@@ -16,8 +16,8 @@
 
 <div class="login-card">
     <h2 style="color: #1b5e20;">لاگ ان پورٹل</h2>
-    <input type="number" id="mobileNumber" placeholder="موبائل نمبر (0346...)">
-    <input type="password" id="password" placeholder="پاس ورڈ">
+    <input type="number" id="mobileNumber" placeholder="Mobile Number">
+    <input type="password" id="password" placeholder="Password">
     <button onclick="handleLogin()" class="btn-submit" id="loginBtn">لاگ ان کریں</button>
     <div id="error-msg" class="error-box"></div>
 </div>
@@ -33,7 +33,7 @@
         const errorDiv = document.getElementById('error-msg');
 
         if (!mobile || !pass) {
-            alert("براہ کرم تمام معلومات درج کریں");
+            alert("Maaloomat darj karein!");
             return;
         }
 
@@ -41,9 +41,10 @@
         btn.disabled = true;
         errorDiv.style.display = "none";
 
-        // --- ASLI JADU (JSONP) ---
-        // Purana fetch hata diya, ab ye script tag connection block nahi hoga
+        // --- JSONP TECHNIQUE ---
+        // Browser security ko bypass karne ke liye script tag banate hain
         const script = document.createElement('script');
+        script.id = "jsonp-script";
         script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse`;
         
         script.onerror = function() {
@@ -53,19 +54,22 @@
             btn.disabled = false;
         };
 
+        // Purana script tag delete karein agar maujood ho
+        const oldScript = document.getElementById('jsonp-script');
+        if(oldScript) oldScript.remove();
+
         document.body.appendChild(script);
     }
 
-    // SERVER SE JAWAB LENAY WALA FUNCTION
+    // Server se jawab lenay wala function
     function loginResponse(result) {
         const btn = document.getElementById('loginBtn');
         const errorDiv = document.getElementById('error-msg');
 
         if (result.status === "success") {
-            // Data save karein
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userCity", result.city);
-            // Dashboard par bhej dein
+            // Kamyabi! Dashboard par bhej dein
             window.location.href = "complaints-list.html";
         } else {
             errorDiv.innerText = "موبائل نمبر یا پاس ورڈ غلط ہے!";
