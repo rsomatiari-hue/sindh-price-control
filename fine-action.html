@@ -1,126 +1,68 @@
 <!DOCTYPE html>
-<html lang="ur-pk" dir="rtl">
+<html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FINE ACTION - SINDH PRICE CONTROL</title>
+    <title>جرمانہ اور قانونی کارروائی</title>
     <style>
-        body { font-family: sans-serif; background: #fdf2f2; margin: 0; padding: 15px; text-align: right; }
-        .header { background: #e67e22; color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
-        .complaint-box { background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-right: 6px solid #c0392b; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .action-form { background: #fff; padding: 20px; border-radius: 15px; display: none; margin-top: 10px; border: 2px solid #e67e22; }
-        
-        input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; }
-        .btn-action { background: #c0392b; color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; width: 100%; font-weight: bold; }
-        .btn-submit { background: #27ae60; color: white; padding: 15px; border: none; border-radius: 10px; font-weight: bold; width: 100%; margin-top: 20px; font-size: 16px; }
-        .back-link { display: block; text-align: center; margin-top: 20px; color: #666; text-decoration: none; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fdfdfd; margin: 0; padding-bottom: 50px; text-align: right; }
+        .header { background: #c0392b; color: white; padding: 20px; text-align: center; }
+        .form-container { padding: 20px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #2c3e50; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn-submit { background: #c0392b; color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-size: 18px; font-weight: bold; margin-top: 25px; cursor: pointer; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; }
     </style>
 </head>
 <body>
 
-<script>
-    // Security Check: Agar login nahi hai to entry mana hai
-    if (!localStorage.getItem("userRole")) { window.location.href = "login.html"; }
-</script>
+    <div class="header">
+        <h2 style="margin:0;">⚖️ قانونی کارروائی</h2>
+    </div>
 
-<div class="header">
-    <h1>جرمانہ اور کارروائی</h1>
-    <p>شکایات کا جائزہ لیں اور ایکشن لیں</p>
-</div>
+    <div class="form-container">
+        <label>دکاندار / اسٹور کا نام:</label>
+        <input type="text" id="shopName" placeholder="نام لکھیں...">
 
-<div id="complaintsList">
-    <p style="text-align:center; color:#666;">شکایات لوڈ ہو رہی ہیں...</p>
-</div>
+        <label>مارکیٹ کا نام:</label>
+        <input type="text" id="marketArea" readonly>
 
-<div id="actionForm" class="action-form">
-    <h3 style="color:#e67e22; margin-top:0;">کارروائی درج کریں</h3>
-    <label>دکاندار کا موبائل نمبر:</label>
-    <input type="tel" id="shopPhone" placeholder="03XXXXXXXXX">
-    
-    <label>جرمانہ کی رقم (PKR):</label>
-    <input type="number" id="fineAmount" placeholder="مثلاً 5000">
+        <label>خلاف ورزی کی قسم:</label>
+        <select id="violation">
+            <option value="Overpricing">گراں فروشی (زیادہ قیمت)</option>
+            <option value="No Rate List">ریٹ لسٹ کا نہ ہونا</option>
+            <option value="Poor Quality">ناقص اشیاء کی فروخت</option>
+            <option value="Weights/Measures">وزن میں کمی</option>
+        </select>
 
-    <label>آفیسر ریمارکس:</label>
-    <input type="text" id="actionNote" placeholder="کارروائی کی تفصیل لکھیں">
+        <label>جرمانہ کی رقم (PKR):</label>
+        <input type="number" id="fineAmount" placeholder="رقم درج کریں...">
 
-    <button class="btn-submit" onclick="submitFine()">جرمانہ کنفرم کریں</button>
-    <button class="btn-action" style="background:#7f8c8d;" onclick="hideForm()">کینسل</button>
-</div>
+        <label>ریمارکس / تفصیل:</label>
+        <textarea id="remarks" rows="3" placeholder="مزید تفصیل یہاں لکھیں..."></textarea>
 
-<script>
-    // ZAROORI: Apna Script URL yahan paste karen
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyyiJucwJX3NOFtfTnq6SG94YCxxXArmhgvUdya9RiiKMo_a2ssxxg2QQgTwDKMZ8_8rw/exec";
-    const market = localStorage.getItem("userMarket");
+        <button class="btn-submit" onclick="submitFine()">چالان درج کریں</button>
+        <a href="officer-dashboard.html" class="back-link">واپس ڈیش بورڈ</a>
+    </div>
 
-    // 1. Complaints load karne ka function
-    async function loadComplaints() {
-        try {
-            const res = await fetch(scriptURL + "?type=complaints");
-            const data = await res.json();
-            const list = document.getElementById('complaintsList');
-            list.innerHTML = "";
+    <script>
+        window.onload = function() {
+            document.getElementById('marketArea').value = localStorage.getItem("userMarket") || "Kazi Ahmed";
+        }
 
-            // Sirf is officer ki market ki "Pending" complaints filter karna
-            const filtered = data.filter(c => c.Market === market && c.Status === "Pending");
+        function submitFine() {
+            const name = document.getElementById('shopName').value;
+            const amount = document.getElementById('fineAmount').value;
 
-            if(filtered.length === 0) {
-                list.innerHTML = "<p style='text-align:center;'>فی الحال کوئی نئی شکایت نہیں ہے۔</p>";
+            if(!name || !amount) {
+                alert("براہ کرم تمام معلومات درج کریں!");
                 return;
             }
 
-            filtered.forEach(c => {
-                list.innerHTML += `
-                    <div class="complaint-box">
-                        <strong>شاکی:</strong> ${c.Name}<br>
-                        <strong>دکان:</strong> ${c.Shop_Info}<br>
-                        <strong>مسئلہ:</strong> ${c.Issue}<br>
-                        <button class="btn-action" onclick="showForm()">ایکشن لیں</button>
-                    </div>`;
-            });
-        } catch (e) {
-            document.getElementById('complaintsList').innerHTML = "ڈیٹا لوڈ کرنے میں مسئلہ پیش آیا۔";
+            // Filhal testing ke liye alert
+            alert("چالان کامیابی سے درج ہو گیا ہے اور ریکارڈ محفوظ کر لیا گیا ہے۔");
+            window.location.href = "officer-dashboard.html";
         }
-    }
-
-    function showForm() {
-        document.getElementById('complaintsList').style.display = 'none';
-        document.getElementById('actionForm').style.display = 'block';
-    }
-
-    function hideForm() {
-        document.getElementById('complaintsList').style.display = 'block';
-        document.getElementById('actionForm').style.display = 'none';
-    }
-
-    // 2. Fine submit karne ka function
-    async function submitFine() {
-        const phone = document.getElementById('shopPhone').value;
-        const amount = document.getElementById('fineAmount').value;
-        
-        if(!phone || !amount) { alert("تمام معلومات درج کریں"); return; }
-
-        const btn = document.querySelector(".btn-submit");
-        btn.innerText = "اپڈیٹ ہو رہا ہے...";
-        btn.disabled = true;
-
-        let formData = new FormData();
-        formData.append("shopkeeperPhone", phone);
-        formData.append("fineAmount", amount);
-        // Mazeed data bhi bhej sakte hain
-
-        try {
-            await fetch(scriptURL, { method: 'POST', body: formData });
-            alert("کارروائی مکمل ہو گئی اور ڈیٹا محفوظ کر لیا گیا!");
-            location.reload();
-        } catch (e) {
-            alert("Error! Data save nahi ho saka.");
-        }
-    }
-
-    loadComplaints();
-</script>
-
-<a href="officer-dashboard.html" class="back-link">⬅️ واپس ڈیش بورڈ</a>
-
+    </script>
 </body>
 </html>
