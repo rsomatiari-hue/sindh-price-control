@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit Rates - Sindh Market Committee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.2);
+            --blur: blur(25px);
+        }
+        body { 
+            margin: 0; font-family: 'Poppins', sans-serif; 
+            background: radial-gradient(circle at top, #064e3b, #0f172a); 
+            background-attachment: fixed; color: white;
+        }
+
+        /* --- SAME VIP HEADER AS HOME PAGE --- */
+        .vip-header {
+            background: var(--glass); backdrop-filter: var(--blur);
+            border-bottom: 3px solid #ffd700; padding: 30px 15px; text-align: center;
+        }
+        .sindh-logo { width: 75px; filter: drop-shadow(0 0 15px #ffd700); margin-bottom: 10px; }
+        .vip-header h1 { font-size: 20px; margin: 5px 0; color: #fff; }
+        .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 26px; margin: 10px 0; }
+        .under-control-badge { 
+            background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; 
+            font-size: 11px; font-weight: 800; display: inline-block; margin: 10px 0;
+        }
+        .dg-text { font-size: 13px; font-weight: 600; margin-top: 5px; }
+
+        /* --- SAME DATE BAR AS HOME PAGE --- */
+        .taza-rates-bar {
+            margin: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: var(--blur); border-radius: 15px;
+            border-left: 5px solid #ffd700; border-right: 5px solid #ffd700; text-align: center;
+        }
+        .taza-rates-bar h3 { font-family: 'Noto Nastaliq Urdu'; margin: 0 0 5px 0; font-size: 22px; }
+        .current-date { font-size: 14px; color: #ffd700; font-weight: 600; }
+
+        /* SELECTION BOX */
+        .selection-section { margin: 20px; text-align: center; }
+        .select-box {
+            width: 100%; padding: 15px; border-radius: 15px;
+            background: var(--glass); border: 2px solid #ffd700;
+            color: white; font-family: 'Noto Nastaliq Urdu'; font-size: 18px;
+            backdrop-filter: var(--blur); outline: none;
+        }
+
+        /* RATES CONTAINER (HIDDEN) */
+        #fruitRateList { display: none; margin: 20px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .rate-row {
+            background: var(--glass); backdrop-filter: var(--blur);
+            border: 1px solid var(--border); border-radius: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; margin-bottom: 10px;
+            border-right: 5px solid #fbbf24; /* Fruit Theme Yellow */
+        }
+        .item-name { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; }
+        .item-price { font-weight: bold; font-size: 20px; color: #ffd700; }
+
+        /* ACTION BOXES */
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .action-box {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 15px; padding: 15px 5px; text-align: center;
+            text-decoration: none; color: white; font-size: 10px; backdrop-filter: var(--blur);
+        }
+        .action-box i { font-size: 18px; display: block; margin-bottom: 5px; }
+
+        .back-home {
+            display: block; text-align: center; margin: 20px;
+            padding: 15px; background: rgba(255,255,255,0.05);
+            border-radius: 50px; text-decoration: none; color: #fff;
+            border: 1px dashed var(--border); font-family: 'Noto Nastaliq Urdu';
+        }
+
+        /* --- SAME FOOTER AS HOME PAGE --- */
+        .vip-footer {
+            margin-top: 40px; padding: 25px; text-align: center; font-size: 11px;
+            background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="vip-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo">
+        <h1>Government of Sindh</h1>
+        <h2>مارکیٹ کمیٹی سندھ</h2>
+        <div class="under-control-badge">Under Control</div>
+        <div class="dg-text">Director General Agriculture Marketing Sindh Department</div>
+    </div>
+
+    <div class="taza-rates-bar">
+        <h3>پھلوں کے تازہ نرخ</h3>
+        <div class="current-date">
+            <i class="far fa-calendar-alt"></i> <span id="displayDate"></span>
+        </div>
+    </div>
+
+    <div class="selection-section">
+        <select class="select-box" id="committeeSelect" onchange="toggleFruitRates()">
+            <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
+            <option value="karachi">کراچی</option>
+            <option value="hyderabad">حیدرآباد</option>
+            <option value="sukkur">سکھر</option>
+        </select>
+    </div>
+
+    <div id="fruitRateList">
+        <div class="rate-row"><div class="item-name">سیب (Apple)</div><div class="item-price">Rs. 280</div></div>
+        <div class="rate-row"><div class="item-name">کیلا (Banana)</div><div class="item-price">Rs. 140</div></div>
+        <div class="rate-row"><div class="item-name">انار (Pomegranate)</div><div class="item-price">Rs. 450</div></div>
+        
+        <div class="action-grid">
+            <a href="#" class="action-box" style="border-color:#3498db;"><i class="fas fa-file-pdf"></i>Download</a>
+            <a href="#" class="action-box" style="border-color:#25d366;"><i class="fab fa-whatsapp"></i>WhatsApp Share</a>
+            <a href="#" class="action-box" style="border-color:#ffd700;"><i class="fas fa-print"></i>A4 Print</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home"><i class="fas fa-home"></i> ہوم پیج پر واپس جائیں</a>
+
+    <div class="vip-footer">
+        &copy; 2026 Sindh Agriculture Marketing Department. <br>
+        Developed for DG Office Central Monitoring Control Room.
+    </div>
+
+    <script>
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('displayDate').innerText = new Date().toLocaleDateString('ur-PK', options);
+
+        function toggleFruitRates() {
+            const select = document.getElementById('committeeSelect');
+            const list = document.getElementById('fruitRateList');
+            list.style.display = (select.value !== "") ? "block" : "none";
+        }
+    </script>
+
+</body>
+</html>
