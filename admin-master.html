@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sindh Master Admin - Zero Point</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --sindh-green: #006400; --gold: #ffd700; --navy: #0f172a; --card: #1e293b; }
+        body { font-family: 'Poppins', sans-serif; background: var(--navy); color: white; margin: 0; padding-bottom: 30px; }
+        
+        /* Header Section */
+        .master-header { background: linear-gradient(135deg, var(--sindh-green), #000); padding: 30px 20px; border-bottom: 5px solid var(--gold); text-align: center; position: sticky; top: 0; z-index: 1000; }
+        .master-header h1 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 20px; color: var(--gold); margin: 0; }
+        
+        /* Global Filter */
+        .global-filter { background: var(--card); margin: 15px; padding: 15px; border-radius: 15px; border: 1px solid var(--gold); }
+        .global-filter select { width: 100%; padding: 12px; border-radius: 8px; background: #0f172a; color: white; border: 1px solid #444; font-size: 14px; font-weight: bold; }
+
+        /* Summary Stats (Overall Sindh) */
+        .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 15px; }
+        .stat-box { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border-bottom: 3px solid var(--gold); }
+        .stat-box i { font-size: 20px; color: var(--gold); margin-bottom: 8px; }
+        .stat-box h3 { margin: 0; font-size: 22px; }
+        .stat-box p { font-family: 'Noto Nastaliq Urdu', serif; font-size: 10px; color: #94a3b8; }
+
+        /* Master Sections Navigation */
+        .master-sections { padding: 20px 15px; }
+        .section-nav { background: #212121; margin-bottom: 12px; padding: 20px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #333; text-decoration: none; color: white; transition: 0.3s; }
+        .section-nav:active { background: #333; transform: scale(0.98); }
+        .nav-info { display: flex; align-items: center; gap: 15px; }
+        .nav-info i { font-size: 24px; color: var(--gold); }
+        .nav-text h4 { margin: 0; font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; }
+        .nav-text p { margin: 2px 0 0; font-size: 10px; color: #94a3b8; }
+        .badge { background: var(--sindh-green); color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; }
+
+        /* District Performance Pulse */
+        .district-pulse { padding: 0 15px; }
+        .pulse-card { background: var(--card); border-radius: 15px; padding: 15px; border: 1px solid #334155; }
+        .pulse-title { font-family: 'Noto Nastaliq Urdu', serif; color: var(--gold); font-size: 14px; margin-bottom: 15px; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+
+<div class="master-header">
+    <h1>سندھ مارکیٹ مانیٹرنگ سسٹم (HQ)</h1>
+    <p style="font-size: 10px; color: #ccc;">SINDH PRICE CONTROL & ENFORCEMENT AUTHORITY</p>
+</div>
+
+<div class="global-filter">
+    <p style="font-family:'Noto Nastaliq Urdu'; font-size:12px; color:var(--gold); margin-bottom:8px;">کمانڈ سینٹر منتخب کریں:</p>
+    <select id="committeeSelector" onchange="loadCommitteeData()">
+        <option value="all">تمام 72 مارکیٹ کمیٹیز (OVERALL SINDH)</option>
+        <option value="khi_central">کراچی مارکیٹ کمیٹی</option>
+        <option value="hyd">حیدرآباد مارکیٹ کمیٹی</option>
+        <option value="suk">سکھر مارکیٹ کمیٹی</option>
+        <option value="lar">لاڑکانہ مارکیٹ کمیٹی</option>
+        <option value="mir">میرپورخاص مارکیٹ کمیٹی</option>
+        </select>
+</div>
+
+<div class="summary-grid">
+    <div class="stat-box">
+        <i class="fas fa-gavel"></i>
+        <h3 id="totalFine">24.8M</h3>
+        <p>ٹوٹل ریکوری (سندھ)</p>
+    </div>
+    <div class="stat-box">
+        <i class="fas fa-user-check"></i>
+        <h3 id="activeOfficers">580</h3>
+        <p>ڈیوٹی پر آفیسرز</p>
+    </div>
+</div>
+
+<div class="master-sections">
+    <div class="pulse-title">ماسٹر مانیٹرنگ سیکشنز</div>
+    
+    <a href="master-challan-monitoring.html" class="section-nav">
+        <div class="nav-info">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <div class="nav-text">
+                <h4>ماسٹر چالان مانیٹرنگ</h4>
+                <p>تمام 72 کمیٹیز کے لائیو چالان لاگز</p>
+            </div>
+        </div>
+        <span class="badge">LIVE</span>
+    </a>
+
+    <a href="master-price-monitoring.html" class="section-nav">
+        <div class="nav-info">
+            <i class="fas fa-tags"></i>
+            <div class="nav-text">
+                <h4>ماسٹر نرخ (Price Control)</h4>
+                <p>پورے سندھ کی ریٹ لسٹ مانیٹرنگ</p>
+            </div>
+        </div>
+        <i class="fas fa-chevron-left" style="color:#444;"></i>
+    </a>
+
+    <a href="master-attendance-monitoring.html" class="section-nav">
+        <div class="nav-info">
+            <i class="fas fa-user-shield"></i>
+            <div class="nav-text">
+                <h4>ماسٹر حاضری مانیٹرنگ</h4>
+                <p>آفیسرز کی لائیو لوکیشن اور سیلفی</p>
+            </div>
+        </div>
+        <i class="fas fa-chevron-left" style="color:#444;"></i>
+    </a>
+
+    <a href="master-complaints-monitoring.html" class="section-nav">
+        <div class="nav-info">
+            <i class="fas fa-headset"></i>
+            <div class="nav-text">
+                <h4>ماسٹر عوامی شکایات</h4>
+                <p>72 کمیٹیز کی پینڈنگ شکایات کا حل</p>
+            </div>
+        </div>
+        <i class="fas fa-chevron-left" style="color:#444;"></i>
+    </a>
+</div>
+
+<script>
+    function loadCommitteeData() {
+        const val = document.getElementById('committeeSelector').value;
+        alert("ڈیٹا لوڈ ہو رہا ہے برائے: " + val);
+        // Jab Google Sheet connect hogi to yahan se overall data update hoga
+    }
+</script>
+
+</body>
+</html>
