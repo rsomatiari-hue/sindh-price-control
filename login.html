@@ -1,63 +1,26 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindh Price Control - Login</title>
-    <style>
-        body { font-family: sans-serif; background: #e8f5e9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 90%; max-width: 380px; text-align: center; border-top: 6px solid #1b5e20; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
-        .btn { width: 100%; padding: 12px; background: #1b5e20; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; }
-        #error { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 5px; margin-top: 15px; display: none; border: 1px solid #ffcdd2; }
-    </style>
-</head>
-<body>
-
-<div class="card">
-    <h2 style="color: #1b5e20;">آفیسر لاگ ان</h2>
-    <input type="number" id="mob" placeholder="Mobile Number">
-    <input type="password" id="pw" placeholder="Password">
-    <button onclick="login()" class="btn" id="lBtn">لاگ ان کریں</button>
-    <div id="error"></div>
-</div>
-
 <script>
-    // AAPKA V9 URL
-    const api = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
+    // AAPKA FINAL VERSION 10 URL
+    const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec"; 
 
-    function login() {
-        const m = document.getElementById('mob').value;
-        const p = document.getElementById('pw').value;
-        const b = document.getElementById('lBtn');
-        const e = document.getElementById('error');
-
-        if(!m || !p) { alert("Details likhein!"); return; }
-
-        b.innerText = "...Connecting";
-        b.disabled = true;
-        e.style.display = "none";
-
-        // JSONP BYPASS - Script tag injection
-        const s = document.createElement('script');
-        s.src = `${api}?action=login&mobile=${m}&pass=${p}&callback=res`;
-        document.body.appendChild(s);
+    function handleLogin() {
+        const mobile = document.getElementById('mobileNumber').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        
+        // JSONP Jadu (Version 10 ke saath)
+        const script = document.createElement('script');
+        script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse`;
+        document.body.appendChild(script);
     }
 
-    window.res = function(r) {
-        const b = document.getElementById('lBtn');
-        if (r.status === "success") {
-            localStorage.setItem("userRole", r.role);
-            localStorage.setItem("userCity", r.city);
+    window.loginResponse = function(result) {
+        if (result.status === "success") {
+            localStorage.setItem("userRole", result.role);
+            localStorage.setItem("userCity", result.city);
+            // Mubarik ho! Dashboard khul gaya
             window.location.href = "complaints-list.html";
         } else {
-            const e = document.getElementById('error');
-            e.innerText = "Ghalat Maloomat!";
-            e.style.display = "block";
-            b.innerText = "لاگ ان کریں";
-            b.disabled = false;
+            alert("Ghalat Mobile ya Password!");
+            location.reload();
         }
     }
 </script>
-</body>
-</html>
