@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شکایات مینجمنٹ - Officer Action</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #1b5e20; --warn: #f39c12; --danger: #e74c3c; --success: #27ae60; }
+        body { font-family: 'Poppins', sans-serif; background: #f0f4f7; margin: 0; padding-bottom: 30px; }
+        
+        .header { background: var(--primary); color: white; text-align: center; padding: 15px; border-bottom: 4px solid #ffd700; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 18px; margin: 0; }
+
+        .filter-tabs { display: flex; background: white; padding: 10px; overflow-x: auto; gap: 10px; border-bottom: 1px solid #ddd; }
+        .tab { padding: 8px 15px; border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer; border: 1px solid #ddd; font-weight: bold; }
+        .tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .complaint-card { background: white; margin: 12px; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-right: 5px solid var(--danger); }
+        .comp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .comp-id { font-size: 10px; color: #777; font-weight: bold; }
+        .status-badge { font-size: 10px; padding: 3px 10px; border-radius: 10px; font-weight: bold; text-transform: uppercase; }
+        .pending { background: #ffebee; color: var(--danger); }
+        
+        .comp-body { text-align: right; margin-bottom: 12px; }
+        .comp-body h3 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; margin: 0 0 5px; color: #222; }
+        .comp-body p { font-size: 13px; color: #555; margin: 0; }
+        .comp-meta { font-size: 11px; color: #888; margin-top: 8px; display: flex; gap: 10px; }
+
+        .action-area { border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 10px; }
+        .btn-action { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; }
+        .btn-resolve { background: var(--success); color: white; }
+        .btn-details { background: #eee; color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>عوامی شکایات (Citizen Complaints)</h1>
+    <p style="font-size:11px; margin:5px 0 0;">سٹی: <span id="officerCity">KARACHI</span></p>
+</div>
+
+<div class="filter-tabs">
+    <div class="tab active">تمام (All)</div>
+    <div class="tab">پینڈنگ (Pending)</div>
+    <div class="tab">زیرِ کار (Process)</div>
+    <div class="tab">حل شدہ (Resolved)</div>
+</div>
+
+<div id="complaintsContainer">
+    <div class="complaint-card">
+        <div class="comp-header">
+            <span class="comp-id">#ID-99281</span>
+            <span class="status-badge pending">Pending</span>
+        </div>
+        <div class="comp-body">
+            <h3>بسم اللہ جنرل اسٹور - مہنگی چینی</h3>
+            <p>دکاندار سرکاری نرخ (140) کے بجائے 160 روپے کلو چینی فروخت کر رہا ہے۔</p>
+            <div class="comp-meta">
+                <span><i class="fas fa-map-marker-alt"></i> صدر مارکیٹ</span>
+                <span><i class="fas fa-clock"></i> 2 گھنٹے پہلے</span>
+            </div>
+        </div>
+        <div class="action-area">
+            <button class="btn-action btn-details" onclick="location.href='complaint-details.html'">تفصیل دیکھیں</button>
+            <button class="btn-action btn-resolve" onclick="takeAction()">ایکشن لیں</button>
+        </div>
+    </div>
+
+    <div class="complaint-card" style="border-right-color: var(--warn);">
+        <div class="comp-header">
+            <span class="comp-id">#ID-99275</span>
+            <span class="status-badge" style="background:#fff3e0; color:var(--warn);">In Process</span>
+        </div>
+        <div class="comp-body">
+            <h3>علی فروٹ شاپ - ریٹ لسٹ غائب</h3>
+            <p>دکان پر کوئی ریٹ لسٹ آویزاں نہیں ہے، من مانے ریٹ وصول کیے جا رہے ہیں۔</p>
+            <div class="comp-meta">
+                <span><i class="fas fa-map-marker-alt"></i> طارق روڈ</span>
+                <span><i class="fas fa-clock"></i> 5 گھنٹے پہلے</span>
+            </div>
+        </div>
+        <div class="action-area">
+            <button class="btn-action btn-details">تفصیل دیکھیں</button>
+            <button class="btn-action btn-resolve">اپ ڈیٹ دیں</button>
+        </div>
+    </div>
+</div>
+
+<div style="text-align:center; padding:20px;">
+    <a href="officer-dashboard.html" style="color:var(--primary); font-weight:bold; text-decoration:none;">
+        <i class="fas fa-arrow-right"></i> واپس ڈیش بورڈ
+    </a>
+</div>
+
+<script>
+    document.getElementById('officerCity').innerText = localStorage.getItem("userCity") || "SINDH";
+
+    function takeAction() {
+        let confirmAction = confirm("کیا آپ اس شکایت پر ایکشن (چالان/وارننگ) لینا چاہتے ہیں؟");
+        if(confirmAction) {
+            window.location.href = "generate-challan.html";
+        }
+    }
+</script>
+
+</body>
+</html>
