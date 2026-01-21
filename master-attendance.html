@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Attendance - Sindh HQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --navy: #0f172a; --gold: #ffd700; --blue: #3b82f6; --green: #22c55e; }
+        body { font-family: 'Poppins', sans-serif; background: #f1f5f9; margin: 0; }
+        
+        .header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--blue); }
+        .header h1 { font-family: 'Noto Nastaliq Urdu', serif; margin: 0; font-size: 18px; color: var(--gold); }
+
+        /* Real-time Status Row */
+        .status-row { display: flex; gap: 10px; padding: 15px; background: white; border-bottom: 1px solid #ddd; }
+        .status-card { flex: 1; text-align: center; padding: 10px; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .status-card h2 { margin: 0; font-size: 20px; color: var(--navy); }
+        .status-card p { margin: 0; font-size: 10px; font-weight: bold; color: #64748b; }
+
+        /* Attendance List */
+        .attendance-container { padding: 15px; }
+        .attendance-card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 15px; }
+        
+        .officer-photo { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--green); object-fit: cover; }
+        .officer-info { flex: 1; }
+        .officer-info h4 { margin: 0; font-size: 14px; color: var(--navy); }
+        .officer-info p { margin: 2px 0; font-size: 11px; color: #64748b; }
+        
+        .status-indicator { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .badge-online { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 12px; font-size: 9px; font-weight: bold; }
+        .gps-btn { background: var(--blue); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; }
+
+        /* Master Search/Filter */
+        .filter-box { padding: 15px; background: white; border-bottom: 1px solid #eee; }
+        .filter-box select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="admin-master.html" style="color:white; float:right; text-decoration:none;"><i class="fas fa-arrow-right"></i></a>
+    <h1>ماسٹر حاضری مانیٹرنگ (Live)</h1>
+</div>
+
+<div class="filter-box">
+    <select id="committeeFilter">
+        <option>تمام 72 مارکیٹ کمیٹیز (All Active)</option>
+        <option>حیدرآباد مارکیٹ کمیٹی</option>
+        <option>میرپورخاص مارکیٹ کمیٹی</option>
+    </select>
+</div>
+
+<div class="status-row">
+    <div class="status-card">
+        <h2 id="presentCount">412</h2>
+        <p>موجود آفیسرز</p>
+    </div>
+    <div class="status-card">
+        <h2 id="absentCount">168</h2>
+        <p>غیر حاضر/آف لائن</p>
+    </div>
+</div>
+
+<div class="attendance-container">
+    <div class="attendance-card">
+        <img src="https://i.pravatar.cc/100?img=11" class="officer-photo" alt="Selfie">
+        <div class="officer-info">
+            <h4>آفیسر ذیشان احمد</h4>
+            <p><i class="fas fa-landmark"></i> حیدرآباد - ہالا مارکیٹ</p>
+            <p><i class="fas fa-clock"></i> حاضری کا وقت: 09:15 AM</p>
+        </div>
+        <div class="status-indicator">
+            <span class="badge-online">ACTIVE NOW</span>
+            <button class="gps-btn" onclick="trackGPS()"><i class="fas fa-map-marker-alt"></i> TRACK</button>
+        </div>
+    </div>
+
+    <div class="attendance-card">
+        <img src="https://i.pravatar.cc/100?img=12" class="officer-photo" style="border-color: #94a3b8;">
+        <div class="officer-info">
+            <h4>آفیسر عرفان علی</h4>
+            <p><i class="fas fa-landmark"></i> لاڑکانہ مارکیٹ</p>
+            <p><i class="fas fa-clock"></i> حاضری کا وقت: 10:00 AM</p>
+        </div>
+        <div class="status-indicator">
+            <span class="badge-online" style="background:#f1f5f9; color:#64748b;">OFFLINE</span>
+            <button class="gps-btn" style="background:#94a3b8;"><i class="fas fa-history"></i> LAST LOC</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function trackGPS() {
+        alert("گوگل میپس پر آفیسر کی لائیو لوکیشن کھل رہی ہے...");
+    }
+</script>
+
+</body>
+</html>
