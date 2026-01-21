@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Mega List | VIP Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #1565c0; --accent: #ffd700; --bg: #e3f2fd; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 30px; }
+        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid var(--accent); position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 22px; margin: 0; }
+        .search-container { padding: 10px 15px; background: #fff; position: sticky; top: 85px; z-index: 90; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #searchBox { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
+        .item-list { padding: 15px; }
+        .item-card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-right: 5px solid var(--primary); }
+        .item-info h3 { margin: 0; font-size: 15px; color: #222; }
+        .update-area { display: flex; align-items: center; gap: 8px; }
+        .rate-input { width: 70px; padding: 10px; border: 2px solid #eee; border-radius: 10px; text-align: center; font-weight: bold; }
+        .upd-btn { background: #212121; color: var(--accent); border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="officer-dashboard.html" style="position:absolute; left:15px; top:25px; color:white;"><i class="fas fa-arrow-left fa-lg"></i></a>
+    <h1>کریانہ اور جنرل اسٹور (Grocery)</h1>
+    <p style="font-size: 11px; color: var(--accent);">MARKET COMMITTEE GROCERY UPDATE</p>
+</div>
+
+<div class="search-container">
+    <input type="text" id="searchBox" placeholder="آئیٹم تلاش کریں (Search Item)..." onkeyup="filterItems()">
+</div>
+
+<div class="item-list" id="listArea">
+    <script>
+        const groceryItems = [
+            "آٹا 10 کلو (Flour 10KG)", "آٹا فائن کلو (Flour Fine)", "چینی (Sugar)", "گھی درجہ اول (Ghee 1st)", 
+            "گھی درجہ دوم (Ghee 2nd)", "کوکنگ آئل (Cooking Oil)", "چاول باسمتی (Rice Basmati)", "چاول سیلا (Rice Sella)", 
+            "چاول ٹوٹا (Rice Broken)", "دال چنا (Gram Pulse)", "دال ماش دھلی (Mash Pulse)", "دال ماش چھلکا (Mash Shalka)", 
+            "دال مونگ دھلی (Moong Pulse)", "دال مسور (Masoor Pulse)", "سفید چنے (White Chickpeas)", "کالے چنے (Black Chickpeas)", 
+            "بیسن (Gram Flour)", "سرخ مرچ پاؤڈر (Red Chili Powder)", "ہلدی پاؤڈر (Turmeric Powder)", "دھنیا پاؤڈر (Coriander Powder)", 
+            "گرم مصالحہ (Mix Spice)", "کالی مرچ (Black Pepper)", "نمک (Salt Packet)", "چائے پتی (Tea Leaf)", 
+            "خشک دودھ (Dry Milk)", "شہد (Honey)", "سرکہ (Vinegar)", "سویا سوس (Soy Sauce)", "کیچپ (Ketchup)", 
+            "ماچس (Match Box)", "صابن (Soap)", "سرف (Detergent)", "کشمش (Raisins)", "بادام (Almonds)", 
+            "اخروٹ (Walnut)", "کاجو (Cashew)", "پستہ (Pistachio)", "کھجور خشک (Dry Dates)", "تلی کا تیل (Sesame Oil)", 
+            "سرسوں کا تیل (Mustard Oil)", "اچار (Pickle)", "جام (Jam)", "روح افزاء (Rooh Afza)", "جام شیریں (Jam-e-Shirin)", 
+            "بیکنگ پاؤڈر (Baking Powder)", "میدہ (All Purpose Flour)", "سوجی (Semolina)", "دلیا (Oats)", 
+            "نوڈلز (Noodles)", "پاستا (Pasta)", "میکرونی (Macaroni)", "پاپڑ (Papads)", "تیل زیتون (Olive Oil)", 
+            "لال لوبیا (Red Kidney Beans)", "رنگین سوئیاں (Colored Vermicelli)", "سبز چائے (Green Tea)", 
+            "الائچی سبز (Green Cardamom)", "الائچی بڑی (Black Cardamom)", "لونگ (Clove)", "دار چینی (Cinnamon)", 
+            "ثابت دھنیا (Coriander Whole)", "ثابت زیرہ (Cumin Whole)", "کلونجی (Nigella Seeds)", "اجوائن (Carom Seeds)", 
+            "تیز پات (Bay Leaf)", "جاوتری (Mace)", "جائفل (Nutmeg)", "قصوری میتھی (Dried Fenugreek)", 
+            "مولی (Sago/Sabudana)", "مکھانے (Fox Nuts)", "کپاس کا تیل (Cottonseed Oil)"
+        ];
+
+        const listArea = document.getElementById('listArea');
+        groceryItems.forEach((name, index) => {
+            const id = 501 + index; // Grocery starting from 501
+            listArea.innerHTML += `
+                <div class="item-card">
+                    <div class="item-info">
+                        <h3>${name}</h3>
+                        <span>ID: ${id} | Unit: KG/PKT</span>
+                    </div>
+                    <div class="update-area">
+                        <input type="number" class="rate-input" id="rate_${id}" placeholder="Rs">
+                        <button class="upd-btn" onclick="updatePrice(${id})">UPDATE</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        function filterItems() {
+            let input = document.getElementById('searchBox').value.toLowerCase();
+            let cards = document.getElementsByClassName('item-card');
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].querySelector('h3').innerText.toLowerCase();
+                cards[i].style.display = name.includes(input) ? "flex" : "none";
+            }
+        }
+
+        function updatePrice(id) {
+            const rate = document.getElementById('rate_' + id).value;
+            if(!rate) return alert("Rate enter karein!");
+            const btn = event.target;
+            btn.innerText = "⏳";
+            const apiURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
+            const script = document.createElement('script');
+            script.src = `${apiURL}?action=updateRate&itemID=${id}&rate=${rate}&callback=onUpdateRes`;
+            document.body.appendChild(script);
+        }
+
+        window.onUpdateRes = function(res) {
+            alert(res.status === "success" ? "Updated!" : "Error!");
+            location.reload();
+        }
+    </script>
+</div>
+</body>
+</html>
