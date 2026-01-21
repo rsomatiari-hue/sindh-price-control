@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC Monitoring Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary: #1b5e20; --bg: #f4f7f4; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid #ffd700; }
+        .header h1 { font-size: 14px; margin: 0; text-transform: uppercase; }
+        .header p { font-size: 12px; margin: 5px 0 0; color: #ffd700; font-weight: bold; }
+        
+        /* VIP 4 Boxes */
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .stat-box { border-radius: 20px; padding: 20px; text-align: center; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .stat-box i { font-size: 30px; margin-bottom: 10px; display: block; }
+        .stat-box h2 { font-size: 28px; margin: 0; }
+        .stat-box p { font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; margin: 5px 0 0; }
+
+        .red { background: #ef5350; } .blue { background: #4fc3f7; }
+        .green { background: #66bb6a; } .purple { background: #ab47bc; }
+
+        .action-list { padding: 0 20px; }
+        .action-item { background: #212121; color: #ffd700; border-radius: 15px; margin-bottom: 15px; padding: 18px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; border: 1px solid #333; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #ddd; }
+        .nav-link { text-decoration: none; text-align: center; color: var(--primary); font-size: 12px; font-weight: bold; }
+        .nav-link i { font-size: 24px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Market Committee Price Control Daily Rate Updates</h1>
+    <p>THIS MONITORING ROOM IS ASSISTANT COMMISSIONER</p>
+</div>
+
+<div class="stats-container">
+    <div class="stat-box red"><i class="fas fa-exclamation-circle"></i><h2>05</h2><p>نئی شکایات</p></div>
+    <div class="stat-box blue"><i class="fas fa-store"></i><h2>12</h2><p>مارکیٹیں</p></div>
+    <div class="stat-box green"><i class="fas fa-check-circle"></i><h2>08</h2><p>اپڈیٹ ریٹس</p></div>
+    <div class="stat-box purple"><i class="fas fa-user-tie"></i><h2>15</h2><p>آفیسرز</p></div>
+</div>
+
+<div class="action-list">
+    <a href="complaints-list.html" class="action-item"><i class="fas fa-list"></i><span>تحصیل کی شکایات</span><i class="fas fa-chevron-left"></i></a>
+    <a href="all-rates.html" class="action-item"><i class="fas fa-file-invoice"></i><span>ریٹ لسٹ مانیٹرنگ</span><i class="fas fa-chevron-left"></i></a>
+</div>
+
+<div class="bottom-nav">
+    <a href="index.html" class="nav-link" style="color:#d32f2f;"><i class="fas fa-sign-out-alt"></i>لاگ آؤٹ</a>
+    <a href="index.html" class="nav-link"><i class="fas fa-eye"></i>ویب سائٹ</a>
+    <a href="ac-monitoring.html" class="nav-link"><i class="fas fa-home"></i>ہوم</a>
+</div>
+
+</body>
+</html>
