@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindh Market Committee Portal</title>
+    <title>Sindh Market Committee - VIP Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,106 +13,58 @@
             --blur: blur(25px);
         }
         body { 
-            margin: 0; 
-            font-family: 'Poppins', sans-serif; 
+            margin: 0; font-family: 'Poppins', sans-serif; 
             background: radial-gradient(circle at top, #064e3b, #0f172a); 
-            background-attachment: fixed;
-            color: white;
-            padding-bottom: 40px;
+            background-attachment: fixed; color: white;
         }
 
-        /* VIP CRYSTAL HEADER */
+        /* VIP HEADER */
         .vip-header {
-            background: var(--glass);
-            backdrop-filter: var(--blur);
-            border-bottom: 3px solid #ffd700;
-            padding: 30px 15px;
-            text-align: center;
+            background: var(--glass); backdrop-filter: var(--blur);
+            border-bottom: 3px solid #ffd700; padding: 30px 15px; text-align: center;
         }
         .sindh-logo { width: 75px; filter: drop-shadow(0 0 15px #ffd700); margin-bottom: 10px; }
+        .vip-header h1 { font-size: 20px; margin: 5px 0; color: #fff; }
         .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 26px; margin: 10px 0; }
-        .under-control-badge { background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; font-size: 11px; font-weight: 800; display: inline-block; }
+        .under-control-badge { background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; font-size: 11px; font-weight: 800; display: inline-block; margin: 10px 0; }
+        .dg-text { font-size: 13px; font-weight: 600; margin-top: 5px; }
 
-        /* NEW: DATE & TAZA KIMATAIN SECTION */
-        .taza-rates-bar {
-            margin: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: var(--blur);
-            border-radius: 15px;
-            border-left: 5px solid #ffd700;
-            border-right: 5px solid #ffd700;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .taza-rates-bar h3 { 
-            font-family: 'Noto Nastaliq Urdu'; 
-            color: #fff; 
-            margin: 0 0 5px 0; 
-            font-size: 22px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        .current-date { 
-            font-size: 14px; 
-            color: #ffd700; 
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        /* LIVE DATE BAR */
+        .date-bar {
+            margin: 20px; padding: 12px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: var(--blur); border-radius: 15px;
+            border-left: 5px solid #ffd700; border-right: 5px solid #ffd700;
+            text-align: center; font-size: 15px; color: #ffd700; font-weight: 600;
         }
 
-        /* 6 CRYSTAL BOXES GRID */
-        .rates-grid {
-            display: grid; 
-            grid-template-columns: 1fr 1fr;
-            gap: 15px; 
-            padding: 0 20px 20px;
+        /* MAIN GRID */
+        .main-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px;
         }
-        .crystal-box {
-            background: var(--glass);
-            backdrop-filter: var(--blur);
-            border: 1.5px solid var(--border);
-            border-radius: 25px;
-            padding: 25px 10px;
-            text-align: center;
-            text-decoration: none;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        .menu-box {
+            background: var(--glass); backdrop-filter: var(--blur);
+            border: 1px solid var(--border); border-radius: 20px;
+            padding: 25px 10px; text-align: center; text-decoration: none;
+            color: white; transition: 0.3s;
         }
-        .crystal-box:active { transform: scale(0.92); }
-        .crystal-box i { font-size: 35px; margin-bottom: 12px; display: block; }
-        .crystal-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; color: #fff; }
+        .menu-box:active { transform: scale(0.95); }
+        .menu-box i { font-size: 35px; margin-bottom: 12px; display: block; }
+        .menu-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; display: block; }
 
-        .veg { border-color: #4ade80; i {color: #4ade80;} }
-        .fruit { border-color: #fbbf24; i {color: #fbbf24;} }
-        .meat { border-color: #f87171; i {color: #f87171;} }
-        .milk { border-color: #60a5fa; i {color: #60a5fa;} }
-        .grocery { border-color: #c084fc; i {color: #c084fc;} }
-        .grain { border-color: #fb923c; i {color: #fb923c;} }
+        /* COLORS FOR BOXES */
+        .veg { border-bottom: 4px solid #4ade80; }
+        .fruit { border-bottom: 4px solid #fbbf24; }
+        .meat { border-bottom: 4px solid #f87171; }
+        .milk { border-bottom: 4px solid #60a5fa; }
+        .grocery { border-bottom: 4px solid #c084fc; }
+        .grain { border-bottom: 4px solid #fb923c; }
+        .complaint { grid-column: span 2; border-bottom: 4px solid #ff4444; background: rgba(255,0,0,0.1); }
+        .login-btn-home { grid-column: span 2; border: 1px dashed #ffd700; margin-top: 10px; }
 
-        .complaint-vip {
-            margin: 10px 20px 25px;
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.6), rgba(153, 27, 27, 0.8));
-            backdrop-filter: var(--blur);
-            border-radius: 20px; padding: 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid #ff4d4d;
-            text-decoration: none; color: white;
-        }
-
-        .login-section {
-            margin: 0 20px;
-            background: var(--glass);
-            border: 1px solid #ffd700;
-            border-radius: 20px; padding: 25px;
-            text-align: center;
-        }
-        .login-btn {
-            background: linear-gradient(90deg, #ffd700, #ffaa00);
-            color: #000; padding: 12px 50px;
-            border-radius: 50px; text-decoration: none;
-            font-weight: bold; display: inline-block;
+        /* FOOTER */
+        .vip-footer {
+            margin-top: 30px; padding: 25px; text-align: center; font-size: 11px;
+            background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); color: #94a3b8;
         }
     </style>
 </head>
@@ -123,44 +75,63 @@
         <h1>Government of Sindh</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
         <div class="under-control-badge">Under Control</div>
-        <div style="font-size: 13px; font-weight:600; margin-top:5px;">Director General Agriculture Marketing Sindh</div>
+        <div class="dg-text">Director General Agriculture Marketing Sindh</div>
     </div>
 
-    <div class="taza-rates-bar">
-        <h3>آج کی تازہ قیمتیں</h3>
-        <div class="current-date">
-            <i class="far fa-calendar-alt"></i>
-            <span id="displayDate"></span>
-        </div>
+    <div class="date-bar">
+        <i class="far fa-calendar-alt"></i> <span id="currentDate"></span>
     </div>
 
-    <div class="rates-grid">
-        <a href="#" class="crystal-box veg"><i class="fas fa-leaf"></i><span>سبزیاں</span></a>
-        <a href="#" class="crystal-box fruit"><i class="fas fa-apple-alt"></i><span>پھل</span></a>
-        <a href="#" class="crystal-box meat"><i class="fas fa-drumstick-bite"></i><span>گوشت و مچھلی</span></a>
-        <a href="#" class="crystal-box milk"><i class="fas fa-glass-whiskey"></i><span>دودھ و مٹھائی</span></a>
-        <a href="#" class="crystal-box grocery"><i class="fas fa-shopping-basket"></i><span>کریانہ اشیاء</span></a>
-        <a href="#" class="crystal-box grain"><i class="fas fa-seedling"></i><span>اجناس</span></a>
+    <div class="main-grid">
+        <a href="vegetable-rates.html" class="menu-box veg">
+            <i class="fas fa-carrot" style="color: #4ade80;"></i>
+            <span>سبزیاں</span>
+        </a>
+
+        <a href="fruit-rates.html" class="menu-box fruit">
+            <i class="fas fa-apple-alt" style="color: #fbbf24;"></i>
+            <span>پھل</span>
+        </a>
+
+        <a href="meat-rates.html" class="menu-box meat">
+            <i class="fas fa-drumstick-bite" style="color: #f87171;"></i>
+            <span>گوشت و مچھلی</span>
+        </a>
+
+        <a href="milk-rates.html" class="menu-box milk">
+            <i class="fas fa-glass-whiskey" style="color: #60a5fa;"></i>
+            <span>دودھ و مٹھائی</span>
+        </a>
+
+        <a href="grocery-rates.html" class="menu-box grocery">
+            <i class="fas fa-shopping-basket" style="color: #c084fc;"></i>
+            <span>کریانہ اشیاء</span>
+        </a>
+
+        <a href="grain-rates.html" class="menu-box grain">
+            <i class="fas fa-seedling" style="color: #fb923c;"></i>
+            <span>اجناس (Grains)</span>
+        </a>
+
+        <a href="public-complaint.html" class="menu-box complaint">
+            <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i>
+            <span>آن لائن شکایت درج کریں</span>
+        </a>
+
+        <a href="login.html" class="menu-box login-btn-home">
+            <i class="fas fa-user-lock" style="color: #ffd700;"></i>
+            <span>آفیسر لاگ ان (Admin)</span>
+        </a>
     </div>
 
-    <a href="public-complaint.html" class="complaint-vip">
-        <div>
-            <h3 style="margin:0; font-family:'Noto Nastaliq Urdu';">آن لائن شکایت درج کریں</h3>
-            <p style="margin:0; font-size:11px;">Immediate Action by DG Office</p>
-        </div>
-        <i class="fas fa-bullhorn fa-2x"></i>
-    </a>
-
-    <div class="login-section">
-        <p style="margin-top:0; font-family:'Noto Nastaliq Urdu'; font-size:16px;">آفیسر لاگ ان پورٹل</p>
-        <a href="login.html" class="login-btn">LOGIN PORTAL</a>
+    <div class="vip-footer">
+        &copy; 2026 Sindh Agriculture Marketing Department. <br>
+        Developed for DG Office Central Monitoring Control Room.
     </div>
 
     <script>
-        // Aaj ki date dikhane ka script
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const today  = new Date();
-        document.getElementById('displayDate').innerText = today.toLocaleDateString('ur-PK', options);
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ur-PK', options);
     </script>
 
 </body>
