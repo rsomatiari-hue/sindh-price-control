@@ -1,14 +1,21 @@
 <script>
-    // AAPKA FINAL VERSION 10 URL
+    // AAPKA V11 URL (Jo aapne abhi deploy kiya)
     const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec"; 
 
     function handleLogin() {
         const mobile = document.getElementById('mobileNumber').value.trim();
         const pass = document.getElementById('password').value.trim();
-        
-        // JSONP Jadu (Version 10 ke saath)
+        const btn = document.querySelector('.btn-submit');
+
+        if(!mobile || !pass) { alert("Details enter karein!"); return; }
+
+        btn.innerText = "Connecting...";
+        btn.disabled = true;
+
+        // JADU: Browser ko majboor karne ke liye har baar naya version number
+        const cacheBuster = new Date().getTime();
         const script = document.createElement('script');
-        script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse`;
+        script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse&v=${cacheBuster}`;
         document.body.appendChild(script);
     }
 
@@ -16,7 +23,6 @@
         if (result.status === "success") {
             localStorage.setItem("userRole", result.role);
             localStorage.setItem("userCity", result.city);
-            // Mubarik ho! Dashboard khul gaya
             window.location.href = "complaints-list.html";
         } else {
             alert("Ghalat Mobile ya Password!");
