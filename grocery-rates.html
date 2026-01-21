@@ -3,100 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery Mega List | VIP Panel</title>
+    <title>Grocery Rates - VIP Crystal Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #1565c0; --accent: #ffd700; --bg: #e3f2fd; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 30px; }
-        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid var(--accent); position: sticky; top: 0; z-index: 100; }
-        .header h1 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 22px; margin: 0; }
-        .search-container { padding: 10px 15px; background: #fff; position: sticky; top: 85px; z-index: 90; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        #searchBox { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; }
-        .item-list { padding: 15px; }
-        .item-card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-right: 5px solid var(--primary); }
-        .item-info h3 { margin: 0; font-size: 15px; color: #222; }
-        .update-area { display: flex; align-items: center; gap: 8px; }
-        .rate-input { width: 70px; padding: 10px; border: 2px solid #eee; border-radius: 10px; text-align: center; font-weight: bold; }
-        .upd-btn { background: #212121; color: var(--accent); border: none; padding: 10px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; }
+        :root {
+            --glass: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.2);
+            --blur: blur(25px);
+        }
+        body { 
+            margin: 0; font-family: 'Poppins', sans-serif; 
+            background: radial-gradient(circle at top, #064e3b, #0f172a); 
+            background-attachment: fixed; color: white;
+        }
+
+        /* --- SAME VIP HEADER AS HOME PAGE --- */
+        .vip-header {
+            background: var(--glass); backdrop-filter: var(--blur);
+            border-bottom: 3px solid #ffd700; padding: 30px 15px; text-align: center;
+        }
+        .sindh-logo { width: 75px; filter: drop-shadow(0 0 15px #ffd700); margin-bottom: 10px; }
+        .vip-header h1 { font-size: 20px; margin: 5px 0; color: #fff; }
+        .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 26px; margin: 10px 0; }
+        .under-control-badge { 
+            background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; 
+            font-size: 11px; font-weight: 800; display: inline-block; margin: 10px 0;
+        }
+        .dg-text { font-size: 13px; font-weight: 600; margin-top: 5px; }
+
+        /* --- SAME DATE BAR AS HOME PAGE --- */
+        .taza-rates-bar {
+            margin: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: var(--blur); border-radius: 15px;
+            border-left: 5px solid #ffd700; border-right: 5px solid #ffd700; text-align: center;
+        }
+        .taza-rates-bar h3 { font-family: 'Noto Nastaliq Urdu'; margin: 0 0 5px 0; font-size: 22px; }
+        .current-date { font-size: 14px; color: #ffd700; font-weight: 600; }
+
+        /* SELECTION BOX */
+        .selection-section { margin: 20px; text-align: center; }
+        .select-box {
+            width: 100%; padding: 15px; border-radius: 15px;
+            background: var(--glass); border: 2px solid #ffd700;
+            color: white; font-family: 'Noto Nastaliq Urdu'; font-size: 18px;
+            backdrop-filter: var(--blur); outline: none;
+        }
+
+        /* GROCERY RATES CONTAINER (HIDDEN) */
+        #groceryRateList { display: none; margin: 20px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .rate-row {
+            background: var(--glass); backdrop-filter: var(--blur);
+            border: 1px solid var(--border); border-radius: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; margin-bottom: 10px;
+            border-right: 5px solid #c084fc; /* Purple Theme for Grocery */
+        }
+        .item-name { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; }
+        .item-price { font-weight: bold; font-size: 20px; color: #ffd700; }
+
+        /* ACTION BOXES */
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .action-box {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 15px; padding: 15px 5px; text-align: center;
+            text-decoration: none; color: white; font-size: 10px; backdrop-filter: var(--blur);
+        }
+        .action-box i { font-size: 18px; display: block; margin-bottom: 5px; }
+
+        .back-home {
+            display: block; text-align: center; margin: 20px;
+            padding: 15px; background: rgba(255,255,255,0.05);
+            border-radius: 50px; text-decoration: none; color: #fff;
+            border: 1px dashed var(--border); font-family: 'Noto Nastaliq Urdu';
+        }
+
+        /* --- SAME FOOTER AS HOME PAGE --- */
+        .vip-footer {
+            margin-top: 40px; padding: 25px; text-align: center; font-size: 11px;
+            background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); color: #94a3b8;
+        }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <a href="officer-dashboard.html" style="position:absolute; left:15px; top:25px; color:white;"><i class="fas fa-arrow-left fa-lg"></i></a>
-    <h1>کریانہ اور جنرل اسٹور (Grocery)</h1>
-    <p style="font-size: 11px; color: var(--accent);">MARKET COMMITTEE GROCERY UPDATE</p>
-</div>
+    <div class="vip-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo">
+        <h1>Government of Sindh</h1>
+        <h2>مارکیٹ کمیٹی سندھ</h2>
+        <div class="under-control-badge">Under Control</div>
+        <div class="dg-text">Director General Agriculture Marketing Sindh Department</div>
+    </div>
 
-<div class="search-container">
-    <input type="text" id="searchBox" placeholder="آئیٹم تلاش کریں (Search Item)..." onkeyup="filterItems()">
-</div>
+    <div class="taza-rates-bar">
+        <h3>کریانہ اشیاء کے تازہ نرخ</h3>
+        <div class="current-date">
+            <i class="far fa-calendar-alt"></i> <span id="displayDate"></span>
+        </div>
+    </div>
 
-<div class="item-list" id="listArea">
+    <div class="selection-section">
+        <select class="select-box" id="committeeSelect" onchange="toggleGroceryRates()">
+            <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
+            <option value="karachi">کراچی</option>
+            <option value="hyderabad">حیدرآباد</option>
+            <option value="sukkur">سکھر</option>
+        </select>
+    </div>
+
+    <div id="groceryRateList">
+        <div class="rate-row"><div class="item-name">آٹا (Flour) / 10Kg</div><div class="item-price">Rs. 850</div></div>
+        <div class="rate-row"><div class="item-name">چینی (Sugar) / Kg</div><div class="item-price">Rs. 145</div></div>
+        <div class="rate-row"><div class="item-name">گھی (Ghee) / Kg</div><div class="item-price">Rs. 520</div></div>
+        <div class="rate-row"><div class="item-name">دال چنا (Dal Chana) / Kg</div><div class="item-price">Rs. 240</div></div>
+        
+        <div class="action-grid">
+            <a href="#" class="action-box" style="border-color:#3498db;"><i class="fas fa-file-pdf"></i>Download</a>
+            <a href="#" class="action-box" style="border-color:#25d366;"><i class="fab fa-whatsapp"></i>WhatsApp Share</a>
+            <a href="#" class="action-box" style="border-color:#ffd700;"><i class="fas fa-print"></i>A4 Print</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-home"><i class="fas fa-home"></i> ہوم پیج پر واپس جائیں</a>
+
+    <div class="vip-footer">
+        &copy; 2026 Sindh Agriculture Marketing Department. <br>
+        Developed for DG Office Central Monitoring Control Room.
+    </div>
+
     <script>
-        const groceryItems = [
-            "آٹا 10 کلو (Flour 10KG)", "آٹا فائن کلو (Flour Fine)", "چینی (Sugar)", "گھی درجہ اول (Ghee 1st)", 
-            "گھی درجہ دوم (Ghee 2nd)", "کوکنگ آئل (Cooking Oil)", "چاول باسمتی (Rice Basmati)", "چاول سیلا (Rice Sella)", 
-            "چاول ٹوٹا (Rice Broken)", "دال چنا (Gram Pulse)", "دال ماش دھلی (Mash Pulse)", "دال ماش چھلکا (Mash Shalka)", 
-            "دال مونگ دھلی (Moong Pulse)", "دال مسور (Masoor Pulse)", "سفید چنے (White Chickpeas)", "کالے چنے (Black Chickpeas)", 
-            "بیسن (Gram Flour)", "سرخ مرچ پاؤڈر (Red Chili Powder)", "ہلدی پاؤڈر (Turmeric Powder)", "دھنیا پاؤڈر (Coriander Powder)", 
-            "گرم مصالحہ (Mix Spice)", "کالی مرچ (Black Pepper)", "نمک (Salt Packet)", "چائے پتی (Tea Leaf)", 
-            "خشک دودھ (Dry Milk)", "شہد (Honey)", "سرکہ (Vinegar)", "سویا سوس (Soy Sauce)", "کیچپ (Ketchup)", 
-            "ماچس (Match Box)", "صابن (Soap)", "سرف (Detergent)", "کشمش (Raisins)", "بادام (Almonds)", 
-            "اخروٹ (Walnut)", "کاجو (Cashew)", "پستہ (Pistachio)", "کھجور خشک (Dry Dates)", "تلی کا تیل (Sesame Oil)", 
-            "سرسوں کا تیل (Mustard Oil)", "اچار (Pickle)", "جام (Jam)", "روح افزاء (Rooh Afza)", "جام شیریں (Jam-e-Shirin)", 
-            "بیکنگ پاؤڈر (Baking Powder)", "میدہ (All Purpose Flour)", "سوجی (Semolina)", "دلیا (Oats)", 
-            "نوڈلز (Noodles)", "پاستا (Pasta)", "میکرونی (Macaroni)", "پاپڑ (Papads)", "تیل زیتون (Olive Oil)", 
-            "لال لوبیا (Red Kidney Beans)", "رنگین سوئیاں (Colored Vermicelli)", "سبز چائے (Green Tea)", 
-            "الائچی سبز (Green Cardamom)", "الائچی بڑی (Black Cardamom)", "لونگ (Clove)", "دار چینی (Cinnamon)", 
-            "ثابت دھنیا (Coriander Whole)", "ثابت زیرہ (Cumin Whole)", "کلونجی (Nigella Seeds)", "اجوائن (Carom Seeds)", 
-            "تیز پات (Bay Leaf)", "جاوتری (Mace)", "جائفل (Nutmeg)", "قصوری میتھی (Dried Fenugreek)", 
-            "مولی (Sago/Sabudana)", "مکھانے (Fox Nuts)", "کپاس کا تیل (Cottonseed Oil)"
-        ];
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('displayDate').innerText = new Date().toLocaleDateString('ur-PK', options);
 
-        const listArea = document.getElementById('listArea');
-        groceryItems.forEach((name, index) => {
-            const id = 501 + index; // Grocery starting from 501
-            listArea.innerHTML += `
-                <div class="item-card">
-                    <div class="item-info">
-                        <h3>${name}</h3>
-                        <span>ID: ${id} | Unit: KG/PKT</span>
-                    </div>
-                    <div class="update-area">
-                        <input type="number" class="rate-input" id="rate_${id}" placeholder="Rs">
-                        <button class="upd-btn" onclick="updatePrice(${id})">UPDATE</button>
-                    </div>
-                </div>
-            `;
-        });
-
-        function filterItems() {
-            let input = document.getElementById('searchBox').value.toLowerCase();
-            let cards = document.getElementsByClassName('item-card');
-            for (let i = 0; i < cards.length; i++) {
-                let name = cards[i].querySelector('h3').innerText.toLowerCase();
-                cards[i].style.display = name.includes(input) ? "flex" : "none";
-            }
-        }
-
-        function updatePrice(id) {
-            const rate = document.getElementById('rate_' + id).value;
-            if(!rate) return alert("Rate enter karein!");
-            const btn = event.target;
-            btn.innerText = "⏳";
-            const apiURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
-            const script = document.createElement('script');
-            script.src = `${apiURL}?action=updateRate&itemID=${id}&rate=${rate}&callback=onUpdateRes`;
-            document.body.appendChild(script);
-        }
-
-        window.onUpdateRes = function(res) {
-            alert(res.status === "success" ? "Updated!" : "Error!");
-            location.reload();
+        function toggleGroceryRates() {
+            const select = document.getElementById('committeeSelect');
+            const list = document.getElementById('groceryRateList');
+            list.style.display = (select.value !== "") ? "block" : "none";
         }
     </script>
-</div>
+
 </body>
 </html>
