@@ -1,32 +1,56 @@
-<script>
-    // AAPKA V11 URL (Jo aapne abhi deploy kiya)
-    const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec"; 
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آفیسر لاگ ان</title>
+    <style>
+        body { font-family: sans-serif; background: #e8f5e9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 90%; max-width: 380px; text-align: center; border-top: 6px solid #1b5e20; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .btn { width: 100%; padding: 12px; background: #1b5e20; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color: #1b5e20;">سندھ پرائس کنٹرول</h2>
+        <input type="number" id="mob" placeholder="Mobile Number">
+        <input type="password" id="pw" placeholder="Password">
+        <button onclick="loginNow()" class="btn" id="lBtn">لاگ ان کریں</button>
+    </div>
 
-    function handleLogin() {
-        const mobile = document.getElementById('mobileNumber').value.trim();
-        const pass = document.getElementById('password').value.trim();
-        const btn = document.querySelector('.btn-submit');
+    <script>
+        // Version 11 URL
+        const api = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
 
-        if(!mobile || !pass) { alert("Details enter karein!"); return; }
+        function loginNow() {
+            const m = document.getElementById('mob').value;
+            const p = document.getElementById('pw').value;
+            const b = document.getElementById('lBtn');
 
-        btn.innerText = "Connecting...";
-        btn.disabled = true;
+            if(!m || !p) { alert("Details likhein!"); return; }
 
-        // JADU: Browser ko majboor karne ke liye har baar naya version number
-        const cacheBuster = new Date().getTime();
-        const script = document.createElement('script');
-        script.src = `${sheetURL}?action=login&mobile=${mobile}&pass=${pass}&callback=loginResponse&v=${cacheBuster}`;
-        document.body.appendChild(script);
-    }
+            b.innerText = "Connecting...";
+            b.disabled = true;
 
-    window.loginResponse = function(result) {
-        if (result.status === "success") {
-            localStorage.setItem("userRole", result.role);
-            localStorage.setItem("userCity", result.city);
-            window.location.href = "complaints-list.html";
-        } else {
-            alert("Ghalat Mobile ya Password!");
-            location.reload();
+            // JSONP Bypass
+            const s = document.createElement('script');
+            s.src = api + "?action=login&mobile=" + m + "&pass=" + p + "&callback=handleRes";
+            document.body.appendChild(s);
         }
-    }
-</script>
+
+        window.handleRes = function(r) {
+            const b = document.getElementById('lBtn');
+            if (r.status === "success") {
+                localStorage.setItem("userRole", r.role);
+                localStorage.setItem("userCity", r.city);
+                window.location.href = "complaints-list.html";
+            } else {
+                alert("Ghalat Mobile ya Password!");
+                b.innerText = "لاگ ان کریں";
+                b.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
