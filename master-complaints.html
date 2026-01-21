@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Complaints Monitoring - Sindh HQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --navy: #0f172a; --gold: #ffd700; --red: #e11d48; --orange: #f59e0b; --green: #10b981; }
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; margin: 0; }
+        
+        .header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--red); }
+        .header h1 { font-family: 'Noto Nastaliq Urdu', serif; margin: 0; font-size: 18px; color: var(--gold); }
+
+        /* Summary Stats for Complaints */
+        .comp-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 15px; }
+        .c-stat-card { background: white; padding: 15px 5px; border-radius: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 4px solid #ddd; }
+        .c-stat-card h2 { margin: 0; font-size: 18px; }
+        .c-stat-card p { margin: 5px 0 0; font-size: 9px; font-weight: bold; color: #64748b; }
+
+        /* Complaint Feed */
+        .complaint-list { padding: 15px; }
+        .comp-row { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; border-right: 5px solid var(--red); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        
+        .comp-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .comp-id { font-size: 10px; font-weight: bold; color: #94a3b8; }
+        .committee-badge { background: #f1f5f9; color: var(--navy); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+
+        .comp-body h4 { margin: 5px 0; font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; color: #1e293b; }
+        .comp-body p { margin: 0; font-size: 12px; color: #475569; line-height: 1.5; }
+
+        .comp-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; border-top: 1px solid #f1f5f9; padding-top: 10px; }
+        .status-text { font-size: 10px; font-weight: bold; color: var(--red); }
+        .btn-call { background: var(--navy); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <a href="admin-master.html" style="color:white; float:right; text-decoration:none;"><i class="fas fa-arrow-right"></i></a>
+    <h1>ماسٹر عوامی شکایات (All Sindh)</h1>
+</div>
+
+<div class="comp-stats">
+    <div class="c-stat-card" style="border-color: var(--red);">
+        <h2 style="color:var(--red);">142</h2>
+        <p>پینڈنگ (Pending)</p>
+    </div>
+    <div class="c-stat-card" style="border-color: var(--orange);">
+        <h2 style="color:var(--orange);">56</h2>
+        <p>زیرِ کار (Process)</p>
+    </div>
+    <div class="c-stat-card" style="border-color: var(--green);">
+        <h2 style="color:var(--green);">890</h2>
+        <p>حل شدہ (Solved)</p>
+    </div>
+</div>
+
+<div class="complaint-list">
+    <div class="comp-row">
+        <div class="comp-meta">
+            <span class="comp-id">#CMP-9901</span>
+            <span class="committee-badge">کراچی مارکیٹ کمیٹی</span>
+        </div>
+        <div class="comp-body">
+            <h4>مہنگے پھل اور بدتمیزی</h4>
+            <p>سائٹ ایریا کی فروٹ مارکیٹ میں سرکاری ریٹ سے دگنا قیمت لی جا رہی ہے۔ کوئی چیک کرنے والا نہیں۔</p>
+        </div>
+        <div class="comp-footer">
+            <span class="status-text"><i class="fas fa-clock"></i> 4 گھنٹے سے پینڈنگ</span>
+            <button class="btn-call" onclick="alert('متعلقہ افسر کو براہ راست کال کی جا رہی ہے...')">افسر سے رابطہ کریں</button>
+        </div>
+    </div>
+
+    <div class="comp-row" style="border-right-color: var(--orange);">
+        <div class="comp-meta">
+            <span class="comp-id">#CMP-9854</span>
+            <span class="committee-badge">سکھر مارکیٹ کمیٹی</span>
+        </div>
+        <div class="comp-body">
+            <h4>ریٹ لسٹ کا نہ ہونا</h4>
+            <p>دکاندار نے لسٹ چھپا کر رکھی ہوئی ہے اور من مانے دام وصول کر رہا ہے۔</p>
+        </div>
+        <div class="comp-footer">
+            <span class="status-text" style="color:var(--orange);"><i class="fas fa-spinner"></i> افسر فیلڈ میں ہے</span>
+            <button class="btn-call">اپ ڈیٹ دیکھیں</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
