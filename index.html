@@ -12,6 +12,7 @@
             --glass-border: rgba(255, 255, 255, 0.15);
             --gold: #ffd700;
             --sindh-green: #064e3b;
+            --crystal-white: #f8fafc;
         }
         body { 
             margin: 0; font-family: 'Poppins', sans-serif; 
@@ -22,39 +23,50 @@
 
         /* LATEST VIP HEADER */
         .vip-header {
-            padding: 50px 20px 30px;
-            background: linear-gradient(180deg, rgba(6, 78, 59, 0.8) 0%, transparent 100%);
+            padding: 40px 20px 20px;
+            background: linear-gradient(180deg, rgba(6, 78, 59, 0.9) 0%, transparent 100%);
             border-bottom: 2px solid var(--gold);
         }
         .vip-header h1 { 
-            font-size: 24px; font-weight: 800; margin: 0; 
+            font-size: 22px; font-weight: 800; margin: 0; 
             letter-spacing: 2px; text-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
+        
+        /* Market Committee Color Changed to Crystal White */
         .vip-header h2 { 
-            font-family: 'Noto Nastaliq Urdu'; color: var(--gold); 
-            font-size: 34px; margin: 15px 0; line-height: 1.8;
+            font-family: 'Noto Nastaliq Urdu'; color: var(--crystal-white); 
+            font-size: 38px; margin: 15px 0; line-height: 1.8;
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
 
         /* THE CONTROL BADGE & DG TEXT */
-        .control-section { margin-top: 15px; }
         .under-control-badge {
             background: var(--gold); color: #000; padding: 6px 25px;
-            border-radius: 50px; font-size: 13px; font-weight: 900;
+            border-radius: 50px; font-size: 12px; font-weight: 900;
             display: inline-block; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-            text-transform: uppercase;
         }
         .dg-title {
-            font-size: 14px; font-weight: 600; margin-top: 12px;
-            letter-spacing: 1px; color: rgba(255,255,255,0.9);
+            font-size: 13px; font-weight: 600; margin-top: 10px;
+            letter-spacing: 1px; color: rgba(255,255,255,0.8);
             text-transform: uppercase;
+        }
+
+        /* NEW: AAJ KI TAZI QEMAT BAR */
+        .tazi-qemat-bar {
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+            margin: 10px 0; padding: 10px;
+            font-family: 'Noto Nastaliq Urdu';
+            font-size: 22px; color: var(--gold);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         /* DATE CONTAINER */
         .date-box {
-            margin: 20px 25px; padding: 15px; 
+            margin: 10px 25px 20px; padding: 12px; 
             background: var(--glass-bg); backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 18px;
-            color: var(--gold); font-size: 15px;
+            border: 1px solid var(--glass-border); border-radius: 15px;
+            color: var(--gold); font-size: 14px;
         }
 
         /* CRYSTAL GRID */
@@ -64,12 +76,12 @@
         .crystal-box {
             background: var(--glass-bg); backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border); border-radius: 25px;
-            padding: 25px 10px; text-decoration: none; color: white;
-            transition: 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center;
+            padding: 22px 10px; text-decoration: none; color: white;
+            transition: 0.3s; display: flex; flex-direction: column; align-items: center;
         }
         .crystal-box:active { transform: scale(0.95); background: rgba(255,255,255,0.12); }
-        .crystal-box i { font-size: 36px; margin-bottom: 12px; }
-        .crystal-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 20px; font-weight: 500; }
+        .crystal-box i { font-size: 32px; margin-bottom: 10px; }
+        .crystal-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; }
 
         /* COLORS */
         .veg { border-bottom: 4px solid #4ade80; }
@@ -82,7 +94,6 @@
         .full-width { grid-column: span 2; }
         .complaint-box { 
             background: rgba(239, 68, 68, 0.15); 
-            border: 1px solid rgba(239, 68, 68, 0.3);
             border-bottom: 4px solid #ef4444; 
         }
         .admin-box { 
@@ -91,10 +102,9 @@
             margin-top: 10px;
         }
 
-        /* FOOTER */
         .footer {
-            margin-top: 40px; padding: 30px; font-size: 11px;
-            background: rgba(0,0,0,0.5); color: #94a3b8; line-height: 1.6;
+            margin-top: 30px; padding: 25px; font-size: 10px;
+            background: rgba(0,0,0,0.5); color: #94a3b8;
         }
     </style>
 </head>
@@ -103,10 +113,12 @@
     <div class="vip-header">
         <h1>GOVERNMENT OF SINDH</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
-        <div class="control-section">
-            <div class="under-control-badge">Under Control</div>
-            <div class="dg-title">Director General Agriculture Marketing Sindh</div>
-        </div>
+        <div class="under-control-badge">Under Control</div>
+        <div class="dg-title">Director General Agriculture Marketing Sindh</div>
+    </div>
+
+    <div class="tazi-qemat-bar">
+        آج کی تازہ قیمت
     </div>
 
     <div class="date-box">
@@ -134,7 +146,7 @@
 
     <div class="footer">
         &copy; 2026 Sindh Agriculture Marketing Department.<br>
-        Developed for DG Office Central Monitoring Control Room.
+        Central Monitoring Control Room - DG Office.
     </div>
 
     <script>
