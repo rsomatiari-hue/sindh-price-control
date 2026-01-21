@@ -8,77 +8,82 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --glass-bg: rgba(6, 78, 59, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
             --gold: #ffd700;
-            --white: #ffffff;
+            --sindh-green: #064e3b;
         }
         body { 
             margin: 0; font-family: 'Poppins', sans-serif; 
-            background: radial-gradient(circle at top, #064e3b, #020617); 
-            background-attachment: fixed; color: var(--white);
+            background: radial-gradient(circle at top, var(--sindh-green), #020617); 
+            background-attachment: fixed; color: white;
             text-align: center;
         }
 
-        /* LATEST VIP HEADER (No Logo, Bold Look) */
+        /* LATEST VIP HEADER */
         .vip-header {
-            padding: 50px 20px;
+            padding: 50px 20px 30px;
             background: linear-gradient(180deg, rgba(6, 78, 59, 0.8) 0%, transparent 100%);
             border-bottom: 2px solid var(--gold);
         }
         .vip-header h1 { 
-            font-size: 26px; font-weight: 800; margin: 0; 
-            letter-spacing: 3px; color: var(--white);
-            text-shadow: 0 0 20px rgba(255,255,255,0.4);
+            font-size: 24px; font-weight: 800; margin: 0; 
+            letter-spacing: 2px; text-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         .vip-header h2 { 
             font-family: 'Noto Nastaliq Urdu'; color: var(--gold); 
-            font-size: 36px; margin: 20px 0; line-height: 1.8;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
-        .status-badge {
-            background: var(--gold); color: #000; padding: 6px 30px;
-            border-radius: 50px; font-size: 13px; font-weight: 800;
-            display: inline-block; box-shadow: 0 0 15px var(--gold);
+            font-size: 34px; margin: 15px 0; line-height: 1.8;
         }
 
-        /* MODERN DATE BAR */
-        .date-container {
+        /* THE CONTROL BADGE & DG TEXT */
+        .control-section { margin-top: 15px; }
+        .under-control-badge {
+            background: var(--gold); color: #000; padding: 6px 25px;
+            border-radius: 50px; font-size: 13px; font-weight: 900;
+            display: inline-block; box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            text-transform: uppercase;
+        }
+        .dg-title {
+            font-size: 14px; font-weight: 600; margin-top: 12px;
+            letter-spacing: 1px; color: rgba(255,255,255,0.9);
+            text-transform: uppercase;
+        }
+
+        /* DATE CONTAINER */
+        .date-box {
             margin: 20px 25px; padding: 15px; 
-            background: var(--glass-bg); backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border); border-radius: 20px;
-            color: var(--gold); font-size: 16px; font-weight: 600;
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 18px;
+            color: var(--gold); font-size: 15px;
         }
 
         /* CRYSTAL GRID */
         .main-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 10px 25px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px 20px;
         }
         .crystal-box {
-            background: var(--glass-bg); backdrop-filter: blur(25px);
+            background: var(--glass-bg); backdrop-filter: blur(30px);
             border: 1px solid var(--glass-border); border-radius: 25px;
-            padding: 30px 10px; text-decoration: none; color: var(--white);
-            transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            padding: 25px 10px; text-decoration: none; color: white;
+            transition: 0.3s ease-in-out; display: flex; flex-direction: column; align-items: center;
         }
-        .crystal-box:active { transform: scale(0.92); background: rgba(255,255,255,0.1); }
-        
-        .crystal-box i { font-size: 40px; margin-bottom: 15px; }
-        .crystal-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 20px; font-weight: 600; }
+        .crystal-box:active { transform: scale(0.95); background: rgba(255,255,255,0.12); }
+        .crystal-box i { font-size: 36px; margin-bottom: 12px; }
+        .crystal-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 20px; font-weight: 500; }
 
-        /* ACCENT COLORS */
-        .veg { border-top: 4px solid #4ade80; }
-        .fruit { border-top: 4px solid #fbbf24; }
-        .meat { border-top: 4px solid #f87171; }
-        .milk { border-top: 4px solid #60a5fa; }
-        .grocery { border-top: 4px solid #c084fc; }
-        .grain { border-top: 4px solid #fb923c; }
+        /* COLORS */
+        .veg { border-bottom: 4px solid #4ade80; }
+        .fruit { border-bottom: 4px solid #fbbf24; }
+        .meat { border-bottom: 4px solid #f87171; }
+        .milk { border-bottom: 4px solid #60a5fa; }
+        .grocery { border-bottom: 4px solid #c084fc; }
+        .grain { border-bottom: 4px solid #fb923c; }
         
         .full-width { grid-column: span 2; }
         .complaint-box { 
-            background: rgba(220, 38, 38, 0.2); 
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #ef4444; 
+            background: rgba(239, 68, 68, 0.15); 
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-bottom: 4px solid #ef4444; 
         }
         .admin-box { 
             border: 1px dashed var(--gold); 
@@ -88,8 +93,8 @@
 
         /* FOOTER */
         .footer {
-            margin-top: 50px; padding: 30px; font-size: 12px;
-            background: rgba(0,0,0,0.4); color: #94a3b8;
+            margin-top: 40px; padding: 30px; font-size: 11px;
+            background: rgba(0,0,0,0.5); color: #94a3b8; line-height: 1.6;
         }
     </style>
 </head>
@@ -98,41 +103,26 @@
     <div class="vip-header">
         <h1>GOVERNMENT OF SINDH</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
-        <div class="status-badge">DIRECTOR GENERAL AGRICULTURE OFFICE</div>
+        <div class="control-section">
+            <div class="under-control-badge">Under Control</div>
+            <div class="dg-title">Director General Agriculture Marketing Sindh</div>
+        </div>
     </div>
 
-    <div class="date-container">
-        <i class="far fa-calendar-check"></i> <span id="liveDate"></span>
+    <div class="date-box">
+        <i class="far fa-calendar-alt"></i> &nbsp; <span id="liveDate"></span>
     </div>
 
     <div class="main-grid">
-        <a href="vegetable-rates.html" class="crystal-box veg">
-            <i class="fas fa-carrot" style="color: #4ade80;"></i>
-            <span>سبزیاں</span>
-        </a>
-        <a href="fruit-rates.html" class="crystal-box fruit">
-            <i class="fas fa-apple-alt" style="color: #fbbf24;"></i>
-            <span>پھل</span>
-        </a>
-        <a href="meat-rates.html" class="crystal-box meat">
-            <i class="fas fa-drumstick-bite" style="color: #f87171;"></i>
-            <span>گوشت</span>
-        </a>
-        <a href="milk-rates.html" class="crystal-box milk">
-            <i class="fas fa-glass-whiskey" style="color: #60a5fa;"></i>
-            <span>دودھ</span>
-        </a>
-        <a href="grocery-rates.html" class="crystal-box grocery">
-            <i class="fas fa-shopping-basket" style="color: #c084fc;"></i>
-            <span>کریانہ</span>
-        </a>
-        <a href="grain-rates.html" class="crystal-box grain">
-            <i class="fas fa-seedling" style="color: #fb923c;"></i>
-            <span>اجناس</span>
-        </a>
+        <a href="vegetable-rates.html" class="crystal-box veg"><i class="fas fa-carrot" style="color: #4ade80;"></i><span>سبزیاں</span></a>
+        <a href="fruit-rates.html" class="crystal-box fruit"><i class="fas fa-apple-alt" style="color: #fbbf24;"></i><span>پھل</span></a>
+        <a href="meat-rates.html" class="crystal-box meat"><i class="fas fa-drumstick-bite" style="color: #f87171;"></i><span>گوشت</span></a>
+        <a href="milk-rates.html" class="crystal-box milk"><i class="fas fa-glass-whiskey" style="color: #60a5fa;"></i><span>دودھ</span></a>
+        <a href="grocery-rates.html" class="crystal-box grocery"><i class="fas fa-shopping-basket" style="color: #c084fc;"></i><span>کریانہ</span></a>
+        <a href="grain-rates.html" class="crystal-box grain"><i class="fas fa-seedling" style="color: #fb923c;"></i><span>اجناس</span></a>
         
         <a href="public-complaint.html" class="crystal-box full-width complaint-box">
-            <i class="fas fa-exclamation-circle" style="color: #ef4444;"></i>
+            <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
             <span>آن لائن شکایت سیل</span>
         </a>
 
@@ -144,7 +134,7 @@
 
     <div class="footer">
         &copy; 2026 Sindh Agriculture Marketing Department.<br>
-        Central Monitoring Control Room - DG Office.
+        Developed for DG Office Central Monitoring Control Room.
     </div>
 
     <script>
