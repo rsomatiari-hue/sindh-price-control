@@ -3,100 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindh Market Committee - Premium 3D Portal</title>
+    <title>Sindh Market Committee - Official Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.1);
-            --gold-gradient: linear-gradient(180deg, #fff5ad 0%, #ffd700 50%, #b8860b 100%);
-            --deep-green: #042f24;
+            --bg-black: #000000;
+            --sindh-green: #042f24;
+            --gold: #ffd700;
+            --purple: #bf00ff;
+            --light-blue: #00d4ff;
         }
         body { 
             margin: 0; font-family: 'Poppins', sans-serif; 
-            background: radial-gradient(circle at top, #064e3b, #010409); 
-            background-attachment: fixed; color: white;
-            text-align: center;
+            background: radial-gradient(circle at top, #064e3b, var(--bg-black)); 
+            background-attachment: fixed; color: white; text-align: center;
         }
 
-        /* PREMIUM 3D HEADER */
+        /* VIP HEADER */
         .vip-header {
-            padding: 60px 20px 40px;
-            background: linear-gradient(180deg, rgba(6, 78, 59, 0.95) 0%, transparent 100%);
-            border-bottom: 2px solid rgba(255, 215, 0, 0.5);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            padding: 30px 15px 15px;
+            background: rgba(0,0,0,0.85);
+            border-bottom: 3px solid var(--gold);
         }
         .vip-header h1 { 
-            font-size: 24px; font-weight: 900; margin: 0; letter-spacing: 2px;
-            background: linear-gradient(to bottom, #ffffff, #a1a1a1);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+            font-size: 18px; font-weight: 900; color: var(--light-blue);
+            text-shadow: 0 0 10px var(--light-blue); margin: 0;
         }
-        
-        /* THE REAL 3D URDU FONT */
         .vip-header h2 { 
-            font-family: 'Noto Nastaliq Urdu';
-            font-size: 45px; margin: 25px 0;
-            background: var(--gold-gradient);
+            font-family: 'Noto Nastaliq Urdu'; font-size: 30px; 
+            margin: 10px 0; line-height: 2.2;
+            background: linear-gradient(to bottom, #ffffff, var(--purple));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 0px #7a5a06) drop-shadow(0 8px 15px rgba(0,0,0,0.7));
-            line-height: 1.8;
+            filter: drop-shadow(0 4px 0px #4b0082);
         }
-
-        .control-badge {
-            background: var(--gold-gradient); color: #000; padding: 8px 35px;
-            border-radius: 50px; font-size: 14px; font-weight: 900;
-            display: inline-block; box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
-            border: 1px solid #fff; text-transform: uppercase;
+        .under-control {
+            background: linear-gradient(to right, var(--gold), #ff8c00);
+            color: #000; padding: 5px 25px; border-radius: 50px;
+            font-size: 11px; font-weight: 900; display: inline-block;
+            box-shadow: 0 0 15px var(--gold); border: 2px solid white;
         }
-
+        /* DG TITLE RESTORED */
         .dg-title {
-            font-size: 15px; font-weight: 700; margin-top: 15px;
-            color: #ffd700; text-transform: uppercase; letter-spacing: 1px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,1);
+            font-size: 11px; color: var(--gold); margin-top: 10px;
+            font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
         }
 
-        /* 3D FLOATING PRICE BAR */
-        .price-banner {
-            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.15), transparent);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 18px; margin: 20px 0;
-            font-family: 'Noto Nastaliq Urdu'; font-size: 28px;
-            color: #ffd700; text-shadow: 0 0 15px rgba(255,215,0,0.6);
-        }
-
-        /* 3D CRYSTAL GRID */
-        .main-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 15px 25px;
-        }
-        .crystal-btn {
+        /* NEW STYLISH BOX (DATE TOP, PRICE BELOW) */
+        .info-card-3d {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 30px; padding: 30px 10px;
-            text-decoration: none; color: white;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 0 15px rgba(255,255,255,0.05);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 25px;
+            margin: 25px 20px; padding: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 0 15px rgba(255,215,0,0.1);
         }
-        .crystal-btn:active { transform: scale(0.9); }
-        .crystal-btn i { font-size: 42px; margin-bottom: 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        .crystal-btn span { font-family: 'Noto Nastaliq Urdu'; font-size: 22px; font-weight: 700; display: block; }
+        .card-date {
+            font-size: 14px; color: var(--gold); font-weight: 700;
+            display: block; margin-bottom: 10px; border-bottom: 1px solid rgba(255,215,0,0.2);
+            padding-bottom: 8px;
+        }
+        .card-price {
+            font-family: 'Noto Nastaliq Urdu'; font-size: 28px;
+            color: #fff; display: block; line-height: 1.6;
+        }
 
-        /* CATEGORY GLOWS */
-        .veg { border-bottom: 5px solid #00ff88; box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1); }
-        .fruit { border-bottom: 5px solid #ffcc00; box-shadow: 0 10px 30px rgba(255, 204, 0, 0.1); }
-        .meat { border-bottom: 5px solid #ff4444; }
-        .milk { border-bottom: 5px solid #00ccff; }
+        /* GRID TILES */
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px 20px; }
+        .btn-3d {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
+            border-radius: 22px; padding: 25px 5px; text-decoration: none; color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.05);
+        }
+        .btn-3d i { font-size: 38px; margin-bottom: 12px; }
+        .btn-3d span { font-family: 'Noto Nastaliq Urdu'; font-size: 20px; display: block; }
+
+        .veg { border-bottom: 4px solid #00ff88; }
+        .fruit { border-bottom: 4px solid var(--gold); }
+        .meat { border-bottom: 4px solid #ff3131; }
+        .milk { border-bottom: 4px solid var(--light-blue); }
         
         .full { grid-column: span 2; }
-        .complaint { background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255,0,0,0.3); border-bottom: 5px solid #ff0000; }
-        .admin { border: 1px dashed #ffd700; margin-top: 15px; }
+        .complaint { background: rgba(255, 49, 49, 0.08); border: 1px solid #ff3131; }
+        .admin { border: 1px dashed var(--purple); background: rgba(191,0,255,0.03); margin-top: 15px; }
 
-        .footer {
-            margin-top: 60px; padding: 40px; font-size: 12px;
-            background: rgba(0,0,0,0.7); color: #888; border-top: 1px solid rgba(255,255,255,0.05);
-        }
+        .footer { padding: 30px; font-size: 10px; color: #444; background: #000; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -104,50 +95,40 @@
     <div class="vip-header">
         <h1>GOVERNMENT OF SINDH</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
-        <div class="control-badge">UNDER CONTROL</div>
+        <div class="under-control">UNDER CONTROL</div>
         <div class="dg-title">Director General Agriculture Marketing Sindh</div>
     </div>
 
-    <div class="price-banner">آج کی تازہ قیمت</div>
+    <div class="info-card-3d">
+        <span class="card-date">
+            <i class="far fa-calendar-alt"></i> &nbsp; <span id="currentDate"></span>
+        </span>
+        <span class="card-price">آج کی تازہ قیمت</span>
+    </div>
 
     <div class="main-grid">
-        <a href="vegetable-rates.html" class="crystal-btn veg">
-            <i class="fas fa-carrot" style="color: #00ff88;"></i>
-            <span>سبزیاں</span>
-        </a>
-        <a href="fruit-rates.html" class="crystal-btn fruit">
-            <i class="fas fa-apple-alt" style="color: #ffcc00;"></i>
-            <span>پھل</span>
-        </a>
-        <a href="meat-rates.html" class="crystal-btn meat">
-            <i class="fas fa-drumstick-bite" style="color: #ff4444;"></i>
-            <span>گوشت</span>
-        </a>
-        <a href="milk-rates.html" class="crystal-btn milk">
-            <i class="fas fa-glass-whiskey" style="color: #00ccff;"></i>
-            <span>دودھ</span>
-        </a>
+        <a href="vegetable-rates.html" class="btn-3d veg"><i class="fas fa-carrot" style="color:#00ff88"></i><span>سبزیاں</span></a>
+        <a href="fruit-rates.html" class="btn-3d fruit"><i class="fas fa-apple-alt" style="color:var(--gold)"></i><span>پھل</span></a>
+        <a href="meat-rates.html" class="btn-3d meat"><i class="fas fa-drumstick-bite" style="color:#ff3131"></i><span>گوشت</span></a>
+        <a href="milk-rates.html" class="btn-3d milk"><i class="fas fa-glass-whiskey" style="color:var(--light-blue)"></i><span>دودھ</span></a>
         
-        <a href="public-complaint.html" class="crystal-btn full complaint">
-            <i class="fas fa-exclamation-circle" style="color: #ff0000;"></i>
+        <a href="public-complaint.html" class="btn-3d full complaint">
+            <i class="fas fa-exclamation-triangle" style="color:#ff3131"></i>
             <span>آن لائن شکایت سیل</span>
         </a>
 
-        <a href="login.html" class="crystal-btn full admin">
-            <i class="fas fa-user-shield" style="color: #ffd700;"></i>
-            <span>آفیسر لاگ ان (Admin)</span>
+        <a href="login.html" class="btn-3d full admin">
+            <i class="fas fa-user-shield" style="color:var(--purple)"></i>
+            <span>آفیسر پورٹل (Admin)</span>
         </a>
     </div>
 
     <div class="footer">
-        © 2026 SINDH AGRICULTURE MARKETING DEPARTMENT<br>
-        OFFICIAL MONITORING PORTAL - DG OFFICE
+        © 2026 SINDH AGRICULTURE DEPARTMENT | VIP MONITORING SYSTEM
     </div>
 
     <script>
-        document.body.onload = function() {
-            console.log("3D Interface Loaded");
-        };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ur-PK', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     </script>
 </body>
 </html>
