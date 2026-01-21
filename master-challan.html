@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Challan Log - Sindh HQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --navy: #0f172a; --gold: #ffd700; --emerald: #059669; }
+        body { font-family: 'Poppins', sans-serif; background: #f8fafc; margin: 0; }
+        
+        .master-header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--emerald); }
+        .master-header h1 { font-family: 'Noto Nastaliq Urdu', serif; margin: 0; font-size: 18px; color: var(--gold); }
+
+        /* Powerful Filter Bar */
+        .sticky-filter { position: sticky; top: 0; background: white; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 100; }
+        .filter-flex { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-flex select, .filter-flex input { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 12px; min-width: 140px; }
+
+        /* Records Table */
+        .records-container { padding: 15px; }
+        .challan-row { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        
+        .row-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .committee-name { font-weight: bold; color: var(--emerald); font-size: 13px; }
+        .amount-badge { background: #fef9c3; color: #854d0e; padding: 2px 10px; border-radius: 15px; font-weight: bold; font-size: 12px; }
+
+        .row-body { text-align: right; }
+        .row-body h4 { margin: 5px 0; font-family: 'Noto Nastaliq Urdu', serif; font-size: 15px; }
+        .row-body p { margin: 0; font-size: 12px; color: #64748b; }
+
+        .row-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .evidence-btn { background: #1e293b; color: white; border: none; padding: 8px 15px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+        .time-text { font-size: 10px; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<div class="master-header">
+    <a href="admin-master.html" style="color:white; float:right; text-decoration:none;"><i class="fas fa-arrow-right"></i></a>
+    <h1>ماسٹر چالان لاگ (تمام 72 کمیٹیز)</h1>
+</div>
+
+<div class="sticky-filter">
+    <div class="filter-flex">
+        <select id="committeeFilter">
+            <option value="all">تمام مارکیٹ کمیٹیز</option>
+            <option value="khi">کراچی</option>
+            <option value="hyd">حیدرآباد</option>
+            </select>
+        <input type="date" id="dateFilter">
+    </div>
+</div>
+
+<div class="records-container">
+    <div class="challan-row">
+        <div class="row-top">
+            <span class="committee-name"><i class="fas fa-landmark"></i> کراچی مارکیٹ کمیٹی</span>
+            <span class="amount-badge">Rs. 5,000</span>
+        </div>
+        <div class="row-body">
+            <h4>آفیسر: محمد راشد</h4>
+            <p><strong>دکان:</strong> بسم اللہ جنرل اسٹور | <strong>وجہ:</strong> گرانفروشی</p>
+        </div>
+        <div class="row-footer">
+            <span class="time-text"><i class="fas fa-clock"></i> 21 Jan | 03:30 PM</span>
+            <button class="evidence-btn"><i class="fas fa-image"></i> ثبوت دیکھیں</button>
+        </div>
+    </div>
+
+    <div class="challan-row">
+        <div class="row-top">
+            <span class="committee-name"><i class="fas fa-landmark"></i> سکھر مارکیٹ کمیٹی</span>
+            <span class="amount-badge">Rs. 10,000</span>
+        </div>
+        <div class="row-body">
+            <h4>آفیسر: احمد شاہ</h4>
+            <p><strong>دکان:</strong> نیو پنجاب فروٹ | <strong>وجہ:</strong> ریٹ لسٹ کا نہ ہونا</p>
+        </div>
+        <div class="row-footer">
+            <span class="time-text"><i class="fas fa-clock"></i> 21 Jan | 02:15 PM</span>
+            <button class="evidence-btn"><i class="fas fa-image"></i> ثبوت دیکھیں</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
