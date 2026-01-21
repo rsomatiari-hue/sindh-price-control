@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindh Market Committee - VIP Crystal Portal</title>
+    <title>Sindh Market Committee - VIP Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,8 +25,12 @@
             background: var(--glass); backdrop-filter: var(--blur);
             border-bottom: 3px solid var(--gold); padding: 30px 15px; text-align: center;
         }
-        /* EMBEDDED LOGO STYLING */
-        .sindh-logo-img { width: 85px; height: auto; filter: drop-shadow(0 0 10px var(--gold)); margin-bottom: 10px; }
+
+        /* SVG LOGO STYLING (The real fix) */
+        .logo-container svg {
+            width: 80px; height: 80px; filter: drop-shadow(0 0 10px var(--gold));
+            margin-bottom: 10px;
+        }
         
         .vip-header h1 { font-size: 18px; margin: 5px 0; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
         .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: var(--gold); font-size: 28px; margin: 10px 0; }
@@ -69,7 +73,6 @@
         .complaint { grid-column: span 2; border-bottom: 4px solid #ff4444; background: rgba(255, 0, 0, 0.15); }
         .login-btn-home { grid-column: span 2; border: 1px dashed var(--gold); margin-top: 10px; }
 
-        /* VIP FOOTER */
         .vip-footer {
             margin-top: 40px; padding: 25px; text-align: center; font-size: 11px;
             background: rgba(0,0,0,0.5); border-top: 1px solid var(--border); color: #94a3b8;
@@ -79,11 +82,16 @@
 <body>
 
     <div class="vip-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo-img" alt="Sindh Logo">
+        <div class="logo-container">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="#ffd700" stroke-width="5"/>
+                <path d="M100 20 L130 180 L30 80 L170 80 L70 180 Z" fill="#ffd700"/>
+                <text x="50%" y="85%" text-anchor="middle" fill="#ffd700" font-size="20" font-weight="bold">SINDH</text>
+            </svg>
+        </div>
         <h1>Government of Sindh</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
         <div class="under-control-badge">Under Control</div>
-        <p style="font-size: 12px; margin-top: 10px;">Director General Agriculture Marketing Sindh</p>
     </div>
 
     <div class="date-bar">
@@ -95,37 +103,30 @@
             <i class="fas fa-carrot" style="color: #4ade80;"></i>
             <span>سبزیاں</span>
         </a>
-
         <a href="fruit-rates.html" class="menu-box fruit">
             <i class="fas fa-apple-alt" style="color: #fbbf24;"></i>
             <span>پھل</span>
         </a>
-
         <a href="meat-rates.html" class="menu-box meat">
             <i class="fas fa-drumstick-bite" style="color: #f87171;"></i>
             <span>گوشت و مچھلی</span>
         </a>
-
         <a href="milk-rates.html" class="menu-box milk">
             <i class="fas fa-glass-whiskey" style="color: #60a5fa;"></i>
             <span>دودھ و مٹھائی</span>
         </a>
-
         <a href="grocery-rates.html" class="menu-box grocery">
             <i class="fas fa-shopping-basket" style="color: #c084fc;"></i>
             <span>کریانہ اشیاء</span>
         </a>
-
         <a href="grain-rates.html" class="menu-box grain">
             <i class="fas fa-seedling" style="color: #fb923c;"></i>
             <span>اجناس (Grains)</span>
         </a>
-
         <a href="public-complaint.html" class="menu-box complaint">
             <i class="fas fa-exclamation-triangle" style="color: #ff4444;"></i>
             <span>آن لائن شکایت درج کریں</span>
         </a>
-
         <a href="login.html" class="menu-box login-btn-home">
             <i class="fas fa-user-lock" style="color: var(--gold);"></i>
             <span>آفیسر لاگ ان (Admin)</span>
@@ -133,12 +134,10 @@
     </div>
 
     <div class="vip-footer">
-        &copy; 2026 Sindh Agriculture Marketing Department. <br>
-        Developed for DG Office Central Monitoring Control Room.
+        &copy; 2026 Sindh Agriculture Marketing Department.
     </div>
 
     <script>
-        // Automatic Date Update
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ur-PK', options);
     </script>
