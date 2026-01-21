@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DG Monitoring Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS Same as Above AC Panel */
+        :root { --primary: #1b5e20; --bg: #f4f7f4; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid #ffd700; }
+        .header h1 { font-size: 13px; margin: 0; text-transform: uppercase; line-height: 1.4; }
+        .header p { font-size: 12px; margin-top: 5px; color: #ffd700; font-weight: bold; }
+        .stats-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .stat-box { border-radius: 20px; padding: 20px; text-align: center; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .stat-box i { font-size: 30px; margin-bottom: 10px; display: block; }
+        .stat-box h2 { font-size: 28px; margin: 0; }
+        .red { background: #ef5350; } .blue { background: #4fc3f7; }
+        .green { background: #66bb6a; } .purple { background: #ab47bc; }
+        .action-list { padding: 0 20px; }
+        .action-item { background: #212121; color: #ffd700; border-radius: 15px; margin-bottom: 15px; padding: 18px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; }
+        .nav-link { text-decoration: none; text-align: center; color: var(--primary); font-size: 12px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>DIRECTOR GENERAL AGRICULTURE MARKETING SINDH MONITORING ROOM</h1>
+    <p>صوبائی مانیٹرنگ ڈیش بورڈ</p>
+</div>
+
+<div class="stats-container">
+    <div class="stat-box red"><i class="fas fa-database"></i><h2>48</h2><p>کل شکایات</p></div>
+    <div class="stat-box blue"><i class="fas fa-map-marked-alt"></i><h2>29</h2><p>اضلاع</p></div>
+    <div class="stat-box green"><i class="fas fa-chart-bar"></i><h2>85%</h2><p>کارکردگی</p></div>
+    <div class="stat-box purple"><i class="fas fa-users-cog"></i><h2>120</h2><p>ٹوٹل سٹاف</p></div>
+</div>
+
+<div class="action-list">
+    <a href="all-rates.html" class="action-item"><i class="fas fa-globe"></i><span>پورے سندھ کے ریٹس</span><i class="fas fa-chevron-left"></i></a>
+    <a href="complaints-list.html" class="action-item"><i class="fas fa-shield-alt"></i><span>صوبائی شکایات مانیٹرنگ</span><i class="fas fa-chevron-left"></i></a>
+</div>
+
+<div class="bottom-nav">
+    <a href="index.html" class="nav-link" style="color:#d32f2f;"><i class="fas fa-sign-out-alt"></i>لاگ آؤٹ</a>
+    <a href="index.html" class="nav-link"><i class="fas fa-globe"></i>پبلک ویو</a>
+    <a href="dg-monitoring.html" class="nav-link"><i class="fas fa-home"></i>ہوم</a>
+</div>
+
+</body>
+</html>
