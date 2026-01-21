@@ -23,55 +23,58 @@
             background: var(--glass); backdrop-filter: var(--blur);
             border-bottom: 3px solid #ffd700; padding: 30px 15px; text-align: center;
         }
-        .sindh-logo { width: 75px; filter: drop-shadow(0 0 15px #ffd700); margin-bottom: 10px; }
-        .vip-header h1 { font-size: 20px; margin: 5px 0; color: #fff; }
+        /* Fixed Logo Size & Shadow */
+        .sindh-logo { width: 80px; height: auto; filter: drop-shadow(0 0 10px #ffd700); margin-bottom: 10px; }
+        .vip-header h1 { font-size: 18px; margin: 5px 0; color: #fff; letter-spacing: 1px; }
         .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 26px; margin: 10px 0; }
         .under-control-badge { background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; font-size: 11px; font-weight: 800; display: inline-block; margin: 10px 0; }
-        .dg-text { font-size: 13px; font-weight: 600; margin-top: 5px; }
+        .dg-text { font-size: 12px; font-weight: 600; margin-top: 5px; opacity: 0.9; }
 
         /* LIVE DATE BAR */
         .date-bar {
-            margin: 20px; padding: 12px; background: rgba(255, 255, 255, 0.05);
+            margin: 15px 20px; padding: 12px; background: rgba(255, 255, 255, 0.05);
             backdrop-filter: var(--blur); border-radius: 15px;
             border-left: 5px solid #ffd700; border-right: 5px solid #ffd700;
-            text-align: center; font-size: 15px; color: #ffd700; font-weight: 600;
+            text-align: center; font-size: 14px; color: #ffd700; font-weight: 600;
         }
 
         /* MAIN GRID */
         .main-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px 20px;
         }
         .menu-box {
             background: var(--glass); backdrop-filter: var(--blur);
             border: 1px solid var(--border); border-radius: 20px;
             padding: 25px 10px; text-align: center; text-decoration: none;
-            color: white; transition: 0.3s;
+            color: white; transition: 0.3s; display: block;
         }
-        .menu-box:active { transform: scale(0.95); }
-        .menu-box i { font-size: 35px; margin-bottom: 12px; display: block; }
-        .menu-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; display: block; }
+        .menu-box:active { transform: scale(0.95); background: rgba(255,255,255,0.2); }
+        .menu-box i { font-size: 30px; margin-bottom: 12px; display: block; }
+        .menu-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 17px; display: block; }
 
-        /* COLORS FOR BOXES */
+        /* BOX DECORATIONS */
         .veg { border-bottom: 4px solid #4ade80; }
         .fruit { border-bottom: 4px solid #fbbf24; }
         .meat { border-bottom: 4px solid #f87171; }
         .milk { border-bottom: 4px solid #60a5fa; }
         .grocery { border-bottom: 4px solid #c084fc; }
         .grain { border-bottom: 4px solid #fb923c; }
-        .complaint { grid-column: span 2; border-bottom: 4px solid #ff4444; background: rgba(255,0,0,0.1); }
-        .login-btn-home { grid-column: span 2; border: 1px dashed #ffd700; margin-top: 10px; }
+        /* COMPLAINT BOX FIXED */
+        .complaint { grid-column: span 2; border-bottom: 4px solid #ff4444; background: rgba(255, 0, 0, 0.1); }
+        .login-btn-home { grid-column: span 2; border: 1px dashed #ffd700; margin-top: 5px; opacity: 0.8; }
 
-        /* FOOTER */
+        /* VIP FOOTER */
         .vip-footer {
-            margin-top: 30px; padding: 25px; text-align: center; font-size: 11px;
+            margin-top: 20px; padding: 20px; text-align: center; font-size: 10px;
             background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); color: #94a3b8;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
     <div class="vip-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo" alt="Sindh Logo">
         <h1>Government of Sindh</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
         <div class="under-control-badge">Under Control</div>
