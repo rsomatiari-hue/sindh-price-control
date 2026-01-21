@@ -7,92 +7,93 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #1b5e20; --bg: #f4f7f4; }
+        :root { --primary: #1b5e20; --bg: #f4f7f4; --gold: #ffd700; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; }
         
-        /* Header */
-        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid #ffd700; }
-        .header h1 { font-size: 14px; margin: 0; text-transform: uppercase; }
-        .header p { font-size: 11px; margin-top: 5px; color: #ffd700; font-weight: bold; }
+        /* Header Section */
+        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid var(--gold); }
+        .header h1 { font-size: 14px; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .header p { font-size: 11px; margin-top: 5px; color: var(--gold); font-weight: bold; }
 
-        /* VIP Stats Grid (Categories) */
+        /* VIP Category Grid */
         .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .cat-box { border-radius: 15px; padding: 20px 10px; text-align: center; color: white; cursor: pointer; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .cat-box i { font-size: 28px; margin-bottom: 8px; display: block; }
-        .cat-box span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; font-weight: bold; }
+        .cat-box { border-radius: 15px; padding: 25px 10px; text-align: center; color: white; cursor: pointer; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .cat-box:active { transform: scale(0.95); }
+        .cat-box i { font-size: 30px; margin-bottom: 10px; display: block; }
+        .cat-box span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 15px; font-weight: bold; }
 
-        /* Category Colors */
-        .veg { background: #66bb6a; } .fruit { background: #ffa726; }
-        .meat { background: #ef5350; } .milk { background: #4fc3f7; }
-        .grocery { background: #ab47bc; } .poultry { background: #78909c; }
+        /* Categories Colors */
+        .veg { background: #4caf50; }    /* Green */
+        .fruit { background: #ff9800; }  /* Orange */
+        .meat { background: #f44336; }   /* Red */
+        .milk { background: #2196f3; }   /* Blue */
+        .grocery { background: #9c27b0; }/* Purple */
+        .poultry { background: #607d8b; }/* Blue Grey */
 
         /* Black & Golden Action Buttons (Like Admin) */
         .action-list { padding: 0 15px; margin-top: 10px; }
-        .action-item { background: #212121; color: #ffd700; border-radius: 12px; margin-bottom: 10px; padding: 15px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; border: 1px solid #333; }
-        .action-item span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 15px; font-weight: bold; }
+        .action-item { background: #212121; color: var(--gold); border-radius: 12px; margin-bottom: 10px; padding: 18px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; border: 1px solid #333; }
+        .action-item span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; font-weight: bold; }
         .action-item i { font-size: 18px; }
 
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid #ddd; }
-        .nav-link { text-decoration: none; text-align: center; color: var(--primary); font-size: 11px; font-weight: bold; }
-        .nav-link i { font-size: 22px; display: block; }
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #ddd; z-index: 1000; }
+        .nav-link { text-decoration: none; text-align: center; color: var(--primary); font-size: 12px; font-weight: bold; }
+        .nav-link i { font-size: 22px; display: block; margin-bottom: 2px; }
+        .logout { color: #d32f2f; }
     </style>
 </head>
 <body>
 
 <div class="header">
     <h1>MARKET COMMITTEE PRICE CONTROL UPDATES</h1>
-    <p>OFFICER MONITORING PANEL: <span id="officerCity">KARACHI</span></p>
+    <p>OFFICER MONITORING PANEL: <span id="officerCity">LOADING...</span></p>
 </div>
 
 <div class="category-grid">
-    <div class="cat-box veg" onclick="location.href='update-rates.html?cat=Vegetable'">
+    <div class="cat-box veg" onclick="location.href='vegetables-rates.html'">
         <i class="fas fa-carrot"></i><span>سبزیاں</span>
     </div>
-    <div class="cat-box fruit" onclick="location.href='update-rates.html?cat=Fruit'">
+    <div class="cat-box fruit" onclick="location.href='fruits-rates.html'">
         <i class="fas fa-apple-alt"></i><span>پھل</span>
     </div>
-    <div class="cat-box meat" onclick="location.href='update-rates.html?cat=drumstick-bite'">
+    <div class="cat-box meat" onclick="location.href='meat-milk-rates.html'">
         <i class="fas fa-drumstick-bite"></i><span>گوشت / مچھلی</span>
     </div>
-    <div class="cat-box milk" onclick="location.href='update-rates.html?cat=Milk'">
-        <i class="fas fa-cheese"></i><span>دودھ / دہی</span>
+    <div class="cat-box milk" onclick="location.href='meat-milk-rates.html'">
+        <i class="fas fa-glass-whiskey"></i><span>دودھ / دہی</span>
     </div>
-    <div class="cat-box grocery" onclick="location.href='update-rates.html?cat=Grocery'">
-        <i class="fas fa-shopping-bag"></i><span>کریانہ سٹور</span>
+    <div class="cat-box grocery" onclick="location.href='grocery-rates.html'">
+        <i class="fas fa-shopping-cart"></i><span>کریانہ اسٹور</span>
     </div>
-    <div class="cat-box poultry" onclick="location.href='update-rates.html?cat=Poultry'">
+    <div class="cat-box poultry" onclick="location.href='meat-milk-rates.html'">
         <i class="fas fa-egg"></i><span>مرغی / انڈے</span>
     </div>
 </div>
 
 <div class="action-list">
-    <h3 style="padding-right: 10px; font-size: 14px; color: #333;">دیگر خدمات (Services)</h3>
+    <h3 style="padding-right: 10px; font-size: 14px; color: #444; margin-bottom: 15px;">دیگر مینیجمینٹ (Management)</h3>
     
     <a href="complaints-list.html" class="action-item">
-        <i class="fas fa-file-invoice"></i>
-        <span>شہریوں کی شکایات (Complaints)</span>
+        <i class="fas fa-exclamation-circle"></i>
+        <span>شکایات مینجمنٹ (Complaints)</span>
         <i class="fas fa-chevron-left"></i>
     </a>
+    
     <a href="print-rates.html" class="action-item">
         <i class="fas fa-print"></i>
-        <span>ریٹ لسٹ پرنٹ کریں (A4 Print)</span>
-        <i class="fas fa-chevron-left"></i>
-    </a>
-    <a href="officer-profile.html" class="action-item">
-        <i class="fas fa-user-circle"></i>
-        <span>میری پروفائل (Profile)</span>
+        <span>ریٹ لسٹ پرنٹ (A4 Print)</span>
         <i class="fas fa-chevron-left"></i>
     </a>
 </div>
 
 <div class="bottom-nav">
-    <a href="index.html" class="nav-link" style="color:red;"><i class="fas fa-power-off"></i>Logout</a>
+    <a href="index.html" class="nav-link logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
     <a href="officer-dashboard.html" class="nav-link"><i class="fas fa-home"></i>Home</a>
 </div>
 
 <script>
-    // City set karna jo login ke waqt save hui thi
+    // Login ke waqt save ki gayi City yahan dikhayega
     document.getElementById('officerCity').innerText = localStorage.getItem("userCity") || "SINDH";
 </script>
 
