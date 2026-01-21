@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Digital Challan with Photo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root { --red: #b71c1c; --gold: #ffd700; --dark: #1a1a1a; }
+        body { font-family: 'Poppins', sans-serif; background: #f0f2f0; margin: 0; padding-bottom: 50px; }
+        .header { background: var(--dark); color: white; text-align: center; padding: 20px; border-bottom: 5px solid var(--red); }
+        .form-card { background: white; margin: 15px; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        .input-group { margin-bottom: 15px; text-align: right; }
+        .input-group label { display: block; font-family: 'Noto Nastaliq Urdu', serif; margin-bottom: 5px; font-weight: bold; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; }
+
+        /* Photo Capture Style */
+        .photo-capture-area { border: 2px dashed #bbb; border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 15px; background: #f9f9f9; cursor: pointer; }
+        #capturedPhoto { width: 100%; border-radius: 10px; display: none; margin-top: 10px; border: 2px solid var(--gold); }
+
+        #challanSlip { display: none; background: white; margin: 15px; padding: 25px; border: 2px solid #333; border-radius: 15px; text-align: center; }
+        .slip-header { border-bottom: 2px dashed #333; padding-bottom: 10px; margin-bottom: 15px; }
+        #qrcode { display: flex; justify-content: center; margin: 15px 0; }
+        
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
+        .btn-issue { background: var(--red); color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
+    </style>
+</head>
+<body>
+
+<div id="formSection">
+    <div class="header">
+        <h1 style="font-family:'Noto Nastaliq Urdu';">ڈیجیٹل چالان (Live Photo)</h1>
+        <p style="color:var(--gold); font-size:12px;">GOVERNMENT OF SINDH OFFICIAL PANEL</p>
+    </div>
+
+    <div class="form-card">
+        <div class="photo-capture-area" onclick="document.getElementById('cameraFile').click()">
+            <i class="fas fa-camera fa-2x" style="color:#555;"></i>
+            <p style="margin:5px 0; font-weight:bold; font-size:13px;">موقع کی تصویر لیں (Live Photo)</p>
+            <input type="file" id="cameraFile" accept="image/*" capture="camera" style="display:none;" onchange="showPreview(event)">
+            <img id="capturedPhoto" src="" alt="Preview">
+        </div>
+
+        <div class="input-group">
+            <label>دکاندار کا نام</label>
+            <input type="text" id="name" placeholder="Shopkeeper Name">
+        </div>
+        <div class="input-group">
+            <label>موبائل نمبر (WhatsApp)</label>
+            <input type="tel" id="phone" placeholder="923001234567">
+        </div>
+        <div class="input-group">
+            <label>جرمانہ کی رقم (Rs.)</label>
+            <input type="number" id="fine" placeholder="Enter Amount">
+        </div>
+        <div class="input-group">
+            <label>وجہ (Violation)</label>
+            <select id="reason">
+                <option>گرانفروشی (Overcharging)</option>
+                <option>ریٹ لسٹ کا نہ ہونا (No Rate List)</option>
+                <option>ذخیرہ اندوزی (Hoarding)</option>
+                <option>صفائی کے ناقص انتظامات</option>
+            </select>
+        </div>
+        <button class="btn btn-issue" onclick="generateChallan()"><i class="fas fa-gavel"></i> چالان جاری کریں</button>
+    </div>
+</div>
+
+<div id="challanSlip">
+    <div class="slip-header">
+        <h3 style="margin:0;">OFFICIAL CHALLAN SLIP</h3>
+        <p style="font-size:12px;">Market Committee Sindh</p>
+    </div>
+    <div style="text-align:right; font-size:14px;">
+        <p><strong>نام:</strong> <span id="s_name"></span></p>
+        <p><strong>رقم:</strong> Rs. <span id="s_fine"></span></p>
+        <p><strong>وجہ:</strong> <span id="s_reason"></span></p>
+        <p><strong>تاریخ:</strong> <span id="s_date"></span></p>
+    </div>
+    
+    <div id="qrcode"></div>
+    <p style="font-size:10px;">Verify with QR Code</p>
+
+    <button class="btn btn-whatsapp" onclick="sendWhatsApp()"><i class="fab fa-whatsapp"></i> واٹس ایپ پر بھیجیں</button>
+    <button class="btn" style="background:#eee;" onclick="location.reload()">Back</button>
+</div>
+
+<script>
+    // Live Photo Preview function
+    function showPreview(event) {
+        if(event.target.files.length > 0) {
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("capturedPhoto");
+            preview.src = src;
+            preview.style.display = "block";
+            document.querySelector('.photo-capture-area i').style.display = "none";
+            document.querySelector('.photo-capture-area p').style.display = "none";
+        }
+    }
+
+    function generateChallan() {
+        const name = document.getElementById('name').value;
+        const fine = document.getElementById('fine').value;
+        const phone = document.getElementById('phone').value;
+        const reason = document.getElementById('reason').value;
+        const photo = document.getElementById('cameraFile').value;
+
+        if(!name || !fine || !phone || !photo) {
+            return alert("Saboot ke liye tasveer aur tamam tafseelat lazmi hain!");
+        }
+
+        document.getElementById('s_name').innerText = name;
+        document.getElementById('s_fine').innerText = fine;
+        document.getElementById('s_reason').innerText = reason;
+        document.getElementById('s_date').innerText = new Date().toLocaleString();
+
+        document.getElementById('qrcode').innerHTML = "";
+        new QRCode(document.getElementById("qrcode"), {
+            text: `Challan-Verified: ${name}-${fine}-${Date.now()}`,
+            width: 120, height: 120
+        });
+
+        document.getElementById('formSection').style.display = "none";
+        document.getElementById('challanSlip').style.display = "block";
+    }
+
+    function sendWhatsApp() {
+        const phone = document.getElementById('phone').value;
+        const name = document.getElementById('s_name').innerText;
+        const fine = document.getElementById('s_fine').innerText;
+        const reason = document.getElementById('s_reason').innerText;
+
+        const message = `*MARKET COMMITTEE SINDH*%0A*OFFICIAL DIGITAL CHALLAN*%0A--------------------------%0A*Name:* ${name}%0A*Fine:* Rs. ${fine}%0A*Violation:* ${reason}%0A*Date:* ${new Date().toLocaleDateString()}%0A--------------------------%0A_Digital Copy Secured With QR Code_`;
+        
+        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
