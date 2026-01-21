@@ -3,98 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آفیسر کنٹرول پینل - VIP Look</title>
+    <title>آفیسر کمانڈ سینٹر - VIP</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #1b5e20; --bg: #f4f7f4; --gold: #ffd700; }
+        :root { --primary: #1b5e20; --bg: #f0f4f7; --gold: #ffd700; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 100px; }
-        
-        /* Header Section */
-        .header { background: var(--primary); color: white; text-align: center; padding: 20px 10px; border-bottom: 4px solid var(--gold); }
-        .header h1 { font-size: 14px; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        .header p { font-size: 11px; margin-top: 5px; color: var(--gold); font-weight: bold; }
+        .header { background: var(--primary); color: white; text-align: center; padding: 15px 10px; border-bottom: 4px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
+        .header h1 { font-size: 14px; margin: 0; }
+        .section-title { padding-right: 15px; font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; color: #333; margin: 20px 0 10px; border-right: 5px solid var(--primary); font-weight: bold; }
 
-        /* VIP Category Grid */
-        .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .cat-box { border-radius: 15px; padding: 25px 10px; text-align: center; color: white; cursor: pointer; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
-        .cat-box:active { transform: scale(0.95); }
-        .cat-box i { font-size: 30px; margin-bottom: 10px; display: block; }
-        .cat-box span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 15px; font-weight: bold; }
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+        .stat-card { border-radius: 15px; padding: 15px 10px; color: white; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; }
+        .stat-card h2 { margin: 0; font-size: 24px; }
+        .stat-card p { font-family: 'Noto Nastaliq Urdu', serif; font-size: 10px; margin: 5px 0 0; }
+        .full-card { grid-column: span 2; padding: 20px; }
+        .action-box { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .pending-box { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .process-box { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .today-box { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .today-new-box { background: linear-gradient(135deg, #34495e, #2c3e50); }
 
-        /* Categories Colors */
-        .veg { background: #4caf50; }    /* Green */
-        .fruit { background: #ff9800; }  /* Orange */
-        .meat { background: #f44336; }   /* Red */
-        .milk { background: #2196f3; }   /* Blue */
-        .grocery { background: #9c27b0; }/* Purple */
-        .poultry { background: #607d8b; }/* Blue Grey */
+        /* Field Action List */
+        .action-list { padding: 0 15px; }
+        .action-item { background: #212121; color: var(--gold); border-radius: 12px; margin-bottom: 10px; padding: 15px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; border: 1px solid #333; }
+        .action-item span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; }
 
-        /* Black & Golden Action Buttons (Like Admin) */
-        .action-list { padding: 0 15px; margin-top: 10px; }
-        .action-item { background: #212121; color: var(--gold); border-radius: 12px; margin-bottom: 10px; padding: 18px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; border: 1px solid #333; }
-        .action-item span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 16px; font-weight: bold; }
-        .action-item i { font-size: 18px; }
+        /* Price Grid */
+        .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px 15px; }
+        .rate-box { border-radius: 18px; padding: 20px 10px; text-align: center; color: white; cursor: pointer; }
+        .rate-box i { font-size: 28px; margin-bottom: 8px; display: block; }
+        .rate-box span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 14px; font-weight: bold; }
+        .v-veg { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .v-fruit { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+        .v-meat { background: linear-gradient(135deg, #870000, #190a05); }
+        .v-grocery { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
 
-        /* Bottom Navigation */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #ddd; z-index: 1000; }
-        .nav-link { text-decoration: none; text-align: center; color: var(--primary); font-size: 12px; font-weight: bold; }
-        .nav-link i { font-size: 22px; display: block; margin-bottom: 2px; }
-        .logout { color: #d32f2f; }
+        /* Reports Grid */
+        .reports-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 10px 15px; }
+        .report-box { border-radius: 12px; padding: 15px 5px; text-align: center; color: white; cursor: pointer; }
+        .report-box i { font-size: 20px; margin-bottom: 5px; display: block; }
+        .report-box span { font-family: 'Noto Nastaliq Urdu', serif; font-size: 10px; font-weight: bold; }
+        .r-daily { background: #4b6cb7; } .r-weekly { background: #0072ff; } .r-monthly { background: #4e4376; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #ddd; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>MARKET COMMITTEE PRICE CONTROL UPDATES</h1>
-    <p>OFFICER MONITORING PANEL: <span id="officerCity">LOADING...</span></p>
+    <h1>COMMAND & CONTROL CENTER</h1>
+    <p>آفیسر سٹی: <span id="city">SINDH</span></p>
 </div>
 
-<div class="category-grid">
-    <div class="cat-box veg" onclick="location.href='vegetables-rates.html'">
-        <i class="fas fa-carrot"></i><span>سبزیاں</span>
+<div class="stats-grid">
+    <div class="stat-card action-box full-card" onclick="location.href='complaints-list.html?status=resolved'">
+        <i class="fas fa-check-double"></i><h2 id="totalAction">1,450</h2><p>ٹوٹل ایکشن (Total Actions)</p>
     </div>
-    <div class="cat-box fruit" onclick="location.href='fruits-rates.html'">
-        <i class="fas fa-apple-alt"></i><span>پھل</span>
+    <div class="stat-card pending-box" onclick="location.href='complaints-list.html?status=pending'">
+        <i class="fas fa-clock"></i><h2 id="pending">24</h2><p>پینڈنگ شکایات</p>
     </div>
-    <div class="cat-box meat" onclick="location.href='meat-milk-rates.html'">
-        <i class="fas fa-drumstick-bite"></i><span>گوشت / مچھلی</span>
+    <div class="stat-card process-box" onclick="location.href='complaints-list.html?status=process'">
+        <i class="fas fa-spinner fa-spin"></i><h2 id="process">12</h2><p>زیرِ کار (Under Process)</p>
     </div>
-    <div class="cat-box milk" onclick="location.href='meat-milk-rates.html'">
-        <i class="fas fa-glass-whiskey"></i><span>دودھ / دہی</span>
+    <div class="stat-card today-box" onclick="location.href='complaints-list.html?time=today'">
+        <i class="fas fa-calendar-day"></i><h2 id="todayAction">08</h2><p>آج کا ایکشن</p>
     </div>
-    <div class="cat-box grocery" onclick="location.href='grocery-rates.html'">
-        <i class="fas fa-shopping-cart"></i><span>کریانہ اسٹور</span>
-    </div>
-    <div class="cat-box poultry" onclick="location.href='meat-milk-rates.html'">
-        <i class="fas fa-egg"></i><span>مرغی / انڈے</span>
+    <div class="stat-card today-new-box" onclick="location.href='complaints-list.html?time=today_new'">
+        <i class="fas fa-bell"></i><h2 id="todayNew" style="color:var(--gold);">05</h2><p style="color:var(--gold);">آج کی نئی شکایات</p>
     </div>
 </div>
 
+<div class="section-title">فیلڈ آپریشنز (Field Operations)</div>
 <div class="action-list">
-    <h3 style="padding-right: 10px; font-size: 14px; color: #444; margin-bottom: 15px;">دیگر مینیجمینٹ (Management)</h3>
-    
-    <a href="complaints-list.html" class="action-item">
-        <i class="fas fa-exclamation-circle"></i>
-        <span>شکایات مینجمنٹ (Complaints)</span>
-        <i class="fas fa-chevron-left"></i>
+    <a href="market-visit.html" class="action-item" style="border-right: 5px solid #2ecc71;">
+        <i class="fas fa-map-marked-alt"></i><span>مارکیٹ حاضری (Market Visit)</span><i class="fas fa-camera"></i>
     </a>
-    
-    <a href="print-rates.html" class="action-item">
-        <i class="fas fa-print"></i>
-        <span>ریٹ لسٹ پرنٹ (A4 Print)</span>
-        <i class="fas fa-chevron-left"></i>
+    <a href="generate-challan.html" class="action-item" style="border-right: 5px solid #e74c3c;">
+        <i class="fas fa-file-invoice-dollar"></i><span>چالان / جرمانہ (Issue Fine)</span><i class="fas fa-chevron-left"></i>
     </a>
+</div>
+
+<div class="section-title">نرخ مینیجمینٹ (Price Updates)</div>
+<div class="rate-grid">
+    <div class="rate-box v-veg" onclick="location.href='vegetables-rates.html'"><i class="fas fa-leaf"></i><span>سبزیاں</span></div>
+    <div class="rate-box v-fruit" onclick="location.href='fruits-rates.html'"><i class="fas fa-apple-alt"></i><span>پھل</span></div>
+    <div class="rate-box v-meat" onclick="location.href='meat-milk-rates.html'"><i class="fas fa-drumstick-bite"></i><span>گوشت / مرغی</span></div>
+    <div class="rate-box v-meat" style="background: #2193b0;" onclick="location.href='meat-milk-rates.html'"><i class="fas fa-tint"></i><span>دودھ / دہی</span></div>
+    <div class="rate-box v-grocery" onclick="location.href='grocery-rates.html'"><i class="fas fa-shopping-basket"></i><span>کریانہ اسٹور</span></div>
+    <div class="rate-box v-grocery" style="background: #333;" onclick="location.href='print-rates.html'"><i class="fas fa-print"></i><span>پرنٹ لسٹ</span></div>
+</div>
+
+<div class="section-title">کارکردگی رپورٹس (Reports)</div>
+<div class="reports-grid">
+    <div class="report-box r-daily" onclick="location.href='view-report.html?type=daily'"><i class="fas fa-file-alt"></i><span>Daily</span></div>
+    <div class="report-box r-weekly" onclick="location.href='view-report.html?type=weekly'"><i class="fas fa-file-medical-alt"></i><span>Weekly</span></div>
+    <div class="report-box r-monthly" onclick="location.href='view-report.html?type=monthly'"><i class="fas fa-file-invoice"></i><span>Monthly</span></div>
 </div>
 
 <div class="bottom-nav">
-    <a href="index.html" class="nav-link logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
-    <a href="officer-dashboard.html" class="nav-link"><i class="fas fa-home"></i>Home</a>
+    <a href="index.html" style="text-decoration:none; color:red; text-align:center;"><i class="fas fa-power-off"></i><br><small>Logout</small></a>
+    <a href="officer-dashboard.html" style="text-decoration:none; color:green; text-align:center;"><i class="fas fa-home"></i><br><small>Home</small></a>
 </div>
 
 <script>
-    // Login ke waqt save ki gayi City yahan dikhayega
-    document.getElementById('officerCity').innerText = localStorage.getItem("userCity") || "SINDH";
+    document.getElementById('city').innerText = localStorage.getItem("userCity") || "SINDH";
 </script>
 
 </body>
