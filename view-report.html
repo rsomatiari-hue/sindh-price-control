@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کارکردگی رپورٹ - Performance Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --primary: #2c3e50; --gold: #ffd700; --green: #27ae60; --red: #e74c3c; }
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding-bottom: 50px; }
+        
+        .header { background: var(--primary); color: white; text-align: center; padding: 20px; border-bottom: 5px solid var(--gold); }
+        .header h1 { font-family: 'Noto Nastaliq Urdu', serif; font-size: 18px; margin: 0; }
+
+        .report-container { padding: 15px; }
+        
+        /* Summary Cards */
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .s-card { background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .s-card h3 { margin: 0; font-size: 20px; color: var(--primary); }
+        .s-card p { font-family: 'Noto Nastaliq Urdu', serif; font-size: 11px; margin: 5px 0 0; color: #666; }
+
+        /* Chart Box */
+        .chart-box { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: center; }
+        
+        /* Table Style */
+        .report-table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; font-size: 12px; }
+        .report-table th { background: #eee; padding: 12px; text-align: right; }
+        .report-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: right; }
+        
+        .print-btn { background: var(--primary); color: var(--gold); width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>آفیسر کارکردگی رپورٹ (Performance)</h1>
+    <p id="reportTitle" style="font-size:12px; color:var(--gold);">Daily Report - Sindh Price Control</p>
+</div>
+
+<div class="report-container">
+    <a href="officer-dashboard.html" style="text-decoration:none; color:var(--primary); font-weight:bold; font-size:13px;"><i class="fas fa-arrow-right"></i> ڈیش بورڈ</a>
+
+    <div class="summary-grid" style="margin-top:15px;">
+        <div class="s-card" style="border-top: 4px solid var(--green);">
+            <h3 id="totalChallans">45</h3>
+            <p>ٹوٹل چالان</p>
+        </div>
+        <div class="s-card" style="border-top: 4px solid var(--gold);">
+            <h3 id="totalFine">125,000</h3>
+            <p>ٹوٹل جرمانہ (Rs)</p>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <h4 style="font-family:'Noto Nastaliq Urdu'; margin-top:0;">شکایات کا حل (Resolved vs Pending)</h4>
+        <canvas id="myChart" style="max-height: 200px;"></canvas>
+    </div>
+
+    <h4 style="font-family:'Noto Nastaliq Urdu'; margin-right:5px;">حالیہ سرگرمیاں (Recent Actions)</h4>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>تاریخ</th>
+                <th>مارکیٹ</th>
+                <th>ایکشن</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>21 Jan</td>
+                <td>صدر مارکیٹ</td>
+                <td style="color:var(--green);">Challan Issued</td>
+            </tr>
+            <tr>
+                <td>21 Jan</td>
+                <td>طارق روڈ</td>
+                <td style="color:var(--primary);">Market Visit</td>
+            </tr>
+            <tr>
+                <td>20 Jan</td>
+                <td>جوہر چورنگی</td>
+                <td style="color:var(--red);">Fine Imposed</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="print-btn" onclick="window.print()">
+        <i class="fas fa-file-pdf"></i> رپورٹ ڈاؤن لوڈ کریں (PDF)
+    </button>
+</div>
+
+<script>
+    // URL se Report ka type nikalna (Daily, Weekly etc)
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type') || 'daily';
+    document.getElementById('reportTitle').innerText = type.toUpperCase() + " REPORT - SINDH PRICE CONTROL";
+
+    // Chart.js Data
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Resolved', 'Pending', 'In Process'],
+            datasets: [{
+                data: [65, 20, 15],
+                backgroundColor: ['#27ae60', '#e74c3c', '#f39c12'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+</script>
+
+</body>
+</html>
