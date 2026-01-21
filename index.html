@@ -3,191 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سندھ سرکاری ریٹ لسٹ - ہوم پیج</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>Sindh Market Committee Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.2);
+            --blur: blur(25px);
+        }
         body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: #f0f4f8; 
             margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            text-align: right; 
-        }
-        
-        /* Official Header */
-        .header-bg { 
-            background: #1b5e20; 
-            color: white; 
-            padding: 20px 15px; 
-            text-align: center; 
-            border-bottom: 4px solid #f1c40f; 
-        }
-        .main-title { font-size: 15px; font-weight: bold; line-height: 1.4; margin: 0; }
-        .under-control { font-size: 11px; margin-top: 5px; font-weight: bold; color: #f1c40f; text-transform: uppercase; }
-        .director-text { 
-            font-size: 13px; margin-top: 5px; font-weight: bold; 
-            border-top: 1px solid rgba(255,255,255,0.2); 
-            display: inline-block; padding-top: 5px; 
+            font-family: 'Poppins', sans-serif; 
+            background: radial-gradient(circle at top, #064e3b, #0f172a); 
+            background-attachment: fixed;
+            color: white;
+            padding-bottom: 40px;
         }
 
-        /* Controls Section */
-        .controls { 
-            background: white; padding: 15px; 
-            border-bottom: 1px solid #ddd; 
-            position: sticky; top: 0; z-index: 100; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        /* VIP CRYSTAL HEADER */
+        .vip-header {
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            border-bottom: 3px solid #ffd700;
+            padding: 30px 15px;
+            text-align: center;
         }
-        .city-select { 
-            width: 100%; padding: 12px; border: 2px solid #2e7d32; 
-            border-radius: 10px; font-weight: bold; margin-bottom: 10px; outline: none; 
-        }
-        
-        .cat-container { 
-            display: flex; overflow-x: auto; gap: 8px; 
-            padding-bottom: 10px; scrollbar-width: none; 
-        }
-        .cat-container::-webkit-scrollbar { display: none; }
-        .cat-btn { 
-            background: #f0f4f8; border: 1px solid #2e7d32; color: #2e7d32; 
-            padding: 8px 18px; border-radius: 20px; font-size: 13px; 
-            font-weight: bold; white-space: nowrap; cursor: pointer; 
-        }
-        .cat-btn.active { background: #2e7d32; color: white; }
+        .sindh-logo { width: 75px; filter: drop-shadow(0 0 15px #ffd700); margin-bottom: 10px; }
+        .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 26px; margin: 10px 0; }
+        .under-control-badge { background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; font-size: 11px; font-weight: 800; display: inline-block; }
 
-        .search-box { 
-            width: 100%; padding: 10px; border: 1px solid #ccc; 
-            border-radius: 8px; font-size: 14px; margin-bottom: 10px; 
-            box-sizing: border-box; outline: none;
+        /* NEW: DATE & TAZA KIMATAIN SECTION */
+        .taza-rates-bar {
+            margin: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: var(--blur);
+            border-radius: 15px;
+            border-left: 5px solid #ffd700;
+            border-right: 5px solid #ffd700;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .taza-rates-bar h3 { 
+            font-family: 'Noto Nastaliq Urdu'; 
+            color: #fff; 
+            margin: 0 0 5px 0; 
+            font-size: 22px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .current-date { 
+            font-size: 14px; 
+            color: #ffd700; 
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        /* List Area */
-        #capture-area { padding-bottom: 80px; } 
-        .price-card { 
-            background: white; margin: 10px 15px; padding: 18px; 
-            border-radius: 12px; display: flex; justify-content: space-between; 
-            align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-            border-right: 6px solid #2e7d32; 
+        /* 6 CRYSTAL BOXES GRID */
+        .rates-grid {
+            display: grid; 
+            grid-template-columns: 1fr 1fr;
+            gap: 15px; 
+            padding: 0 20px 20px;
         }
-        .price-tag { color: #2e7d32; font-weight: bold; font-size: 22px; }
-        .item-name { font-size: 18px; font-weight: bold; }
+        .crystal-box {
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            border: 1.5px solid var(--border);
+            border-radius: 25px;
+            padding: 25px 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .crystal-box:active { transform: scale(0.92); }
+        .crystal-box i { font-size: 35px; margin-bottom: 12px; display: block; }
+        .crystal-box span { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; color: #fff; }
 
-        /* Bottom Fixed Action Bar */
-        .bottom-action-bar {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            display: grid; grid-template-columns: 1fr 1fr;
-            z-index: 1000; box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
-        }
-        .bottom-btn {
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px; padding: 18px 5px; font-size: 15px; font-weight: bold;
-            text-decoration: none; color: white; border: none;
-        }
-        .btn-login-side { background: #2e7d32; border-right: 1px solid rgba(255,255,255,0.2); }
-        .btn-complaint-side { background: #c0392b; }
-        .bottom-btn:active { opacity: 0.8; transform: scale(0.98); }
+        .veg { border-color: #4ade80; i {color: #4ade80;} }
+        .fruit { border-color: #fbbf24; i {color: #fbbf24;} }
+        .meat { border-color: #f87171; i {color: #f87171;} }
+        .milk { border-color: #60a5fa; i {color: #60a5fa;} }
+        .grocery { border-color: #c084fc; i {color: #c084fc;} }
+        .grain { border-color: #fb923c; i {color: #fb923c;} }
 
-        .footer-info { 
-            background: #f8f9fa; padding: 15px; text-align: center; 
-            font-size: 11px; color: #666; border-top: 1px solid #ddd;
+        .complaint-vip {
+            margin: 10px 20px 25px;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.6), rgba(153, 27, 27, 0.8));
+            backdrop-filter: var(--blur);
+            border-radius: 20px; padding: 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid #ff4d4d;
+            text-decoration: none; color: white;
+        }
+
+        .login-section {
+            margin: 0 20px;
+            background: var(--glass);
+            border: 1px solid #ffd700;
+            border-radius: 20px; padding: 25px;
+            text-align: center;
+        }
+        .login-btn {
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #000; padding: 12px 50px;
+            border-radius: 50px; text-decoration: none;
+            font-weight: bold; display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <div class="header-bg">
-        <div class="main-title">MARKET COMMITTEE PRICE CONTROL DAILY RATE UPDATES & ONLINE COMPLAIN DATABASE SYSTEM</div>
-        <div class="under-control">Under Control</div>
-        <div class="director-text">Director General Agriculture Marketing Sindh</div>
+    <div class="vip-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo">
+        <h1>Government of Sindh</h1>
+        <h2>مارکیٹ کمیٹی سندھ</h2>
+        <div class="under-control-badge">Under Control</div>
+        <div style="font-size: 13px; font-weight:600; margin-top:5px;">Director General Agriculture Marketing Sindh</div>
     </div>
 
-    <div class="controls">
-        <select class="city-select" id="cityChoose" onchange="updateCityData()">
-            <option value="Matiari">مٹیاری (Matiari)</option>
-            <option value="Kazi Ahmed">قاضی احمد (Kazi Ahmed)</option>
-            <option value="Hyderabad">حیدرآباد (Hyderabad)</option>
-        </select>
-
-        <div class="cat-container">
-            <button class="cat-btn active" onclick="filterCat('all', this)">تمام اشیاء</button>
-            <button class="cat-btn" onclick="filterCat('veg', this)">سبزیاں</button>
-            <button class="cat-btn" onclick="filterCat('fruit', this)">پھل</button>
-            <button class="cat-btn" onclick="filterCat('poultry', this)">مرغی/انڈے</button>
-        </div>
-
-        <input type="text" class="search-box" id="searchInput" onkeyup="searchItems()" placeholder="چیز کا نام تلاش کریں...">
-    </div>
-
-    <div id="capture-area">
-        <div id="publicList">
-            </div>
-        <div class="footer-info">
-            حکومتِ سندھ - محکمہ زراعت (ایگریکلچر مارکیٹنگ)<br>
-            © 2026 Price Control System Sindh
+    <div class="taza-rates-bar">
+        <h3>آج کی تازہ قیمتیں</h3>
+        <div class="current-date">
+            <i class="far fa-calendar-alt"></i>
+            <span id="displayDate"></span>
         </div>
     </div>
 
-    <div class="bottom-action-bar">
-        <a href="login.html" class="bottom-btn btn-login-side">
-            <i class="fas fa-user-lock"></i> آفیسر لاگ ان
-        </a>
-        <a href="complaint.html" class="bottom-btn btn-complaint-side">
-            <i class="fas fa-bullhorn"></i> شکایت درج کریں
-        </a>
+    <div class="rates-grid">
+        <a href="#" class="crystal-box veg"><i class="fas fa-leaf"></i><span>سبزیاں</span></a>
+        <a href="#" class="crystal-box fruit"><i class="fas fa-apple-alt"></i><span>پھل</span></a>
+        <a href="#" class="crystal-box meat"><i class="fas fa-drumstick-bite"></i><span>گوشت و مچھلی</span></a>
+        <a href="#" class="crystal-box milk"><i class="fas fa-glass-whiskey"></i><span>دودھ و مٹھائی</span></a>
+        <a href="#" class="crystal-box grocery"><i class="fas fa-shopping-basket"></i><span>کریانہ اشیاء</span></a>
+        <a href="#" class="crystal-box grain"><i class="fas fa-seedling"></i><span>اجناس</span></a>
+    </div>
+
+    <a href="public-complaint.html" class="complaint-vip">
+        <div>
+            <h3 style="margin:0; font-family:'Noto Nastaliq Urdu';">آن لائن شکایت درج کریں</h3>
+            <p style="margin:0; font-size:11px;">Immediate Action by DG Office</p>
+        </div>
+        <i class="fas fa-bullhorn fa-2x"></i>
+    </a>
+
+    <div class="login-section">
+        <p style="margin-top:0; font-family:'Noto Nastaliq Urdu'; font-size:16px;">آفیسر لاگ ان پورٹل</p>
+        <a href="login.html" class="login-btn">LOGIN PORTAL</a>
     </div>
 
     <script>
-        const sheetURL = "https://script.google.com/macros/s/AKfycbyF3H19bi79J8_qv1d5ItMStO_cYI3ehsfuVU72JDRbPJewgSq0qYAmn7lZSD6rVfNhSA/exec";
-        let allLiveRates = [];
-        let currentCat = 'all';
-
-        async function fetchLiveRates() {
-            const list = document.getElementById('publicList');
-            list.innerHTML = "<p style='text-align:center; padding:30px;'>لوڈ ہو رہا ہے...</p>";
-            try {
-                const response = await fetch(sheetURL);
-                allLiveRates = await response.json();
-                updateCityData();
-            } catch (error) {
-                list.innerHTML = "<p style='color:red; text-align:center;'>کنکشن کا مسئلہ!</p>";
-            }
-        }
-
-        function updateCityData() {
-            const city = document.getElementById('cityChoose').value;
-            let data = allLiveRates.filter(item => item.city === city);
-            if(currentCat !== 'all') data = data.filter(item => item.c === currentCat);
-
-            const list = document.getElementById('publicList');
-            list.innerHTML = data.length ? "" : "<p style='text-align:center; padding:20px;'>کوئی ڈیٹا نہیں ملا۔</p>";
-            
-            data.forEach(item => {
-                list.innerHTML += `
-                    <div class="price-card">
-                        <span class="item-name">${item.n}</span>
-                        <span class="price-tag">Rs. ${item.p}</span>
-                    </div>`;
-            });
-        }
-
-        function filterCat(cat, btn) {
-            currentCat = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateCityData();
-        }
-
-        function searchItems() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('price-card');
-            for (let card of cards) {
-                card.style.display = card.innerText.toLowerCase().includes(input) ? "flex" : "none";
-            }
-        }
-
-        window.onload = fetchLiveRates;
+        // Aaj ki date dikhane ka script
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const today  = new Date();
+        document.getElementById('displayDate').innerText = today.toLocaleDateString('ur-PK', options);
     </script>
+
 </body>
 </html>
