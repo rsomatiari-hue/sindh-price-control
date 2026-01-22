@@ -9,11 +9,11 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* --- MOBILE SCREEN (Crystal Look) --- */
+        /* --- MOBILE VIEW (CRYSTAL LOOK) --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 16px; }
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; }
         .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
         .price-table td { padding: 8px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
@@ -21,39 +21,35 @@
         .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; font-weight: bold; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
         .print-only { display: none; }
 
-        /* --- STRICTOR A4 SINGLE PAGE LOGIC --- */
+        /* --- STRICTOR A4 / LETTER AUTO-FIT --- */
         @media print {
-            @page { 
-                size: A4; 
-                margin: 4mm !important; /* Margins mazeed kam kar diye */
-            }
+            @page { size: A4 portrait; margin: 3mm; }
             html, body { 
-                height: 99%; 
-                overflow: hidden; 
                 background: white !important; 
-                color: black !important;
-                zoom: 0.96; /* Poora page 4% chota kiya taake fit aaye */
+                color: black !important; 
+                height: 100%; 
+                overflow: hidden;
+                zoom: 0.92; /* Force content to shrink by 8% */
             }
             .container { width: 100% !important; max-width: none !important; padding: 2mm !important; }
             select, .btn-group, .btn-home { display: none !important; }
             
-            .header-box { background: white !important; color: black !important; border: 2px solid black !important; border-radius: 0; padding: 4px; margin-bottom: 5px; }
-            .list-container { display: flex; justify-content: space-between; gap: 6px; width: 100%; }
+            .header-box { background: white !important; color: black !important; border: 1.5px solid black !important; border-radius: 0; padding: 4px; margin-bottom: 4px; }
+            .list-container { display: flex; justify-content: space-between; gap: 4px; width: 100%; }
             
-            .price-table { border: 1.2px solid black !important; background: white !important; width: 49.5% !important; }
-            .price-table th { background: #f0f0f0 !important; color: black !important; border: 1px solid black !important; font-size: 10px !important; padding: 2px !important; }
-            .price-table td { color: black !important; border: 0.5px solid #ccc !important; font-size: 9px !important; padding: 1px 3px !important; line-height: 1; }
-            .item-name { color: black !important; font-weight: normal !important; }
+            .price-table { border: 1.2px solid black !important; background: white !important; width: 49.5% !important; table-layout: fixed; }
+            .price-table th { background: #f2f2f2 !important; border: 1px solid black !important; font-size: 10px !important; padding: 1px !important; }
+            .price-table td { border: 1px solid black !important; font-size: 8.5px !important; padding: 0.5px 2px !important; line-height: 1; height: 12px; overflow: hidden; }
+            .item-name { text-align: right; padding-right: 2px !important; font-weight: normal !important; }
 
-            /* Footer area adjustment */
-            .print-only { display: block !important; width: 100%; margin-top: 5px; }
-            .hidayat-box { border: 1px solid black; padding: 3px; font-size: 8px; text-align: right; margin-bottom: 5px; line-height: 1; }
-            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 10px; padding: 0 10mm; margin-top: 5px; }
-            #qrContainer { text-align: center; margin-bottom: -5px; }
-            #qrContainer img { width: 45px !important; height: 45px !important; margin: 0 auto; }
+            .print-only { display: block !important; position: fixed; bottom: 5mm; width: 100%; left: 0; }
+            .hidayat-box { border: 1px solid black; padding: 2px; font-size: 8px; text-align: right; margin: 0 5mm 5px 5mm; }
+            .stamp-area { display: flex !important; justify-content: space-between; font-weight: bold; font-size: 9px; padding: 0 8mm; }
+            #qrContainer { margin-top: -25px; }
+            #qrContainer img { width: 40px !important; height: 40px !important; }
         }
     </style>
 </head>
@@ -61,8 +57,8 @@
 
 <div class="container">
     <div class="header-box">
-        <div style="font-size: 11px; font-weight: bold;">GOVERNMENT OF SINDH</div>
-        <div id="marketLabel" style="font-size: 16px; font-weight: bold; margin: 2px 0;">PRICE CONTROL LIST</div>
+        <div style="font-size: 10px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
+        <div id="marketLabel" style="font-size: 16px; font-weight: bold; margin: 2px 0;">OFFICIAL PRICE LIST</div>
         <div id="currentDate" style="font-size: 12px; font-weight: bold;"></div>
     </div>
 
@@ -83,18 +79,18 @@
 
     <div class="print-only">
         <div class="hidayat-box">
-            نوٹ: تمام دکاندار سرکاری نرخ نامہ نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر سخت قانونی کارروائی کی جائے گی۔
+            نوٹ: تمام دکاندار نرخ نامہ آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر سخت قانونی کارروائی ہوگی۔
         </div>
         <div class="stamp-area">
-            <div style="border-top: 1.2px solid black; width: 120px; text-align: center; padding-top: 3px;">Market Secretary</div>
+            <div style="border-top: 1px solid black; width: 110px; text-align: center; padding-top: 2px;">Market Secretary</div>
             <div id="qrContainer"></div>
-            <div style="border-top: 1.2px solid black; width: 120px; text-align: center; padding-top: 3px;">Asst Commissioner</div>
+            <div style="border-top: 1px solid black; width: 110px; text-align: center; padding-top: 2px;">Asst Commissioner</div>
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 One Page</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Fit Print</button>
     </div>
     <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
@@ -116,7 +112,7 @@
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         if(!mId) return;
-        document.getElementById('marketLabel').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        document.getElementById('marketLabel').innerText = "مارکیٹ کمیٹی " + document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
         const left = document.getElementById('tbodyLeft');
         left.innerHTML = "";
         vegetableItems.forEach(item => {
@@ -128,7 +124,7 @@
 
     function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Please select a market");
+        if(!mId) return alert("Select Market!");
         const left = document.getElementById('tbodyLeft');
         const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
@@ -140,7 +136,7 @@
         });
         document.getElementById('tableRight').style.display = "table";
         document.getElementById('qrContainer').innerHTML = "";
-        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 45, height: 45 });
+        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 40, height: 40 });
         setTimeout(() => { window.print(); location.reload(); }, 500);
     }
 
