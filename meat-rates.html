@@ -3,145 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meat Rates - VIP Crystal Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Sindh Market Committee - Meat & Fish Rates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.1);
-            --border: rgba(255, 255, 255, 0.2);
-            --blur: blur(25px);
+            --bg-black: #000000;
+            --gold: #ffd700;
+            --purple: #bf00ff;
+            --light-blue: #00d4ff;
+            --whatsapp-green: #25d366;
+            --meat-red: #8b0000;
         }
         body { 
             margin: 0; font-family: 'Poppins', sans-serif; 
-            background: radial-gradient(circle at top, #064e3b, #0f172a); 
-            background-attachment: fixed; color: white;
+            background: radial-gradient(circle at top, var(--meat-red), var(--bg-black)); 
+            background-attachment: fixed; color: white; text-align: center;
         }
 
-        /* --- SAME HEADER AS HOME PAGE --- */
-        .vip-header {
-            background: var(--glass); backdrop-filter: var(--blur);
-            border-bottom: 3px solid #ffd700; padding: 30px 15px; text-align: center;
+        /* CRYSTAL HEADER - LOCKED */
+        .vip-header { padding: 30px 15px 15px; background: rgba(0,0,0,0.9); border-bottom: 3px solid var(--gold); }
+        .vip-header h1 { font-size: 16px; font-weight: 900; color: var(--light-blue); margin: 0; }
+        .vip-header h2 { 
+            font-family: 'Noto Nastaliq Urdu'; font-size: 30px; 
+            margin: 10px 0; line-height: 2.2;
+            background: linear-gradient(to bottom, #ffffff, var(--purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 0px #4b0082);
         }
-        .sindh-logo { width: 75px; filter: drop-shadow(0 0 15px #ffd700); margin-bottom: 10px; }
-        .vip-header h1 { font-size: 20px; margin: 5px 0; color: #fff; }
-        .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 26px; margin: 10px 0; }
-        .under-control-badge { 
-            background: #ffd700; color: #000; padding: 4px 20px; border-radius: 50px; 
-            font-size: 11px; font-weight: 800; display: inline-block; margin: 10px 0;
-        }
-        .dg-text { font-size: 13px; font-weight: 600; margin-top: 5px; }
+        .dg-title { font-size: 11px; color: var(--gold); font-weight: 700; margin-top: 8px; }
 
-        /* --- SAME DATE BAR AS HOME PAGE --- */
-        .taza-rates-bar {
-            margin: 20px; padding: 15px; background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: var(--blur); border-radius: 15px;
-            border-left: 5px solid #ffd700; border-right: 5px solid #ffd700; text-align: center;
+        /* INFO CARD */
+        .info-card-3d { 
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 20px; 
+            margin: 15px 20px; padding: 15px; 
         }
-        .taza-rates-bar h3 { font-family: 'Noto Nastaliq Urdu'; margin: 0 0 5px 0; font-size: 22px; }
-        .current-date { font-size: 14px; color: #ffd700; font-weight: 600; }
+        .card-date { font-size: 13px; color: var(--gold); display: block; margin-bottom: 5px; }
 
         /* SELECTION */
-        .selection-section { margin: 20px; text-align: center; }
-        .select-box {
-            width: 100%; padding: 15px; border-radius: 15px;
-            background: var(--glass); border: 2px solid #ffd700;
-            color: white; font-family: 'Noto Nastaliq Urdu'; font-size: 18px;
-            backdrop-filter: var(--blur); outline: none;
-        }
+        .selection-area { padding: 0 20px 20px; }
+        .styled-select { width: 100%; padding: 12px; border-radius: 12px; background: rgba(0,0,0,0.8); border: 2px solid var(--gold); color: white; font-size: 16px; font-weight: bold; }
+        optgroup { background: #300000; color: var(--gold); }
 
-        /* RATES CONTAINER */
-        #meatRateList { display: none; margin: 20px; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* MARKET DISPLAY */
+        .market-display-box { background: rgba(255, 215, 0, 0.1); border: 1px dashed var(--gold); padding: 10px; margin: 10px 20px; border-radius: 10px; display: none; }
+        #selectedMarketName { font-family: 'Noto Nastaliq Urdu'; font-size: 22px; color: var(--gold); }
 
-        .rate-row {
-            background: var(--glass); backdrop-filter: var(--blur);
-            border: 1px solid var(--border); border-radius: 15px;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 20px; margin-bottom: 10px;
-            border-right: 5px solid #f87171; /* Meat Theme Red Line */
-        }
-        .item-name { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; }
-        .item-price { font-weight: bold; font-size: 20px; color: #ffd700; }
+        /* LIST */
+        .rates-list { padding: 5px 20px; display: none; max-height: 55vh; overflow-y: auto; }
+        .item-card { background: rgba(255, 255, 255, 0.03); border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 3px solid var(--light-blue); }
+        .urdu-name { font-family: 'Noto Nastaliq Urdu'; font-size: 18px; }
+        .price-box { background: linear-gradient(135deg, var(--gold), #b8860b); color: #000; padding: 6px 15px; border-radius: 10px; font-weight: 900; font-size: 18px; }
 
-        /* ACTION BOXES */
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .action-box {
-            background: var(--glass); border: 1px solid var(--border);
-            border-radius: 15px; padding: 15px 5px; text-align: center;
-            text-decoration: none; color: white; font-size: 10px; backdrop-filter: var(--blur);
-        }
-        .action-box i { font-size: 18px; display: block; margin-bottom: 5px; }
+        /* BUTTONS */
+        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .btn-action { padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-pdf { background: #fff; color: #000; }
+        .btn-wa { background: var(--whatsapp-green); color: #fff; }
+        .btn-home { display: block; margin: 0 20px 30px; padding: 15px; border-radius: 15px; border: 2px solid var(--gold); color: var(--gold); text-decoration: none; font-weight: 900; }
 
-        .back-home {
-            display: block; text-align: center; margin: 20px;
-            padding: 15px; background: rgba(255,255,255,0.05);
-            border-radius: 50px; text-decoration: none; color: #fff;
-            border: 1px dashed var(--border); font-family: 'Noto Nastaliq Urdu';
-        }
-
-        /* --- SAME FOOTER AS HOME PAGE --- */
-        .vip-footer {
-            margin-top: 40px; padding: 25px; text-align: center; font-size: 11px;
-            background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); color: #94a3b8;
-        }
+        .footer { padding: 25px; font-size: 10px; color: #444; background: #000; }
     </style>
 </head>
 <body>
 
     <div class="vip-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo">
-        <h1>Government of Sindh</h1>
+        <h1>GOVERNMENT OF SINDH</h1>
         <h2>مارکیٹ کمیٹی سندھ</h2>
-        <div class="under-control-badge">Under Control</div>
-        <div class="dg-text">Director General Agriculture Marketing Sindh Department</div>
+        <div class="dg-title">DIRECTOR GENERAL AGRICULTURE MARKETING SINDH</div>
     </div>
 
-    <div class="taza-rates-bar">
-        <h3>گوشت اور مچھلی کے نرخ</h3>
-        <div class="current-date">
-            <i class="far fa-calendar-alt"></i> <span id="displayDate"></span>
+    <div class="info-card-3d">
+        <span class="card-date"><i class="far fa-calendar-alt"></i> &nbsp; <span id="autoDate"></span></span>
+        <div style="font-family: 'Noto Nastaliq Urdu'; font-size: 24px;">روزانہ گوشت اور مچھلی کے سرکاری ریٹ</div>
+    </div>
+
+    <div class="selection-area">
+        <select class="styled-select" id="marketSelect" onchange="showItems()">
+            <option value="">-- اپنی مارکیٹ منتخب کریں (50+) --</option>
+            <optgroup label="Karachi / Hyderabad">
+                <option>مارکیٹ کمیٹی کراچی</option><option>مارکیٹ کمیٹی ملیر</option><option>مارکیٹ کمیٹی حیدرآباد</option>
+                <option>مارکیٹ کمیٹی بدین</option><option>مارکیٹ کمیٹی ٹھٹہ</option><option>مارکیٹ کمیٹی مٹیاری</option>
+                <option>مارکیٹ کمیٹی ٹنڈو الہ یار</option><option>مارکیٹ کمیٹی ٹنڈو محمد خان</option>
+            </optgroup>
+            <optgroup label="Sukkur / Larkana">
+                <option>مارکیٹ کمیٹی سکھر</option><option>مارکیٹ کمیٹی روہڑی</option><option>مارکیٹ کمیٹی خیرپور</option>
+                <option>مارکیٹ کمیٹی گھوٹکی</option><option>مارکیٹ کمیٹی لاڑکانہ</option><option>مارکیٹ کمیٹی شکارپور</option>
+                <option>مارکیٹ کمیٹی جیکب آباد</option><option>مارکیٹ کمیٹی کشمور</option>
+            </optgroup>
+            <optgroup label="Mirpurkhas / Nawabshah">
+                <option>مارکیٹ کمیٹی میرپورخاص</option><option>مارکیٹ کمیٹی نوابشاہ</option><option>مارکیٹ کمیٹی سانگھڑ</option>
+                <option>مارکیٹ کمیٹی مورو</option><option>مارکیٹ کمیٹی ہالا</option><option>مارکیٹ کمیٹی عمرکوٹ</option>
+            </optgroup>
+            </select>
+    </div>
+
+    <div class="market-display-box" id="marketBox"><span id="selectedMarketName"></span></div>
+
+    <div class="rates-list" id="ratesList">
+        <div class="item-card"><span class="urdu-name">🥩 بڑا گوشت (Beef)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🍖 چھوٹا گوشت (Mutton)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🍗 مرغی زندہ (Chicken Live)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🍲 مرغی گوشت (Chicken Meat)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🥚 انڈے دیسی (Desi Eggs)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🥚 انڈے فارمی (Farm Eggs)</span><div class="price-box">0</div></div>
+
+        <div class="item-card"><span class="urdu-name">🐟 پلہ مچھلی (Palla Fish)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 رہو مچھلی (Rahu Fish)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 موری مچھلی (Mori Fish)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 ٹھری مچھلی (Thari Fish)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 دہی مچھلی (Dai Fish)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 جھرکی مچھلی (Jherki)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 سنگھاری مچھلی (Singhari)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 بم مچھلی (Bam Fish)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🐟 گلفام مچھلی (Gulfam)</span><div class="price-box">0</div></div>
+        <div class="item-card"><span class="urdu-name">🦐 جھینگا (Prawns)</span><div class="price-box">0</div></div>
+
+        <div class="action-buttons">
+            <a href="javascript:window.print()" class="btn-action btn-pdf"><i class="fas fa-print"></i> PDF</a>
+            <a href="https://wa.me/?text=Check Meat Rates" class="btn-action btn-wa"><i class="fab fa-whatsapp"></i> Share</a>
         </div>
+        <a href="index.html" class="btn-home"><i class="fas fa-home"></i> BACK TO HOME PAGE</a>
     </div>
 
-    <div class="selection-section">
-        <select class="select-box" id="committeeSelect" onchange="toggleMeatRates()">
-            <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
-            <option value="karachi">کراچی</option>
-            <option value="hyderabad">حیدرآباد</option>
-            <option value="sukkur">سکھر</option>
-        </select>
-    </div>
-
-    <div id="meatRateList">
-        <div class="rate-row"><div class="item-name">بکرے کا گوشت (Mutton)</div><div class="item-price">Rs. 1800</div></div>
-        <div class="rate-row"><div class="item-name">گائے کا گوشت (Beef)</div><div class="item-price">Rs. 900</div></div>
-        <div class="rate-row"><div class="item-name">مرغی کا گوشت (Chicken)</div><div class="item-price">Rs. 650</div></div>
-        
-        <div class="action-grid">
-            <a href="#" class="action-box" style="border-color:#3498db;"><i class="fas fa-file-pdf"></i>Download</a>
-            <a href="#" class="action-box" style="border-color:#25d366;"><i class="fab fa-whatsapp"></i>WhatsApp Share</a>
-            <a href="#" class="action-box" style="border-color:#ffd700;"><i class="fas fa-print"></i>A4 Print</a>
-        </div>
-    </div>
-
-    <a href="index.html" class="back-home"><i class="fas fa-home"></i> ہوم پیج پر واپس جائیں</a>
-
-    <div class="vip-footer">
-        &copy; 2026 Sindh Agriculture Marketing Department. <br>
-        Developed for DG Office Central Monitoring Control Room.
-    </div>
+    <div class="footer">© 2026 SINDH AGRICULTURE DEPARTMENT</div>
 
     <script>
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('displayDate').innerText = new Date().toLocaleDateString('ur-PK', options);
-
-        function toggleMeatRates() {
-            const select = document.getElementById('committeeSelect');
-            const list = document.getElementById('meatRateList');
-            list.style.display = (select.value !== "") ? "block" : "none";
+        document.getElementById('autoDate').innerText = new Date().toLocaleDateString('ur-PK', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        function showItems() {
+            var select = document.getElementById("marketSelect");
+            var list = document.getElementById("ratesList");
+            var mBox = document.getElementById("marketBox");
+            var mName = document.getElementById("selectedMarketName");
+            if (select.value !== "") { list.style.display = "block"; mBox.style.display = "block"; mName.innerText = select.value; }
+            else { list.style.display = "none"; mBox.style.display = "none"; }
         }
     </script>
-
 </body>
 </html>
