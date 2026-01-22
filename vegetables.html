@@ -11,57 +11,62 @@
     <style>
         /* --- MOBILE VIEW --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 450px; }
+        .container { width: 100%; max-width: 450px; position: relative; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
         select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; }
         .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
-        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
+        .price-table td { padding: 8px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
         .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
         .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
         .print-only { display: none; }
 
-        /* --- JUMBO STRETCH PRINT LOGIC --- */
+        /* --- PRINT STYLING WITH WATERMARK --- */
         @media print {
-            @page { size: A4 portrait; margin: 8mm; }
+            @page { size: A4 portrait; margin: 5mm; }
             html, body { background: white !important; color: black !important; height: 100%; overflow: hidden; }
-            .container { width: 100% !important; max-width: none !important; height: 96vh; display: flex; flex-direction: column; justify-content: space-between; }
+            .container { width: 100% !important; max-width: none !important; height: 98vh; display: flex; flex-direction: column; position: relative; }
             select, .btn-group, .btn-home { display: none !important; }
             
-            .header-box { background: white !important; color: black !important; border: 3px solid black !important; border-radius: 0; padding: 10px; margin-bottom: 15px; }
-            .list-container { display: flex; justify-content: space-between; gap: 15px; width: 100%; flex-grow: 1; }
-            
-            .price-table { border: 2px solid black !important; background: white !important; width: 48.5% !important; table-layout: fixed; }
-            .price-table th { background: #f0f0f0 !important; border: 1.5px solid black !important; font-size: 16px !important; padding: 8px !important; }
-            
-            /* HAR ROW KO BARA KARNE KI SETTING */
-            .price-table td { 
-                border: 1.2px solid black !important; 
-                font-size: 13px !important; 
-                padding: 0 !important; 
-                height: 28px !important; /* Row ki unchai barha di */
-                vertical-align: middle;
-                color: black !important;
+            /* WATERMARK SETTING */
+            .container::before {
+                content: "VERIFIED SINDH GOVERNMENT OFFICIAL PORTAL";
+                position: absolute; top: 50%; left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+                font-size: 40px; color: rgba(200, 200, 200, 0.2);
+                white-space: nowrap; z-index: -1; font-weight: bold; pointer-events: none;
             }
-            .item-name { text-align: right; padding-right: 8px !important; font-weight: bold !important; }
 
-            .print-only { display: block !important; width: 100%; margin-top: 20px; }
-            .hidayat-box { border: 2px solid black; padding: 8px; font-size: 12px; text-align: right; margin-bottom: 30px; line-height: 1.4; }
-            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 15px; padding: 0 5mm; }
+            .header-wrapper { display: flex; justify-content: space-between; align-items: center; border: 2.5px solid black; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
+            .header-box { border: none !important; background: transparent !important; color: black !important; flex-grow: 1; padding: 0; margin: 0; }
+            #qrContainer { display: block !important; margin-left: 10px; }
             #qrContainer img { width: 70px !important; height: 70px !important; }
+
+            .list-container { display: flex; justify-content: space-between; gap: 10px; width: 100%; flex-grow: 1; }
+            .price-table { border: 1.5px solid black !important; width: 49% !important; height: fit-content; }
+            .price-table th { background: #eee !important; border: 1px solid black !important; font-size: 14px !important; padding: 5px !important; }
+            .price-table td { border: 1px solid black !important; font-size: 12px !important; height: 24px !important; padding: 0 5px !important; color: black !important; }
+            .item-name { text-align: right; font-weight: bold !important; }
+
+            .print-only { display: block !important; }
+            .footer-box { border-top: 2.5px solid black; padding: 10px 0; text-align: center; font-weight: bold; font-size: 14px; margin-top: auto; }
+            .hidayat-box { border: 1px solid black; padding: 5px; font-size: 11px; text-align: right; margin-bottom: 10px; background: #fff; }
         }
     </style>
 </head>
 <body onload="initPage()">
 
 <div class="container">
-    <div class="header-box">
-        <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">GOVERNMENT OF SINDH</div>
-        <div id="marketLabel" style="font-size: 28px; font-weight: bold; margin: 8px 0;">OFFICIAL PRICE LIST</div>
-        <div id="currentDate" style="font-size: 18px; font-weight: bold;"></div>
+    <div class="header-wrapper" id="headerPrint">
+        <div class="header-box">
+            <div style="font-size: 14px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
+            <div id="marketLabel" style="font-size: 24px; font-weight: bold; margin: 2px 0;">DAILY PRICE LIST</div>
+            <div id="currentDate" style="font-size: 16px; font-weight: bold;"></div>
+        </div>
+        <div id="qrContainer" class="print-only"></div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
@@ -81,18 +86,16 @@
 
     <div class="print-only">
         <div class="hidayat-box">
-            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ کو واضح جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر سخت قانونی کارروائی کی جائے گی۔
+            نوٹ: تمام دکاندار نرخ نامہ آویزاں کرنے کے پابند ہیں۔ کسی بھی شکایت کی صورت میں ہیلپ لائن پر رابطہ کریں۔
         </div>
-        <div class="stamp-area">
-            <div style="border-top: 2.5px solid black; width: 180px; text-align: center; padding-top: 10px;">Market Secretary</div>
-            <div id="qrContainer"></div>
-            <div style="border-top: 2.5px solid black; width: 180px; text-align: center; padding-top: 10px;">Asst Commissioner</div>
+        <div class="footer-box">
+            PRODUCED BY: SINDH PRICE CONTROL AND MARKET COMMITTEE DEPARTMENT
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Jumbo Print</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 One Page Print</button>
     </div>
     <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
@@ -114,7 +117,7 @@
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         if(!mId) return;
-        document.getElementById('marketLabel').innerText = "مارکیٹ کمیٹی " + document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        document.getElementById('marketLabel').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
         const left = document.getElementById('tbodyLeft');
         left.innerHTML = "";
         vegetableItems.forEach(item => {
@@ -126,7 +129,7 @@
 
     function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Market Select Karein!");
+        if(!mId) return alert("Select Market!");
         const left = document.getElementById('tbodyLeft');
         const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
