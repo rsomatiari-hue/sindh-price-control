@@ -9,45 +9,56 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* Mobile View (Crystal Look) */
+        /* --- GLOBAL & MOBILE VIEW (CRYSTAL LOOK) --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
-        .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; }
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 16px; }
         
-        .table-wrapper { display: block; width: 100%; } /* Mobile par single column */
-        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
-        .price-table th { background: #1b5e20; color: #ffd700; padding: 10px; border: 1px solid #ffd700; }
-        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
-        .item-name { color: #90ee90; text-align: right; padding-right: 15px; font-weight: bold; }
+        .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        .market-title { font-size: 22px; margin: 5px 0; color: #fff; text-shadow: 1px 1px 2px #000; }
+        
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 15px; }
 
-        .btn-group { display: flex; gap: 10px; margin: 15px 0; width: 100%; }
-        .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; font-size: 14px; }
+        /* Mobile List Style */
+        .list-container { width: 100%; display: block; }
+        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; margin-bottom: 10px; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; font-size: 18px; }
+        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; font-size: 16px; }
+        .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
+
+        .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
+        .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; font-size: 14px; text-decoration: none; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
         .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; display: block; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; }
 
-        .hidayat-box, .stamp-area, #tableRightHeader { display: none; } /* Mobile par chupa hua */
+        /* Hidden Sections for Screen */
+        .print-only { display: none; }
 
-        /* Professional A4 Print Style */
+        /* --- PROFESSIONAL A4 PRINT VIEW --- */
         @media print {
             @page { size: A4; margin: 8mm; }
-            body { background: white !important; color: black !important; }
+            body { background: white !important; color: black !important; padding: 0; }
             .container { max-width: 100% !important; width: 100% !important; }
+            
+            /* Hide UI Elements */
             select, .btn-group, .btn-home { display: none !important; }
-            
-            .header-box { background: white !important; color: black !important; border: 2px solid black !important; border-radius: 0; box-shadow: none !important; }
-            
-            /* Print par 2 columns banayenge */
-            .table-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border: none; }
-            .price-table { border: 1px solid black !important; font-size: 11px !important; }
-            .price-table th, .price-table td { color: black !important; border: 1px solid black !important; padding: 4px !important; }
-            .item-name { color: black !important; }
-            #tableRightHeader { display: table-header-group !important; }
 
-            .hidayat-box { display: block !important; border: 1px solid black; padding: 10px; margin-top: 10px; font-size: 10px; text-align: right; }
+            /* Official Header */
+            .header-box { background: white !important; color: black !important; border: 2px solid black !important; box-shadow: none !important; border-radius: 0; margin-bottom: 10px; }
+            .market-title { color: black !important; font-size: 24px; font-weight: bold; }
+
+            /* Double Column Layout for Print */
+            .list-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .price-table { border: 1px solid black !important; background: white !important; }
+            .price-table th { background: #eee !important; color: black !important; border: 1px solid black !important; font-size: 12px !important; padding: 5px !important; }
+            .price-table td { color: black !important; border: 1px solid black !important; font-size: 11px !important; padding: 4px !important; }
+            .item-name { color: black !important; }
+
+            /* Instructions and Signatures */
+            .print-only { display: block !important; }
+            .hidayat-box { border: 1px solid black; padding: 8px; margin-top: 10px; font-size: 10px; text-align: right; line-height: 1.4; }
             .stamp-area { display: flex !important; justify-content: space-between; margin-top: 50px; font-weight: bold; font-size: 12px; }
-            #qrContainer { display: block !important; }
+            #qrContainer { margin-top: -30px; }
         }
     </style>
 </head>
@@ -55,39 +66,40 @@
 
 <div class="container">
     <div class="header-box">
-        <h2 style="margin:0; font-size: 16px;">OFFICE OF THE MARKET COMMITTEE</h2>
-        <h1 id="marketTitle" style="margin:5px 0; font-size: 22px;">-- SELECT MARKET --</h1>
-        <p id="printDate" style="margin:0; font-weight: bold;"></p>
+        <div style="font-size: 14px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
+        <div id="marketLabel" class="market-title">DAILY VEGETABLE RATES</div>
+        <div id="currentDate" style="font-size: 16px; font-weight: bold; margin-top: 5px;"></div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
         <option value="">-- مارکیٹ منتخب کریں --</option>
     </select>
 
-    <div class="table-wrapper">
+    <div class="list-container" id="listArea">
         <table class="price-table">
-            <thead><tr><th style="width:40%">قیمت</th><th>آئٹم کا نام</th></tr></thead>
-            <tbody id="listLeft"></tbody>
+            <thead><tr><th style="width: 40%;">قیمت</th><th>آئٹم کا نام</th></tr></thead>
+            <tbody id="tbodyLeft"></tbody>
         </table>
-        <table class="price-table" id="tableRightHeader">
-            <thead><tr><th style="width:40%">قیمت</th><th>آئٹم کا نام</th></tr></thead>
-            <tbody id="listRight"></tbody>
+        <table class="price-table" id="tableRight">
+            <thead><tr><th style="width: 40%;">قیمت</th><th>آئٹم کا نام</th></tr></thead>
+            <tbody id="tbodyRight"></tbody>
         </table>
     </div>
 
-    <div class="hidayat-box">
-        <strong>⚠️ ضروری ہدایات:</strong> تمام دکاندار سرکاری نرخ نامہ نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر پرائس کنٹرول ایکٹ کے تحت سخت قانونی کارروائی کی جائے گی۔
-    </div>
-
-    <div class="stamp-area">
-        <div style="border-top: 1px solid black; width: 140px; padding-top: 5px;">Market Secretary</div>
-        <div id="qrContainer"></div>
-        <div style="border-top: 1px solid black; width: 140px; padding-top: 5px;">Assistant Commissioner</div>
+    <div class="print-only">
+        <div class="hidayat-box">
+            <strong>نوٹ:</strong> یہ سرکاری نرخ نامہ پرائس کنٹرول ایکٹ کے تحت جاری کیا گیا ہے۔ تمام دکاندار اسے نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی کی صورت میں جرمانہ اور قید کی سزا ہو سکتی ہے۔
+        </div>
+        <div class="stamp-area">
+            <div style="border-top: 1.5px solid black; width: 150px; padding-top: 5px; text-align: center;">Market Secretary</div>
+            <div id="qrContainer"></div>
+            <div style="border-top: 1.5px solid black; width: 150px; padding-top: 5px; text-align: center;">Assistant Commissioner</div>
+        </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="printWithQR()">🖨️ A4 Print (QR)</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Print (Standard)</button>
     </div>
 
     <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
@@ -95,74 +107,83 @@
 
 <script>
     function initPage() {
-        document.getElementById('printDate').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
+        // Today's Date
+        document.getElementById('currentDate').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
+        
+        // Load Markets
         const select = document.getElementById('marketSelect');
         if (typeof marketCommittees !== 'undefined') {
             for (let div in marketCommittees) {
                 marketCommittees[div].forEach(m => {
                     let opt = document.createElement('option');
-                    opt.value = m.id; opt.innerText = m.name; select.appendChild(opt);
+                    opt.value = m.id;
+                    opt.innerText = m.name;
+                    select.appendChild(opt);
                 });
             }
         }
+        // Initially hide second table on screen
+        document.getElementById('tableRight').style.display = "none";
     }
 
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
+        const selText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        
         if(!mId) return;
         
-        document.getElementById('marketTitle').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        document.getElementById('marketLabel').innerText = selText;
+        const left = document.getElementById('tbodyLeft');
+        const right = document.getElementById('tbodyRight');
         
-        const left = document.getElementById('listLeft');
-        const right = document.getElementById('listRight');
-        left.innerHTML = ""; right.innerHTML = "";
+        left.innerHTML = "";
+        right.innerHTML = "";
         
-        const half = Math.ceil(vegetableItems.length / 2);
-        
-        vegetableItems.forEach((item, index) => {
+        // Logic: Screen par sirf Left table use hogi (Single Column)
+        // Print ke waqt preparePrint() function isay split karega
+        vegetableItems.forEach(item => {
             let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
-            let row = `<tr><td>Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
-            
-            // Mobile par saari items aik hi list (left) mein jayengi
-            // Print par browser khud hi doosre column ko grid mein adjust kar lega
-            if (window.matchMedia("(max-width: 600px)").matches) {
-                left.innerHTML += row;
-                document.getElementById('tableRightHeader').style.display = "none";
-            } else {
-                if(index < half) left.innerHTML += row;
-                else {
-                    right.innerHTML += row;
-                    document.getElementById('tableRightHeader').style.display = "table";
-                }
-            }
+            left.innerHTML += `<tr><td style="font-weight:bold; color:#ffd700;">Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
         });
+        
+        document.getElementById('tableRight').style.display = "none"; // Screen par hamesha band
     }
 
-    function printWithQR() {
-        if(!document.getElementById('marketSelect').value) return alert("Market Select Karein");
-        
-        // Re-load rates for Print (Double Column)
+    function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        const left = document.getElementById('listLeft');
-        const right = document.getElementById('listRight');
-        left.innerHTML = ""; right.innerHTML = "";
+        if(!mId) return alert("Pehle Market Select Karein!");
+
+        const left = document.getElementById('tbodyLeft');
+        const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
+        
+        left.innerHTML = "";
+        right.innerHTML = "";
+
+        // Split items for A4 Dual Column
         vegetableItems.forEach((item, index) => {
             let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
-            let row = `<tr><td>Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
+            let row = `<tr><td style="font-weight:bold;">Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
             if(index < half) left.innerHTML += row;
             else right.innerHTML += row;
         });
 
+        // Show second table for print
+        document.getElementById('tableRight').style.display = "table";
+
+        // Generate QR
         document.getElementById('qrContainer').innerHTML = "";
         new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 70, height: 70 });
-        
-        setTimeout(() => { window.print(); location.reload(); }, 500);
+
+        setTimeout(() => { 
+            window.print(); 
+            location.reload(); // Print ke baad mobile view wapis theek karne ke liye reload
+        }, 500);
     }
 
     function shareWA() {
         const sel = document.getElementById('marketSelect');
-        if(!sel.value) return alert("Select Market");
+        if(!sel.value) return alert("Market Select Karein");
         window.open(`https://wa.me/?text=*Sindh Price Control*%0AMarket: ${sel.options[sel.selectedIndex].text}%0A${window.location.href}`, '_blank');
     }
 </script>
