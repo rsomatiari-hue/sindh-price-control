@@ -3,132 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sindh Market Committee - Official Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Sindh Market Portal - VIP Access</title>
     <style>
-        :root {
-            --bg-black: #000000;
-            --sindh-green: #042f24;
-            --gold: #ffd700;
-            --purple: #bf00ff;
-            --light-blue: #00d4ff;
-        }
-        body { 
-            margin: 0; font-family: 'Poppins', sans-serif; 
-            background: radial-gradient(circle at top, #064e3b, var(--bg-black)); 
-            background-attachment: fixed; color: white; text-align: center;
-        }
-
-        /* VIP HEADER */
-        .vip-header {
-            padding: 30px 15px 15px;
-            background: rgba(0,0,0,0.85);
-            border-bottom: 3px solid var(--gold);
-        }
-        .vip-header h1 { 
-            font-size: 18px; font-weight: 900; color: var(--light-blue);
-            text-shadow: 0 0 10px var(--light-blue); margin: 0;
-        }
-        .vip-header h2 { 
-            font-family: 'Noto Nastaliq Urdu'; font-size: 30px; 
-            margin: 10px 0; line-height: 2.2;
-            background: linear-gradient(to bottom, #ffffff, var(--purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 0px #4b0082);
-        }
-        .under-control {
-            background: linear-gradient(to right, var(--gold), #ff8c00);
-            color: #000; padding: 5px 25px; border-radius: 50px;
-            font-size: 11px; font-weight: 900; display: inline-block;
-            box-shadow: 0 0 15px var(--gold); border: 2px solid white;
-        }
-        /* DG TITLE RESTORED */
-        .dg-title {
-            font-size: 11px; color: var(--gold); margin-top: 10px;
-            font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+        body {
+            background: #000;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+            color: #ffd700;
+            padding: 20px 0;
         }
 
-        /* NEW STYLISH BOX (DATE TOP, PRICE BELOW) */
-        .info-card-3d {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 25px;
-            margin: 25px 20px; padding: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 0 15px rgba(255,215,0,0.1);
-        }
-        .card-date {
-            font-size: 14px; color: var(--gold); font-weight: 700;
-            display: block; margin-bottom: 10px; border-bottom: 1px solid rgba(255,215,0,0.2);
-            padding-bottom: 8px;
-        }
-        .card-price {
-            font-family: 'Noto Nastaliq Urdu'; font-size: 28px;
-            color: #fff; display: block; line-height: 1.6;
+        .main-frame {
+            text-align: center;
+            width: 95%;
+            max-width: 450px;
         }
 
-        /* GRID TILES */
-        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 10px 20px; }
-        .btn-3d {
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px);
-            border-radius: 22px; padding: 25px 5px; text-decoration: none; color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.05);
+        /* 🏛️ Main Portal Header */
+        .portal-header {
+            background: #1b5e20; 
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
-        .btn-3d i { font-size: 38px; margin-bottom: 12px; }
-        .btn-3d span { font-family: 'Noto Nastaliq Urdu'; font-size: 20px; display: block; }
 
-        .veg { border-bottom: 4px solid #00ff88; }
-        .fruit { border-bottom: 4px solid var(--gold); }
-        .meat { border-bottom: 4px solid #ff3131; }
-        .milk { border-bottom: 4px solid var(--light-blue); }
-        
-        .full { grid-column: span 2; }
-        .complaint { background: rgba(255, 49, 49, 0.08); border: 1px solid #ff3131; }
-        .admin { border: 1px dashed var(--purple); background: rgba(191,0,255,0.03); margin-top: 15px; }
+        .portal-header h1 {
+            font-size: 16px;
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px #000;
+        }
 
-        .footer { padding: 30px; font-size: 10px; color: #444; background: #000; margin-top: 30px; }
+        /* 💡 Animated Glass Boxes */
+        .glass-box {
+            position: relative;
+            background: transparent;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            padding: 22px;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .glass-box::before {
+            content: "";
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, #90ee90, #ffd700, transparent 30%);
+            animation: rotateLight 4s linear infinite;
+        }
+
+        .glass-box::after {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            background: #2e7d32; /* Light Green 🟢 */
+            border-radius: 17px;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes rotateLight {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .icon { font-size: 32px; margin-bottom: 5px; }
+        .label { font-size: 19px; font-weight: bold; }
+
+        /* 🔒 Bara Official Login Box */
+        .login-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 15px 0;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+            width: 100%; /* Full width within container */
+            margin: 20px 0;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .login-btn:hover {
+            background: #ffd700;
+            color: #000;
+            box-shadow: 0 0 25px #ffd700;
+        }
+
+        /* 📜 VIP Footer Box (Including 2026 Line) */
+        .footer-glass {
+            cursor: default;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .footer-glass::after {
+            background: #002200; /* Darker Green for Footer */
+        }
+
+        .footer-line-1 { font-size: 12px; font-weight: bold; letter-spacing: 2px; }
+        .footer-line-2 { font-size: 10px; color: #90ee90; margin-top: 5px; font-style: italic; }
+        .footer-line-3 { font-size: 9px; color: #ffd700; margin-top: 8px; opacity: 0.8; letter-spacing: 3px; border-top: 1px solid rgba(255,215,0,0.2); width: 100%; padding-top: 5px; }
+
     </style>
 </head>
 <body>
 
-    <div class="vip-header">
-        <h1>GOVERNMENT OF SINDH</h1>
-        <h2>مارکیٹ کمیٹی سندھ</h2>
-        <div class="under-control">UNDER CONTROL</div>
-        <div class="dg-title">Director General Agriculture Marketing Sindh</div>
+<div class="main-frame">
+    <div class="portal-header">
+        <h1>SINDH MARKET COMMITTEE<br>DAILY ONLINE PRICE CONTROL PORTAL</h1>
     </div>
 
-    <div class="info-card-3d">
-        <span class="card-date">
-            <i class="far fa-calendar-alt"></i> &nbsp; <span id="currentDate"></span>
-        </span>
-        <span class="card-price">آج کی تازہ قیمت</span>
+    <div class="glass-box" onclick="location.href='vegetables.html'">
+        <div class="content">
+            <div class="icon">🥦</div>
+            <div class="label">SABZI (سبزی)</div>
+        </div>
     </div>
 
-    <div class="main-grid">
-        <a href="vegetable-rates.html" class="btn-3d veg"><i class="fas fa-carrot" style="color:#00ff88"></i><span>سبزیاں</span></a>
-        <a href="fruit-rates.html" class="btn-3d fruit"><i class="fas fa-apple-alt" style="color:var(--gold)"></i><span>پھل</span></a>
-        <a href="meat-rates.html" class="btn-3d meat"><i class="fas fa-drumstick-bite" style="color:#ff3131"></i><span>گوشت</span></a>
-        <a href="milk-rates.html" class="btn-3d milk"><i class="fas fa-glass-whiskey" style="color:var(--light-blue)"></i><span>دودھ</span></a>
-        
-        <a href="public-complaint.html" class="btn-3d full complaint">
-            <i class="fas fa-exclamation-triangle" style="color:#ff3131"></i>
-            <span>آن لائن شکایت سیل</span>
-        </a>
-
-        <a href="login.html" class="btn-3d full admin">
-            <i class="fas fa-user-shield" style="color:var(--purple)"></i>
-            <span>آفیسر پورٹل (Admin)</span>
-        </a>
+    <div class="glass-box" onclick="location.href='fruits.html'">
+        <div class="content">
+            <div class="icon">🍎</div>
+            <div class="label">FRUIT (پھل)</div>
+        </div>
     </div>
 
-    <div class="footer">
-        © 2026 SINDH AGRICULTURE DEPARTMENT | VIP MONITORING SYSTEM
+    <div class="glass-box" onclick="location.href='meat.html'">
+        <div class="content">
+            <div class="icon">🥩🐟</div>
+            <div class="label">MEAT & FISH (گوشت)</div>
+        </div>
     </div>
 
-    <script>
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ur-PK', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    </script>
+    <button class="login-btn" onclick="location.href='login.html'">
+        🔒 OFFICIAL LOGIN
+    </button>
+
+    <div class="glass-box footer-glass">
+        <div class="content">
+            <div class="footer-line-1">GOVERNMENT OF SINDH</div>
+            <div class="footer-line-2">Under Control: Director General Agriculture Marketing Sindh</div>
+            <div class="footer-line-3">OFFICIAL DIGITAL PORTAL 2026</div>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>
