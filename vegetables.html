@@ -9,42 +9,42 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* --- MOBILE SCREEN (Crystal Look) --- */
+        /* --- MOBILE VIEW --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; }
         select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 16px; }
-        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
+        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; margin-bottom: 10px; }
         .price-table th { background: #1b5e20; color: #ffd700; padding: 10px; border: 1px solid #ffd700; }
-        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
+        .price-table td { padding: 8px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
-        .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
-        .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
+        .btn-group { display: flex; gap: 10px; width: 100%; margin-bottom: 20px; }
+        .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; font-size: 14px; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
         .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; text-align: center; border-radius: 10px; text-decoration: none; display: block; font-weight: bold; }
         .print-only { display: none; }
 
-        /* --- STRICTOR A4 PRINT LOGIC --- */
+        /* --- FINAL A4 FIX --- */
         @media print {
-            @page { size: A4; margin: 5mm; }
-            html, body { width: 210mm; height: 297mm; background: white !important; color: black !important; padding: 0; margin: 0; overflow: hidden; }
-            .container { width: 100% !important; max-width: none !important; padding: 4mm; }
+            @page { size: A4; margin: 8mm; }
+            html, body { background: white !important; color: black !important; width: 210mm; height: 297mm; overflow: hidden; }
+            .container { width: 100% !important; max-width: none !important; padding: 0; margin: 0; }
             select, .btn-group, .btn-home { display: none !important; }
             
-            .header-box { background: white !important; color: black !important; border: 2.5px solid black !important; border-radius: 0; padding: 5px; margin-bottom: 5px; }
-            .list-container { display: flex; justify-content: space-between; gap: 8px; width: 100%; }
+            .header-box { background: white !important; color: black !important; border: 2px solid black !important; border-radius: 0; padding: 5px; margin-bottom: 10px; }
+            .list-container { display: flex; justify-content: space-between; gap: 5px; width: 100%; }
             
-            .price-table { border: 1.5px solid black !important; background: white !important; width: 49.5%; }
-            .price-table th { background: #eee !important; color: black !important; border: 1px solid black !important; font-size: 11px !important; padding: 2px !important; }
-            .price-table td { color: black !important; border: 1px solid black !important; font-size: 9.5px !important; padding: 1.5px 3px !important; line-height: 1; }
-            .item-name { color: black !important; font-size: 9.5px !important; }
+            .price-table { border: 1.5px solid black !important; background: white !important; width: 49% !important; table-layout: fixed; }
+            .price-table th { background: #f0f0f0 !important; border: 1px solid black !important; font-size: 11px !important; padding: 2px !important; }
+            .price-table td { border: 1px solid black !important; font-size: 10px !important; padding: 1.5px !important; line-height: 1.1; overflow: hidden; }
+            .item-name { text-align: right; padding-right: 5px !important; }
 
-            .print-only { display: block !important; width: 100%; margin-top: 5px; }
-            .hidayat-box { border: 1px solid black; padding: 3px; font-size: 8.5px; text-align: right; margin-bottom: 5px; }
-            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 10px; padding: 0 10mm; }
-            #qrContainer { text-align: center; margin-top: -30px; }
-            #qrContainer img { width: 50px !important; height: 50px !important; margin: 0 auto; }
+            .print-only { display: block !important; position: fixed; bottom: 10mm; width: 100%; left: 0; }
+            .hidayat-box { border: 1px solid black; padding: 4px; font-size: 9px; text-align: right; margin: 0 10mm 10px 10mm; }
+            .stamp-area { display: flex !important; justify-content: space-between; font-weight: bold; font-size: 11px; padding: 0 15mm; }
+            #qrContainer { margin-top: -30px; }
+            #qrContainer img { width: 55px !important; height: 55px !important; }
         }
     </style>
 </head>
@@ -53,7 +53,7 @@
 <div class="container">
     <div class="header-box">
         <div style="font-size: 12px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
-        <div id="marketLabel" style="font-size: 18px; font-weight: bold; margin: 2px 0;">DAILY PRICE LIST</div>
+        <div id="marketLabel" style="font-size: 18px; font-weight: bold; margin: 5px 0;">OFFICIAL PRICE LIST</div>
         <div id="currentDate" style="font-size: 14px; font-weight: bold;"></div>
     </div>
 
@@ -63,31 +63,31 @@
 
     <div class="list-container" id="listArea">
         <table class="price-table">
-            <thead><tr><th style="width: 30%;">قیمت</th><th>نام اشیاء</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>آئٹم کا نام</th></tr></thead>
             <tbody id="tbodyLeft"></tbody>
         </table>
         <table class="price-table" id="tableRight" style="display:none;">
-            <thead><tr><th style="width: 30%;">قیمت</th><th>نام اشیاء</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>آئٹم کا نام</th></tr></thead>
             <tbody id="tbodyRight"></tbody>
         </table>
     </div>
 
     <div class="print-only">
         <div class="hidayat-box">
-            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ آویزاں کرنے کے پابند ہیں۔ خلاف ورزی کی صورت میں جرمانہ اور قید کی سزا ہو سکتی ہے۔
+            نوٹ: تمام دکاندار نرخ نامہ نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر قانونی کارروائی کی جائے گی۔
         </div>
         <div class="stamp-area">
-            <div style="border-top: 1.5px solid black; width: 130px; text-align: center; padding-top: 5px;">Market Secretary</div>
+            <div style="border-top: 1.5px solid black; width: 140px; text-align: center; padding-top: 3px;">Market Secretary</div>
             <div id="qrContainer"></div>
-            <div style="border-top: 1.5px solid black; width: 130px; text-align: center; padding-top: 5px;">Asst Commissioner</div>
+            <div style="border-top: 1.5px solid black; width: 140px; text-align: center; padding-top: 3px;">Asst Commissioner</div>
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 One Page Print</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Fit Print</button>
     </div>
-    <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
+    <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
 
 <script>
@@ -126,19 +126,19 @@
         left.innerHTML = ""; right.innerHTML = "";
         vegetableItems.forEach((item, index) => {
             let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "---";
-            let row = `<tr><td>Rs.${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
+            let row = `<tr><td>Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
             if(index < half) left.innerHTML += row; else right.innerHTML += row;
         });
         document.getElementById('tableRight').style.display = "table";
         document.getElementById('qrContainer').innerHTML = "";
-        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 50, height: 50 });
+        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 55, height: 55 });
         setTimeout(() => { window.print(); location.reload(); }, 500);
     }
 
     function shareWA() {
         const sel = document.getElementById('marketSelect');
         if(!sel.value) return;
-        window.open(`https://wa.me/?text=*Sindh Price List*%0A${window.location.href}`, '_blank');
+        window.open(`https://wa.me/?text=*Price List:* ${sel.options[sel.selectedIndex].text}%0A${window.location.href}`, '_blank');
     }
 </script>
 </body>
