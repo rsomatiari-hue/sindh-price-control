@@ -10,62 +10,35 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* --- MOBILE SCREEN (Crystal Look) --- */
+        /* MOBILE VIEW STYLE */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
-        select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 16px; }
+        select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; width: 100%; }
         .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
         .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; margin: 15px 0; }
         .btn { padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; font-size: 16px; }
-        .btn-pdf { background: #d32f2f; color: white; box-shadow: 0 4px #b71c1c; }
+        .btn-pdf { background: #d32f2f; color: white; }
         .btn-wa { background: #25d366; color: white; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; font-weight: bold; }
-
-        /* --- PDF CONTENT (Hidden on Screen) --- */
-        #pdf-content { 
-            display: none; 
-            width: 8.5in; 
-            background: white; 
-            color: black; 
-            padding: 15mm;
-            position: relative;
-            box-sizing: border-box;
-        }
-
-        .pdf-watermark {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg);
-            font-size: 36px; color: rgba(0,0,0,0.05); font-weight: bold; white-space: nowrap; z-index: 0; width: 100%; text-align: center;
-        }
-
-        .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 4px double black; padding-bottom: 10px; margin-bottom: 20px; }
-        .pdf-header-text { text-align: center; flex-grow: 1; }
         
-        .pdf-list-area { display: flex; justify-content: space-between; gap: 15px; }
-        .pdf-table { width: 49%; border-collapse: collapse; border: 2px solid black; }
-        .pdf-table th { background: #f0f0f0; border: 1.5px solid black; padding: 6px; font-size: 16px; }
-        .pdf-table td { border: 1px solid black; padding: 4px 8px; font-size: 14px; height: 26px; text-align: center; font-weight: bold; }
-
-        /* AC INSTRUCTIONS BOX */
-        .ac-hidayat { 
-            margin-top: 25px; 
-            border: 2px solid black; 
-            padding: 12px; 
-            background: #f9f9f9; 
-            text-align: right; 
-            font-size: 13px; 
-            line-height: 1.6;
+        /* PDF LAYOUT (HIDDEN ON SCREEN) */
+        #pdf-export-container { 
+            position: absolute; left: -9999px; top: -9999px; /* Fully hidden from view */
         }
-        .pdf-footer-tag { 
-            margin-top: 30px; 
-            text-align: center; 
-            font-size: 14px; 
-            font-weight: bold; 
-            border-top: 2px solid black; 
-            padding-top: 10px;
+        .pdf-page {
+            width: 8.5in; height: 13.8in; /* Legal Size */
+            background: white; color: black; padding: 40px;
+            box-sizing: border-box; display: flex; flex-direction: column;
         }
+        .pdf-header { display: flex; justify-content: space-between; align-items: center; border: 2px solid black; padding: 10px; margin-bottom: 15px; }
+        .pdf-body { display: flex; justify-content: space-between; gap: 10px; }
+        .pdf-table { width: 49%; border-collapse: collapse; border: 1.5px solid black; }
+        .pdf-table th { background: #eee; border: 1px solid black; padding: 5px; font-size: 14px; }
+        .pdf-table td { border: 1px solid black; padding: 3px 8px; font-size: 12px; height: 21px; text-align: center; font-weight: bold; }
+        .ac-box { border: 2px solid black; padding: 10px; margin-top: 15px; text-align: right; font-size: 11px; background: #f9f9f9; line-height: 1.4; }
+        .footer-line { border-top: 2px solid black; margin-top: auto; padding-top: 5px; text-align: center; font-weight: bold; font-size: 12px; }
     </style>
 </head>
 <body onload="initPage()">
@@ -73,61 +46,52 @@
 <div class="container">
     <div class="header-box">
         <div style="font-size: 14px;">GOVERNMENT OF SINDH</div>
-        <div id="marketLabel" style="font-size: 24px; font-weight: bold;">SELECT MARKET</div>
+        <div id="marketLabel" style="font-size: 22px; font-weight: bold;">SELECT MARKET</div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
         <option value="">-- مارکیٹ منتخب کریں --</option>
     </select>
 
-    <div class="list-container">
-        <table class="price-table">
-            <tbody id="mobileTbody"></tbody>
-        </table>
-    </div>
+    <table class="price-table"><tbody id="mobileTbody"></tbody></table>
 
     <div class="btn-group">
-        <button class="btn btn-pdf" onclick="generatePDF()">📥 Download AC Verified PDF</button>
-        <button class="btn btn-wa" onclick="shareWA()">🟢 Share via WhatsApp</button>
+        <button class="btn btn-pdf" onclick="generateOfficialPDF()">📥 Download AC Official PDF</button>
+        <button class="btn btn-wa" onclick="shareWA()">🟢 Share on WhatsApp</button>
     </div>
-    <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
 
-<div id="pdf-content">
-    <div class="pdf-watermark">VERIFIED SINDH GOVERNMENT OFFICIAL PORTAL</div>
-    
-    <div class="pdf-header">
-        <div id="pdf-qr-code"></div>
-        <div class="pdf-header-text">
-            <div style="font-size: 16px; font-weight: bold;">OFFICE OF THE ASSISTANT COMMISSIONER</div>
-            <div id="pdf-market-title" style="font-size: 26px; font-weight: bold; margin: 5px 0;">DAILY PRICE LIST</div>
-            <div id="pdf-current-date" style="font-size: 18px; font-weight: bold;"></div>
+<div id="pdf-export-container">
+    <div class="pdf-page" id="legal-page">
+        <div class="pdf-header">
+            <div id="pdf-qr"></div>
+            <div style="text-align: center; flex-grow: 1;">
+                <div style="font-size: 14px; font-weight: bold;">OFFICE OF THE ASSISTANT COMMISSIONER</div>
+                <div id="pdf-title" style="font-size: 22px; font-weight: bold; margin: 5px 0;">SINDH PRICE CONTROL LIST</div>
+                <div id="pdf-date" style="font-size: 16px; font-weight: bold;"></div>
+            </div>
+            <div style="width: 80px; font-size: 10px; text-align: center; font-weight: bold;">OFFICIAL<br>COPY</div>
         </div>
-        <div style="width: 80px; text-align: center;">
-             <small>Verified<br>Portal</small>
+
+        <div class="pdf-body">
+            <table class="pdf-table">
+                <thead><tr><th style="width:35%">قیمت</th><th>آئٹم</th></tr></thead>
+                <tbody id="pdf-left"></tbody>
+            </table>
+            <table class="pdf-table">
+                <thead><tr><th style="width:35%">قیمت</th><th>آئٹم</th></tr></thead>
+                <tbody id="pdf-right"></tbody>
+            </table>
         </div>
-    </div>
 
-    <div class="pdf-list-area">
-        <table class="pdf-table">
-            <thead><tr><th style="width:30%">قیمت</th><th>آئٹم</th></tr></thead>
-            <tbody id="pdf-left"></tbody>
-        </table>
-        <table class="pdf-table">
-            <thead><tr><th style="width:30%">قیمت</th><th>آئٹم</th></tr></thead>
-            <tbody id="tbody-right"></tbody>
-        </table>
-    </div>
+        <div class="ac-box">
+            <b>⚠️ اسسٹنٹ کمشنر کی جانب سے ضروری ہدایات:</b><br>
+            • تمام دکاندار یہ ریٹ لسٹ اپنی دکان کے واضح مقام پر آویزاں کرنے کے پابند ہیں۔<br>
+            • گرانفروشی اور ریٹ لسٹ آویزاں نہ کرنے کی صورت میں <b>پرائس کنٹرول ایکٹ 1977</b> کے تحت جرمانہ اور قید کی سزا دی جائے گی۔<br>
+            • شہری کسی بھی شکایت کی صورت میں اپنے قریبی اسسٹنٹ کمشنر یا مجسٹریٹ دفتر سے رابطہ کریں۔
+        </div>
 
-    <div class="ac-hidayat">
-        <strong>⚠️ خصوصی ہدایات براہِ پرائس کنٹرول مجسٹریٹ:</strong><br>
-        1. تمام دکاندار یہ ریٹ لسٹ اپنی دکان کے نمایاں مقام پر آویزاں کرنے کے پابند ہیں۔<br>
-        2. ریٹ لسٹ آویزاں نہ کرنے یا گرانفروشی (زیادہ قیمت لینے) پر <b>پرائس کنٹرول ایکٹ 1977</b> کے تحت بھاری جرمانہ یا قید کی سزا دی جائے گی۔<br>
-        3. عوام الناس سے گزارش ہے کہ درج ذیل مقررہ نرخوں سے زائد قیمت ہرگز ادا نہ کریں اور شکایت کی صورت میں متعلقہ اسسٹنٹ کمشنر دفتر میں اطلاع دیں۔
-    </div>
-    
-    <div class="pdf-footer-tag">
-        SINDH PRICE CONTROL & MARKET COMMITTEE DEPARTMENT
+        <div class="footer-line">VERIFIED SINDH GOVERNMENT PRICE CONTROL PORTAL</div>
     </div>
 </div>
 
@@ -147,9 +111,7 @@
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         if(!mId) return;
-        let mName = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
-        document.getElementById('marketLabel').innerText = mName;
-        
+        document.getElementById('marketLabel').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
         const tbody = document.getElementById('mobileTbody');
         tbody.innerHTML = "";
         vegetableItems.forEach(item => {
@@ -158,16 +120,16 @@
         });
     }
 
-    async function generatePDF() {
+    async function generateOfficialPDF() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Please select a market first!");
+        if(!mId) return alert("Select Market!");
 
         let mName = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
-        document.getElementById('pdf-market-title').innerText = "سرکاری نرخ نامہ: " + mName;
-        document.getElementById('pdf-current-date').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
+        document.getElementById('pdf-title').innerText = "سرکاری نرخ نامہ: " + mName;
+        document.getElementById('pdf-date').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
 
         const left = document.getElementById('pdf-left');
-        const right = document.getElementById('tbody-right');
+        const right = document.getElementById('pdf-right');
         left.innerHTML = ""; right.innerHTML = "";
         const half = Math.ceil(vegetableItems.length / 2);
 
@@ -177,28 +139,28 @@
             if(index < half) left.innerHTML += row; else right.innerHTML += row;
         });
 
-        document.getElementById('pdf-qr-code').innerHTML = "";
-        new QRCode(document.getElementById("pdf-qr-code"), { text: window.location.href, width: 80, height: 80 });
+        document.getElementById('pdf-qr').innerHTML = "";
+        new QRCode(document.getElementById("pdf-qr"), { text: window.location.href, width: 80, height: 80 });
 
-        const element = document.getElementById('pdf-content');
-        element.style.display = 'block';
-        
+        // IMPORTANT: Let the browser render the content before capturing
+        const element = document.getElementById('legal-page');
         const opt = {
-            margin: [0.2, 0.2],
+            margin: 0,
             filename: `Official_Rates_${mName}.pdf`,
             image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, useCORS: true },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
             jsPDF: { unit: 'in', format: 'legal', orientation: 'portrait' }
         };
 
-        await html2pdf().set(opt).from(element).save();
-        element.style.display = 'none';
+        // Delay to ensure QR and table are rendered properly
+        setTimeout(async () => {
+            await html2pdf().set(opt).from(element).save();
+        }, 800);
     }
 
     function shareWA() {
-        const sel = document.getElementById('marketSelect');
-        if(!sel.value) return;
-        window.open(`https://wa.me/?text=Download Official Price List: ${window.location.href}`, '_blank');
+        if(!document.getElementById('marketSelect').value) return;
+        window.open(`https://wa.me/?text=Official Price List: ${window.location.href}`, '_blank');
     }
 </script>
 </body>
