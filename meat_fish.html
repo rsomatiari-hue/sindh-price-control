@@ -4,109 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meat & Fish - Sindh Price Control</title>
-    <script src="js/meat_list.js"></script>
-    <script src="js/fish_list.js"></script>
+    <script src="js/market.js"></script>
+    <script src="js/meat_fish_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px 0; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 92%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 92%; max-width: 400px; }
         .standard-box { width: 100%; box-sizing: border-box; border: 1px solid #ffd700; border-radius: 12px; margin-bottom: 12px; padding: 15px; text-align: center; }
-        .header-box { background: #1b5e20; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
-        .selection-box { background: #2e7d32; }
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 15px; outline: none; }
-        
-        .section-title { background: #ffd700; color: #000; padding: 10px; font-weight: bold; border-radius: 8px; margin: 15px 0 10px 0; text-align: center; font-size: 16px; width: 100%; box-sizing: border-box; }
-
-        .table-container { width: 100%; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 12px; overflow: hidden; background: rgba(46, 125, 50, 0.1); margin-bottom: 10px; }
+        .header-box { background: #b71c1c; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+        .selection-box { background: #37474f; padding: 15px; }
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; }
+        .table-container { width: 100%; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 12px; overflow: hidden; background: rgba(183, 28, 28, 0.1); margin-top: 10px; }
         .price-table { width: 100%; border-collapse: collapse; }
-        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; width: 60%; }
-        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.1); }
-        .item-name { color: #90ee90; font-weight: bold; }
-
-        /* Action Buttons Row */
-        .button-row { width: 100%; display: flex; gap: 10px; margin-top: 10px; margin-bottom: 12px; }
-        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; border: 1px solid #ffd700; cursor: pointer; }
-        .btn-wa { background: #25D366; color: #fff; border: none; }
-        .btn-print { background: #fff; color: #000; border: none; }
-        
-        .btn-home { width: 100%; background: transparent; color: #ffd700; padding: 15px; font-size: 15px; font-weight: bold; text-decoration: none; border: 1px solid #ffd700; border-radius: 10px; text-align: center; margin-bottom: 12px; display: block; box-sizing: border-box; }
-
-        .footer-box { background: #002200; border: 1px solid #ffd700; border-radius: 12px; padding: 10px; width: 100%; text-align: center; }
-
-        @media print {
-            .btn, .btn-home, select, .selection-box { display: none; }
-            body { background: #fff; }
-            .price-table td { color: #000; }
-            .section-title { border: 1px solid #000; }
-        }
+        .category-head { background: #455a64; color: #90ee90; font-weight: bold; padding: 8px; text-align: center; border: 1px solid #ffd700; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; }
+        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.1); font-size: 14px; }
+        .item-name { color: #ffccbc; font-weight: bold; text-align: right; padding-right: 10px; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; padding: 15px; font-size: 15px; font-weight: bold; text-decoration: none; border: 1px solid #ffd700; border-radius: 10px; text-align: center; margin-top: 15px; display: block; box-sizing: border-box; }
     </style>
 </head>
-<body>
+<body onload="initMeatPage()">
 
 <div class="container">
     <div class="standard-box header-box">
-        <h1 style="font-size: 15px; margin: 0;">SINDH MARKET COMMITTEE<br>MEAT & FISH DAILY RATES</h1>
+        <h1 style="font-size: 18px;">SINDH MARKET COMMITTEE<br>MEAT & FISH RATES</h1>
     </div>
 
     <div class="standard-box selection-box">
-        <div style="color:white; margin-bottom:5px; font-weight:bold;">مارکیٹ منتخب کریں</div>
-        <select id="marketSelect" onchange="loadCombinedRates()">
+        <label style="color: white; display: block; margin-bottom: 5px;">مارکیٹ منتخب کریں:</label>
+        <select id="marketSelect" onchange="loadMeatFishRates()">
             <option value="">-- Select Market --</option>
-            <option value="hyderabad">Hyderabad (حیدرآباد)</option>
-            <option value="matiari">Matiari (مٹیاری)</option>
         </select>
     </div>
 
-    <div id="combinedData" style="width: 100%;">
-        <div style="text-align: center; padding: 30px; opacity: 0.6;">براہ کرم مارکیٹ منتخب کریں</div>
-    </div>
-
-    <div class="button-row">
-        <a id="waBtn" href="#" class="btn btn-wa">📱 WhatsApp</a>
-        <button onclick="window.print()" class="btn btn-print">🖨️ Print A4</button>
+    <div class="table-container">
+        <table class="price-table">
+            <thead>
+                <tr><th>آئٹم کا نام</th><th>قیمت (روپے)</th></tr>
+            </thead>
+            <tbody id="priceList">
+                <tr><td colspan="2" style="padding: 30px; opacity: 0.5;">ریٹس دیکھنے کے لیے مارکیٹ منتخب کریں</td></tr>
+            </tbody>
+        </table>
     </div>
 
     <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
-
-    <div class="footer-box">
-        <div style="font-size: 11px; font-weight: bold;">GOVERNMENT OF SINDH</div>
-    </div>
 </div>
 
 <script>
-    function loadCombinedRates() {
-        const market = document.getElementById('marketSelect').value;
-        const display = document.getElementById('combinedData');
-        display.innerHTML = "";
+    function initMeatPage() {
+        const select = document.getElementById('marketSelect');
+        if (typeof marketCommittees !== 'undefined') {
+            for (let division in marketCommittees) {
+                marketCommittees[division].forEach(m => {
+                    let option = document.createElement('option');
+                    option.value = m.id;
+                    option.innerText = m.name;
+                    select.appendChild(option);
+                });
+            }
+        }
+    }
 
-        if(market === "") return;
+    function loadMeatFishRates() {
+        const mId = document.getElementById('marketSelect').value;
+        const tbody = document.getElementById('priceList');
+        tbody.innerHTML = "";
 
-        let html = "";
-        const marketData = marketRates[market];
+        if(mId === "") return;
 
-        // Meat Section
-        html += `<div class="section-title">🍖 گوشت اور مرغی (Meat)</div>`;
-        html += `<div class="table-container"><table class="price-table"><tbody>`;
-        meatList.forEach(item => {
-            let rate = (marketData && marketData[item.id]) ? marketData[item.id] : "Pending";
-            html += `<tr><td class="item-name">${item.name_ur}</td><td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td></tr>`;
+        // 1. Pehle Meat Items load karein
+        tbody.innerHTML += `<tr><td colspan="2" class="category-head">گوشت اور مرغی (Meat & Poultry)</td></tr>`;
+        meatItems.forEach(item => {
+            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
+            tbody.innerHTML += `<tr><td class="item-name">${item.name_ur}</td><td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td></tr>`;
         });
-        html += `</tbody></table></div>`;
 
-        // Fish Section
-        html += `<div class="section-title">🐟 مچھلی (Fish Market)</div>`;
-        html += `<div class="table-container"><table class="price-table"><tbody>`;
-        fishList.forEach(fish => {
-            let rate = (marketData && marketData[fish.id]) ? marketData[fish.id] : "Pending";
-            html += `<tr><td class="item-name">${fish.name_ur}</td><td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td></tr>`;
+        // 2. Phir Fish Items load karein
+        tbody.innerHTML += `<tr><td colspan="2" class="category-head">مچھلی کی اقسام (Fish & Seafood)</td></tr>`;
+        fishItems.forEach(item => {
+            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
+            tbody.innerHTML += `<tr><td class="item-name">${item.name_ur}</td><td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td></tr>`;
         });
-        html += `</tbody></table></div>`;
-
-        display.innerHTML = html;
-
-        // Update WhatsApp Link
-        let waText = `*Sindh Price Control*\n*Market:* ${market.toUpperCase()}\n*Meat & Fish Rates Updated*`;
-        document.getElementById('waBtn').href = `https://wa.me/?text=${encodeURIComponent(waText)}`;
     }
 </script>
 
