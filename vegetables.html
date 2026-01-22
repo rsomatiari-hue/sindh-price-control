@@ -9,43 +9,42 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* --- MOBILE VIEW --- */
+        /* --- MOBILE SCREEN (Crystal Look) --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
-        select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; }
-        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
-        .price-table td { padding: 8px; text-align: center; color: white; border: 1px solid #333; }
+        select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 16px; }
+        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; margin-bottom: 10px; }
+        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
         .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
         .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; font-weight: bold; }
         .print-only { display: none; }
 
-        /* --- BALANCED PRINT LAYOUT --- */
+        /* --- FULL PAGE STRETCH LOGIC --- */
         @media print {
-            @page { size: A4 portrait; margin: 6mm; }
-            html, body { background: white !important; color: black !important; height: 100%; overflow: hidden; zoom: 0.95; }
-            .container { width: 100% !important; max-width: none !important; display: flex; flex-direction: column; height: 100%; }
+            @page { size: A4 portrait; margin: 5mm; }
+            html, body { background: white !important; color: black !important; height: 100%; overflow: hidden; }
+            .container { width: 100% !important; max-width: none !important; height: 98vh; display: flex; flex-direction: column; }
             select, .btn-group, .btn-home { display: none !important; }
             
-            .header-box { background: white !important; color: black !important; border: 2px solid black !important; border-radius: 0; padding: 5px; margin-bottom: 8px; }
+            .header-box { background: white !important; color: black !important; border: 2.5px solid black !important; border-radius: 0; padding: 6px; margin-bottom: 10px; }
+            .list-container { display: flex; justify-content: space-between; gap: 10px; width: 100%; flex-grow: 1; }
             
-            /* List Container occupies available space */
-            .list-container { display: flex; justify-content: space-between; gap: 8px; width: 100%; flex-grow: 1; }
+            .price-table { border: 1.5px solid black !important; background: white !important; width: 49% !important; height: fit-content; }
+            .price-table th { background: #eeeeee !important; border: 1px solid black !important; font-size: 13px !important; padding: 4px !important; }
             
-            .price-table { border: 1.2px solid black !important; background: white !important; width: 49.5% !important; table-layout: fixed; align-self: flex-start; }
-            .price-table th { background: #f2f2f2 !important; border: 1px solid black !important; font-size: 11px !important; padding: 2px !important; }
-            .price-table td { border: 1px solid black !important; font-size: 10px !important; padding: 2px 4px !important; line-height: 1.2; color: black !important; }
-            .item-name { text-align: right; font-weight: normal !important; }
+            /* Rows ko bara karne ke liye height set ki */
+            .price-table td { border: 1px solid black !important; font-size: 11px !important; padding: 3px 5px !important; line-height: 1.3; color: black !important; height: 18px; }
+            .item-name { text-align: right; padding-right: 5px !important; font-weight: bold !important; }
 
-            /* Footer balancing */
-            .print-only { display: block !important; width: 100%; margin-top: auto; padding-bottom: 5mm; }
-            .hidayat-box { border: 1px solid black; padding: 4px; font-size: 9px; text-align: right; margin-bottom: 15px; }
-            .stamp-area { display: flex !important; justify-content: space-between; align-items: center; font-weight: bold; font-size: 11px; padding: 0 10mm; }
-            #qrContainer img { width: 50px !important; height: 50px !important; }
+            .print-only { display: block !important; width: 100%; margin-top: auto; padding-top: 10px; }
+            .hidayat-box { border: 1.5px solid black; padding: 5px; font-size: 10px; text-align: right; margin-bottom: 20px; font-weight: bold; }
+            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 13px; padding: 0 10mm; margin-bottom: 5mm; }
+            #qrContainer img { width: 60px !important; height: 60px !important; }
         }
     </style>
 </head>
@@ -53,9 +52,9 @@
 
 <div class="container">
     <div class="header-box">
-        <div style="font-size: 12px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
-        <div id="marketLabel" style="font-size: 20px; font-weight: bold; margin: 4px 0;">DAILY PRICE LIST</div>
-        <div id="currentDate" style="font-size: 14px; font-weight: bold;"></div>
+        <div style="font-size: 14px; font-weight: bold; letter-spacing: 1px;">GOVERNMENT OF SINDH</div>
+        <div id="marketLabel" style="font-size: 24px; font-weight: bold; margin: 5px 0;">PRICE CONTROL LIST</div>
+        <div id="currentDate" style="font-size: 16px; font-weight: bold;"></div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
@@ -64,29 +63,29 @@
 
     <div class="list-container" id="listArea">
         <table class="price-table">
-            <thead><tr><th style="width: 35%;">قیمت</th><th>نام اشیاء</th></tr></thead>
+            <thead><tr><th style="width: 30%;">قیمت</th><th>آئٹم</th></tr></thead>
             <tbody id="tbodyLeft"></tbody>
         </table>
         <table class="price-table" id="tableRight" style="display:none;">
-            <thead><tr><th style="width: 35%;">قیمت</th><th>نام اشیاء</th></tr></thead>
+            <thead><tr><th style="width: 30%;">قیمت</th><th>آئٹم</th></tr></thead>
             <tbody id="tbodyRight"></tbody>
         </table>
     </div>
 
     <div class="print-only">
         <div class="hidayat-box">
-            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر سخت قانونی کارروائی کی جائے گی۔
+            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی کی صورت میں پرائس کنٹرول ایکٹ کے تحت سخت قانونی کارروائی کی جائے گی۔
         </div>
         <div class="stamp-area">
-            <div style="border-top: 1.5px solid black; width: 150px; text-align: center; padding-top: 5px;">Market Secretary</div>
+            <div style="border-top: 2px solid black; width: 160px; text-align: center; padding-top: 5px;">Market Secretary</div>
             <div id="qrContainer"></div>
-            <div style="border-top: 1.5px solid black; width: 150px; text-align: center; padding-top: 5px;">Asst Commissioner</div>
+            <div style="border-top: 2px solid black; width: 160px; text-align: center; padding-top: 5px;">Asst Commissioner</div>
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Perfect Print</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Full Page Fit</button>
     </div>
     <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
@@ -108,7 +107,7 @@
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         if(!mId) return;
-        document.getElementById('marketLabel').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        document.getElementById('marketLabel').innerText = "مارکیٹ کمیٹی " + document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
         const left = document.getElementById('tbodyLeft');
         left.innerHTML = "";
         vegetableItems.forEach(item => {
@@ -120,7 +119,7 @@
 
     function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Select Market!");
+        if(!mId) return alert("Select Market First!");
         const left = document.getElementById('tbodyLeft');
         const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
@@ -132,7 +131,7 @@
         });
         document.getElementById('tableRight').style.display = "table";
         document.getElementById('qrContainer').innerHTML = "";
-        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 50, height: 50 });
+        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 60, height: 60 });
         setTimeout(() => { window.print(); location.reload(); }, 500);
     }
 
