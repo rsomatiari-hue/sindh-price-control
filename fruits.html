@@ -8,31 +8,51 @@
     <script src="js/fruits_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px 0; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 92%; max-width: 400px; }
-        .standard-box { width: 100%; box-sizing: border-box; border: 1px solid #ffd700; border-radius: 12px; margin-bottom: 12px; padding: 15px; text-align: center; }
-        .header-box { background: #1b5e20; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
-        .selection-box { background: #2e7d32; padding: 15px; }
+        body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 450px; }
+        
+        .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        
+        .info-box { background: #2e7d32; border: 1px solid #ffd700; border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 10px; }
+        .date-text { color: #fff; font-size: 18px; font-weight: bold; margin-top: 5px; background: rgba(0,0,0,0.3); display: inline-block; padding: 2px 10px; border-radius: 5px; }
+
+        .selection-box { background: #1b5e20; border: 1px solid #ffd700; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
         select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; }
-        .table-container { width: 100%; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 12px; overflow: hidden; background: rgba(46, 125, 50, 0.1); }
+
+        .table-container { width: 100%; border: 1px solid #ffd700; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 15px; }
         .price-table { width: 100%; border-collapse: collapse; }
-        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; }
-        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.1); font-size: 14px; }
-        .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 10px; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; padding: 15px; font-size: 15px; font-weight: bold; text-decoration: none; border: 1px solid #ffd700; border-radius: 10px; text-align: center; margin-top: 15px; display: block; box-sizing: border-box; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 15px; border: 1px solid #ffd700; font-size: 18px; }
+        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid #333; font-size: 16px; }
+        .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
+
+        /* Share & Print Section */
+        .action-box { background: rgba(255, 215, 0, 0.1); border: 2px dashed #ffd700; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; text-decoration: none; font-size: 14px; }
+        .btn-wa { background: #25d366; color: white; }
+        .btn-prt { background: #fff; color: #000; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; display: block; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+
+        .footer { text-align: center; font-size: 12px; color: #90ee90; border-top: 1px solid #333; padding-top: 10px; width: 100%; }
+
+        @media print { .selection-box, .action-box, .btn-home, select { display: none; } body { background: #fff; color: #000; } .price-table td { color: #000; } }
     </style>
 </head>
-<body onload="initFruitsPage()">
+<body onload="initPage()">
 
 <div class="container">
-    <div class="standard-box header-box">
-        <h1 style="font-size: 18px;">SINDH MARKET COMMITTEE<br>DAILY FRUIT RATES</h1>
+    <div class="header-box">
+        <h1 style="margin:0; font-size: 20px;">SINDH MARKET COMMITTEE<br>DAILY ONLINE PRICE CONTROL PORTAL</h1>
     </div>
 
-    <div class="standard-box selection-box">
-        <label style="color: white; display: block; margin-bottom: 5px;">مارکیٹ منتخب کریں:</label>
-        <select id="marketSelect" onchange="loadFruitRates()">
-            <option value="">-- Select Market --</option>
+    <div class="info-box">
+        <h2 style="margin:0; font-size: 18px;">آج کے تازہ پھلوں کے سرکاری ریٹس</h2>
+        <div class="date-text" id="currentDate">--/--/----</div>
+    </div>
+
+    <div class="selection-box">
+        <select id="marketSelect" onchange="loadRates()">
+            <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
         </select>
     </div>
 
@@ -40,57 +60,76 @@
         <table class="price-table">
             <thead>
                 <tr>
+                    <th style="width: 45%;">قیمت (روپے)</th>
                     <th>پھل کا نام</th>
-                    <th>قیمت (روپے)</th>
                 </tr>
             </thead>
             <tbody id="priceList">
-                <tr><td colspan="2" style="padding: 30px; opacity: 0.5;">ریٹس دیکھنے کے لیے مارکیٹ منتخب کریں</td></tr>
+                <tr><td colspan="2" style="padding: 20px; opacity: 0.5;">براہ کرم لسٹ دیکھنے کے لیے مارکیٹ منتخب کریں</td></tr>
             </tbody>
         </table>
     </div>
 
+    <div class="action-box">
+        <div style="font-weight: bold; color: #ffd700;">Share or Print Results</div>
+        <div class="btn-group">
+            <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
+            <button class="btn btn-prt" onclick="window.print()">🖨️ A4 Printing</button>
+        </div>
+    </div>
+
     <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
+
+    <div class="footer">
+        GOVERNMENT OF SINDH<br>
+        Director General Agriculture Marketing Sindh
+    </div>
 </div>
 
 <script>
-    // 1. Dropdown mein sari 70+ markets load karna
-    function initFruitsPage() {
+    function initPage() {
+        // Aaj ki date lagana
+        const today = new Date();
+        document.getElementById('currentDate').innerText = today.toLocaleDateString('en-GB');
+
+        // Markets load karna market.js se
         const select = document.getElementById('marketSelect');
         if (typeof marketCommittees !== 'undefined') {
-            for (let division in marketCommittees) {
-                marketCommittees[division].forEach(m => {
-                    let option = document.createElement('option');
-                    option.value = m.id;
-                    option.innerText = m.name;
-                    select.appendChild(option);
+            for (let div in marketCommittees) {
+                marketCommittees[div].forEach(m => {
+                    let opt = document.createElement('option');
+                    opt.value = m.id;
+                    opt.innerText = m.name;
+                    select.appendChild(opt);
                 });
             }
         }
     }
 
-    // 2. Fruits ke rates display karna
-    function loadFruitRates() {
+    function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         const tbody = document.getElementById('priceList');
+        if(!mId) return;
         tbody.innerHTML = "";
-
-        if(mId === "") return;
-
+        
         // fruitItems (js/fruits_list.js) ka istemal
-        if (typeof fruitItems !== 'undefined' && typeof marketRates !== 'undefined') {
-            fruitItems.forEach(item => {
-                let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
-                
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="item-name">${item.name_ur}</td>
-                        <td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td>
-                    </tr>`;
-            });
-        }
+        fruitItems.forEach(item => {
+            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
+            tbody.innerHTML += `
+                <tr>
+                    <td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td>
+                    <td class="item-name">${item.name_ur}</td>
+                </tr>`;
+        });
+    }
+
+    function shareWA() {
+        const sel = document.getElementById('marketSelect');
+        if(!sel.value) return alert("Pehle Market Select Karein");
+        const market = sel.options[sel.selectedIndex].text;
+        const msg = `*Sindh Price Control Portal*%0A*Market:* ${market}%0A*Date:* ${document.getElementById('currentDate').innerText}%0A%0A*Daily Fruit Rates List*%0ACheck here: ${window.location.href}`;
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
     }
 </script>
-
 </body>
 </html>
