@@ -9,42 +9,49 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* --- MOBILE SCREEN (Crystal Look) --- */
+        /* --- MOBILE VIEW --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
-        select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; font-size: 16px; }
-        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; margin-bottom: 10px; }
+        select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; }
+        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
         .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
         .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
         .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; font-weight: bold; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
         .print-only { display: none; }
 
-        /* --- FULL PAGE STRETCH LOGIC --- */
+        /* --- JUMBO STRETCH PRINT LOGIC --- */
         @media print {
-            @page { size: A4 portrait; margin: 5mm; }
+            @page { size: A4 portrait; margin: 8mm; }
             html, body { background: white !important; color: black !important; height: 100%; overflow: hidden; }
-            .container { width: 100% !important; max-width: none !important; height: 98vh; display: flex; flex-direction: column; }
+            .container { width: 100% !important; max-width: none !important; height: 96vh; display: flex; flex-direction: column; justify-content: space-between; }
             select, .btn-group, .btn-home { display: none !important; }
             
-            .header-box { background: white !important; color: black !important; border: 2.5px solid black !important; border-radius: 0; padding: 6px; margin-bottom: 10px; }
-            .list-container { display: flex; justify-content: space-between; gap: 10px; width: 100%; flex-grow: 1; }
+            .header-box { background: white !important; color: black !important; border: 3px solid black !important; border-radius: 0; padding: 10px; margin-bottom: 15px; }
+            .list-container { display: flex; justify-content: space-between; gap: 15px; width: 100%; flex-grow: 1; }
             
-            .price-table { border: 1.5px solid black !important; background: white !important; width: 49% !important; height: fit-content; }
-            .price-table th { background: #eeeeee !important; border: 1px solid black !important; font-size: 13px !important; padding: 4px !important; }
+            .price-table { border: 2px solid black !important; background: white !important; width: 48.5% !important; table-layout: fixed; }
+            .price-table th { background: #f0f0f0 !important; border: 1.5px solid black !important; font-size: 16px !important; padding: 8px !important; }
             
-            /* Rows ko bara karne ke liye height set ki */
-            .price-table td { border: 1px solid black !important; font-size: 11px !important; padding: 3px 5px !important; line-height: 1.3; color: black !important; height: 18px; }
-            .item-name { text-align: right; padding-right: 5px !important; font-weight: bold !important; }
+            /* HAR ROW KO BARA KARNE KI SETTING */
+            .price-table td { 
+                border: 1.2px solid black !important; 
+                font-size: 13px !important; 
+                padding: 0 !important; 
+                height: 28px !important; /* Row ki unchai barha di */
+                vertical-align: middle;
+                color: black !important;
+            }
+            .item-name { text-align: right; padding-right: 8px !important; font-weight: bold !important; }
 
-            .print-only { display: block !important; width: 100%; margin-top: auto; padding-top: 10px; }
-            .hidayat-box { border: 1.5px solid black; padding: 5px; font-size: 10px; text-align: right; margin-bottom: 20px; font-weight: bold; }
-            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 13px; padding: 0 10mm; margin-bottom: 5mm; }
-            #qrContainer img { width: 60px !important; height: 60px !important; }
+            .print-only { display: block !important; width: 100%; margin-top: 20px; }
+            .hidayat-box { border: 2px solid black; padding: 8px; font-size: 12px; text-align: right; margin-bottom: 30px; line-height: 1.4; }
+            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 15px; padding: 0 5mm; }
+            #qrContainer img { width: 70px !important; height: 70px !important; }
         }
     </style>
 </head>
@@ -52,9 +59,9 @@
 
 <div class="container">
     <div class="header-box">
-        <div style="font-size: 14px; font-weight: bold; letter-spacing: 1px;">GOVERNMENT OF SINDH</div>
-        <div id="marketLabel" style="font-size: 24px; font-weight: bold; margin: 5px 0;">PRICE CONTROL LIST</div>
-        <div id="currentDate" style="font-size: 16px; font-weight: bold;"></div>
+        <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">GOVERNMENT OF SINDH</div>
+        <div id="marketLabel" style="font-size: 28px; font-weight: bold; margin: 8px 0;">OFFICIAL PRICE LIST</div>
+        <div id="currentDate" style="font-size: 18px; font-weight: bold;"></div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
@@ -63,29 +70,29 @@
 
     <div class="list-container" id="listArea">
         <table class="price-table">
-            <thead><tr><th style="width: 30%;">قیمت</th><th>آئٹم</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>آئٹم</th></tr></thead>
             <tbody id="tbodyLeft"></tbody>
         </table>
         <table class="price-table" id="tableRight" style="display:none;">
-            <thead><tr><th style="width: 30%;">قیمت</th><th>آئٹم</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>آئٹم</th></tr></thead>
             <tbody id="tbodyRight"></tbody>
         </table>
     </div>
 
     <div class="print-only">
         <div class="hidayat-box">
-            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی کی صورت میں پرائس کنٹرول ایکٹ کے تحت سخت قانونی کارروائی کی جائے گی۔
+            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ کو واضح جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر سخت قانونی کارروائی کی جائے گی۔
         </div>
         <div class="stamp-area">
-            <div style="border-top: 2px solid black; width: 160px; text-align: center; padding-top: 5px;">Market Secretary</div>
+            <div style="border-top: 2.5px solid black; width: 180px; text-align: center; padding-top: 10px;">Market Secretary</div>
             <div id="qrContainer"></div>
-            <div style="border-top: 2px solid black; width: 160px; text-align: center; padding-top: 5px;">Asst Commissioner</div>
+            <div style="border-top: 2.5px solid black; width: 180px; text-align: center; padding-top: 10px;">Asst Commissioner</div>
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Full Page Fit</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Jumbo Print</button>
     </div>
     <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
@@ -119,7 +126,7 @@
 
     function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Select Market First!");
+        if(!mId) return alert("Market Select Karein!");
         const left = document.getElementById('tbodyLeft');
         const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
@@ -131,7 +138,7 @@
         });
         document.getElementById('tableRight').style.display = "table";
         document.getElementById('qrContainer').innerHTML = "";
-        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 60, height: 60 });
+        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 70, height: 70 });
         setTimeout(() => { window.print(); location.reload(); }, 500);
     }
 
