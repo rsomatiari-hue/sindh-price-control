@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegetables - Sindh Price Control</title>
+    <script src="js/veg_list.js"></script>
+    <script src="js/rates_database.js"></script>
+    <style>
+        body {
+            background: #000;
+            color: #ffd700;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { 
+            width: 92%; 
+            max-width: 400px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Standardized Balanced Boxes */
+        .standard-box {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ffd700;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .header-box { background: #1b5e20; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+        .header-box h1 { font-size: 15px; margin: 0; line-height: 1.3; }
+
+        .selection-box { background: #2e7d32; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .instruction-text { font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 5px; }
+        .date-text { font-size: 13px; color: #90ee90; margin-bottom: 12px; display: block; font-weight: bold; }
+
+        select {
+            background: #000;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            padding: 10px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            outline: none;
+        }
+
+        /* Balanced Table 50/50 */
+        .table-container {
+            width: 100%;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(46, 125, 50, 0.1);
+        }
+
+        .price-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; font-size: 14px; width: 50%; }
+        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.2); font-size: 15px; }
+        .item-name { color: #90ee90; font-weight: bold; }
+        .price-val { color: #ffd700; font-weight: bold; }
+
+        /* Action Buttons Row */
+        .button-row { width: 100%; display: flex; gap: 10px; margin-top: 10px; margin-bottom: 12px; }
+        .btn { flex: 1; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px; text-decoration: none; display: flex; align-items: center; justify-content: center; border: 1px solid #ffd700; cursor: pointer; }
+        .btn-wa { background: #25D366; color: #fff; border: none; }
+        .btn-print { background: #fff; color: #000; border: none; }
+        
+        /* Home Button - Full Width */
+        .btn-home { width: 100%; background: transparent; color: #ffd700; padding: 15px; font-size: 15px; font-weight: bold; text-decoration: none; border: 1px solid #ffd700; border-radius: 10px; text-align: center; margin-bottom: 12px; display: block; box-sizing: border-box; }
+
+        .footer-box { background: #002200; border-color: rgba(255, 215, 0, 0.5); padding: 10px; }
+
+        /* Print Settings */
+        @media print {
+            .btn, .btn-home, select, .selection-box { display: none; }
+            .container { max-width: 100%; width: 100%; }
+            .price-table td { color: #000; }
+            body { background: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="standard-box header-box">
+        <h1>SINDH MARKET COMMITTEE<br>DAILY ONLINE PRICE CONTROL PORTAL</h1>
+    </div>
+
+    <div class="standard-box selection-box">
+        <div class="instruction-text">آج کی تازہ ترین سبزیوں کے ریٹس</div>
+        <span class="date-text">📅 22-01-2026</span>
+        <select id="marketSelect" onchange="loadRatesFromDatabase()">
+            <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
+            <option value="matiari">Matiari (مٹیاری)</option>
+            <option value="hyderabad">Hyderabad (حیدرآباد)</option>
+            <option value="hala">Hala (ہالا)</option>
+        </select>
+    </div>
+
+    <div class="table-container">
+        <table class="price-table">
+            <thead>
+                <tr>
+                    <th>Item (سبزی)</th>
+                    <th>Price (قیمت)</th>
+                </tr>
+            </thead>
+            <tbody id="priceList">
+                <tr><td colspan="2" style="font-size:12px; opacity:0.7; padding: 30px;">برائے مہربانی ریٹس دیکھنے کے لیے مارکیٹ منتخب کریں</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-row">
+        <a id="waBtn" href="#" class="btn btn-wa">📱 WhatsApp</a>
+        <button onclick="window.print()" class="btn btn-print">🖨️ Print A4</button>
+    </div>
+
+    <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
+
+    <div class="standard-box footer-box">
+        <div style="font-size: 11px; font-weight: bold; letter-spacing: 1px;">GOVERNMENT OF SINDH</div>
+        <div style="font-size: 9px; color: #90ee90; margin-top: 5px;">Director General Agriculture Marketing Sindh</div>
+    </div>
+</div>
+
+<script>
+    function loadRatesFromDatabase() {
+        const market = document.getElementById('marketSelect').value;
+        const tbody = document.getElementById('priceList');
+        tbody.innerHTML = "";
+
+        if(market === "") {
+            tbody.innerHTML = "<tr><td colspan='2' style='font-size:12px; opacity:0.7; padding: 20px;'>برائے مہربانی مارکیٹ منتخب کریں</td></tr>";
+            return;
+        }
+
+        // Checking if both JS database files are ready
+        if (typeof vegetableList !== 'undefined' && typeof marketRates !== 'undefined') {
+            vegetableList.forEach(veg => {
+                let rate = (marketRates[market] && marketRates[market][veg.id]) ? marketRates[market][veg.id] : "N/A";
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="item-name">${veg.name_ur}</td>
+                        <td class="price-val">Rs. ${rate}</td>
+                    </tr>`;
+            });
+            
+            // WhatsApp Message Update
+            let waText = `*Sindh Price Control Portal*\n\n*Market:* ${market.toUpperCase()}\n*Date:* 22-01-2026\n\nToday's Vegetable Rates are updated.`;
+            document.getElementById('waBtn').href = `https://wa.me/?text=${encodeURIComponent(waText)}`;
+        } else {
+            tbody.innerHTML = "<tr><td colspan='2' style='color:red; padding: 20px;'>Error: Database files (JS) not found!</td></tr>";
+        }
+    }
+</script>
+
+</body>
+</html>
