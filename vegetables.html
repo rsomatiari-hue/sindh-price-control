@@ -15,7 +15,7 @@
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
         select { background: #111; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; }
         .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
-        .price-table td { padding: 8px; text-align: center; color: white; border: 1px solid #333; }
+        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
         .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
         .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
@@ -24,49 +24,65 @@
         .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
         .print-only { display: none; }
 
-        /* --- PRINT STYLING WITH WATERMARK --- */
+        /* --- LEGAL SIZE PRINT LAYOUT --- */
         @media print {
-            @page { size: A4 portrait; margin: 5mm; }
+            @page { 
+                size: legal portrait; 
+                margin: 10mm; 
+            }
             html, body { background: white !important; color: black !important; height: 100%; overflow: hidden; }
-            .container { width: 100% !important; max-width: none !important; height: 98vh; display: flex; flex-direction: column; position: relative; }
+            .container { width: 100% !important; max-width: none !important; height: 96vh; display: flex; flex-direction: column; position: relative; }
             select, .btn-group, .btn-home { display: none !important; }
             
-            /* WATERMARK SETTING */
-            .container::before {
+            /* WATERMARK */
+            .container::after {
                 content: "VERIFIED SINDH GOVERNMENT OFFICIAL PORTAL";
-                position: absolute; top: 50%; left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
-                font-size: 40px; color: rgba(200, 200, 200, 0.2);
-                white-space: nowrap; z-index: -1; font-weight: bold; pointer-events: none;
+                position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg);
+                font-size: 45px; color: rgba(0, 0, 0, 0.06); font-weight: bold; white-space: nowrap; z-index: -1;
             }
 
-            .header-wrapper { display: flex; justify-content: space-between; align-items: center; border: 2.5px solid black; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
-            .header-box { border: none !important; background: transparent !important; color: black !important; flex-grow: 1; padding: 0; margin: 0; }
-            #qrContainer { display: block !important; margin-left: 10px; }
-            #qrContainer img { width: 70px !important; height: 70px !important; }
+            /* Header with QR in Legal Style */
+            .header-print { display: flex !important; justify-content: space-between; align-items: center; border: 3px solid black; padding: 15px; margin-bottom: 15px; background: #fcfcfc; }
+            .header-text { text-align: center; flex-grow: 1; }
+            #qrContainer { display: block !important; border: 1px solid #ddd; padding: 2px; }
+            #qrContainer img { width: 85px !important; height: 85px !important; }
 
-            .list-container { display: flex; justify-content: space-between; gap: 10px; width: 100%; flex-grow: 1; }
-            .price-table { border: 1.5px solid black !important; width: 49% !important; height: fit-content; }
-            .price-table th { background: #eee !important; border: 1px solid black !important; font-size: 14px !important; padding: 5px !important; }
-            .price-table td { border: 1px solid black !important; font-size: 12px !important; height: 24px !important; padding: 0 5px !important; color: black !important; }
+            .list-container { display: flex; justify-content: space-between; gap: 15px; width: 100%; flex-grow: 1; }
+            .price-table { border: 2px solid black !important; width: 48.5% !important; height: fit-content; }
+            .price-table th { background: #e0e0e0 !important; border: 2px solid black !important; font-size: 18px !important; padding: 8px !important; }
+            
+            /* STRETCHED FOR LEGAL PAPER */
+            .price-table td { 
+                border: 1.5px solid black !important; 
+                font-size: 15px !important; 
+                height: 32px !important; /* Row height increased for longer paper */
+                color: black !important; 
+                padding: 0 8px !important; 
+            }
             .item-name { text-align: right; font-weight: bold !important; }
 
             .print-only { display: block !important; }
-            .footer-box { border-top: 2.5px solid black; padding: 10px 0; text-align: center; font-weight: bold; font-size: 14px; margin-top: auto; }
-            .hidayat-box { border: 1px solid black; padding: 5px; font-size: 11px; text-align: right; margin-bottom: 10px; background: #fff; }
+            .footer-portal { border-top: 3px solid black; padding-top: 10px; text-align: center; font-size: 16px; font-weight: bold; margin-top: auto; letter-spacing: 1px; }
+            .hidayat-box { border: 2px solid black; padding: 10px; font-size: 13px; text-align: right; margin-bottom: 15px; line-height: 1.4; }
         }
     </style>
 </head>
 <body onload="initPage()">
 
 <div class="container">
-    <div class="header-wrapper" id="headerPrint">
-        <div class="header-box">
-            <div style="font-size: 14px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
-            <div id="marketLabel" style="font-size: 24px; font-weight: bold; margin: 2px 0;">DAILY PRICE LIST</div>
-            <div id="currentDate" style="font-size: 16px; font-weight: bold;"></div>
+    <div class="header-print print-only">
+        <div id="qrContainer"></div>
+        <div class="header-text">
+            <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">GOVERNMENT OF SINDH</div>
+            <div id="marketLabelPrint" style="font-size: 28px; font-weight: bold; margin: 5px 0;">PRICE CONTROL LIST</div>
+            <div id="currentDatePrint" style="font-size: 18px; font-weight: bold;"></div>
         </div>
-        <div id="qrContainer" class="print-only"></div>
+        <div style="width:85px;"></div>
+    </div>
+
+    <div class="header-box" id="mobileHeader">
+        <div style="font-size: 14px; font-weight: bold;">GOVERNMENT OF SINDH</div>
+        <div id="marketLabel" style="font-size: 22px; font-weight: bold;">SELECT MARKET</div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
@@ -75,34 +91,35 @@
 
     <div class="list-container" id="listArea">
         <table class="price-table">
-            <thead><tr><th style="width: 35%;">قیمت</th><th>آئٹم</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>نام اشیاء</th></tr></thead>
             <tbody id="tbodyLeft"></tbody>
         </table>
         <table class="price-table" id="tableRight" style="display:none;">
-            <thead><tr><th style="width: 35%;">قیمت</th><th>آئٹم</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>نام اشیاء</th></tr></thead>
             <tbody id="tbodyRight"></tbody>
         </table>
     </div>
 
     <div class="print-only">
         <div class="hidayat-box">
-            نوٹ: تمام دکاندار نرخ نامہ آویزاں کرنے کے پابند ہیں۔ کسی بھی شکایت کی صورت میں ہیلپ لائن پر رابطہ کریں۔
+            نوٹ: تمام دکاندار سرکاری ریٹ لسٹ آویزاں کرنے کے پابند ہیں۔ خلاف ورزی پر پرائس کنٹرول ایکٹ کے تحت سخت قانونی کارروائی کی جائے گی۔
         </div>
-        <div class="footer-box">
-            PRODUCED BY: SINDH PRICE CONTROL AND MARKET COMMITTEE DEPARTMENT
+        <div class="footer-portal">
+            VERIFIED SINDH GOVERNMENT OFFICIAL PORTAL
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 One Page Print</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ LEGAL Size Print</button>
     </div>
     <a href="index.html" class="btn-home">🏠 BACK TO HOME</a>
 </div>
 
 <script>
     function initPage() {
-        document.getElementById('currentDate').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
+        let d = new Date().toLocaleDateString('en-GB');
+        document.getElementById('currentDatePrint').innerText = "تاریخ: " + d;
         const select = document.getElementById('marketSelect');
         if (typeof marketCommittees !== 'undefined') {
             for (let div in marketCommittees) {
@@ -117,7 +134,10 @@
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         if(!mId) return;
-        document.getElementById('marketLabel').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        let mName = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        document.getElementById('marketLabel').innerText = mName;
+        document.getElementById('marketLabelPrint').innerText = "مارکیٹ کمیٹی " + mName;
+        
         const left = document.getElementById('tbodyLeft');
         left.innerHTML = "";
         vegetableItems.forEach(item => {
@@ -129,26 +149,30 @@
 
     function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Select Market!");
+        if(!mId) return alert("Market Select Karein!");
+        
         const left = document.getElementById('tbodyLeft');
         const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
+        
         left.innerHTML = ""; right.innerHTML = "";
         vegetableItems.forEach((item, index) => {
             let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "---";
             let row = `<tr><td>Rs.${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
             if(index < half) left.innerHTML += row; else right.innerHTML += row;
         });
+        
         document.getElementById('tableRight').style.display = "table";
         document.getElementById('qrContainer').innerHTML = "";
-        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 70, height: 70 });
+        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 85, height: 85 });
+        
         setTimeout(() => { window.print(); location.reload(); }, 500);
     }
 
     function shareWA() {
         const sel = document.getElementById('marketSelect');
         if(!sel.value) return;
-        window.open(`https://wa.me/?text=Price List: ${window.location.href}`, '_blank');
+        window.open(`https://wa.me/?text=Official Price List: ${window.location.href}`, '_blank');
     }
 </script>
 </body>
