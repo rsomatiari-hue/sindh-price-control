@@ -3,119 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Complaint - Sindh Market Committee</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Sindh Market Committee - Official Complaint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@700&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --glass: rgba(255, 255, 255, 0.1);
-            --border: rgba(255, 255, 255, 0.2);
-            --blur: blur(25px);
-        }
-        body { 
-            margin: 0; font-family: 'Poppins', sans-serif; 
-            background: radial-gradient(circle at top, #450a0a, #0f172a); /* Dark Red for Warning/Complaint */
-            background-attachment: fixed; color: white;
-        }
+        :root { --bg-black: #000000; --gold: #ffd700; --purple: #bf00ff; --light-blue: #00d4ff; --red: #ff3131; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #000; color: white; text-align: center; }
 
-        /* --- VIP HEADER --- */
-        .vip-header {
-            background: var(--glass); backdrop-filter: var(--blur);
-            border-bottom: 3px solid #ffd700; padding: 25px 15px; text-align: center;
-        }
-        .sindh-logo { width: 70px; filter: drop-shadow(0 0 10px #ffd700); }
-        .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; color: #ffd700; font-size: 24px; margin: 10px 0; }
+        /* EXACT HEADER FROM SCREENSHOT */
+        .vip-header { padding: 30px 15px; background: #000; border-bottom: 2px solid var(--gold); }
+        .vip-header h1 { font-size: 18px; font-weight: 900; color: var(--light-blue); margin: 0; letter-spacing: 1px; }
+        .vip-header h2 { font-family: 'Noto Nastaliq Urdu'; font-size: 32px; margin: 15px 0; line-height: 2; background: linear-gradient(to bottom, #ffffff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 2px #4b0082); }
+        .dg-title { font-size: 11px; color: var(--gold); font-weight: 700; text-transform: uppercase; }
 
-        /* --- COMPLAINT FORM --- */
-        .container { padding: 20px; max-width: 500px; margin: auto; }
+        .form-container { background: rgba(255,255,255,0.02); margin: 20px; padding: 25px; border-radius: 20px; border: 1px solid rgba(255,215,0,0.3); text-align: right; }
+        label { font-family: 'Noto Nastaliq Urdu'; display: block; margin-top: 20px; color: var(--gold); font-size: 20px; }
         
-        .complaint-card {
-            background: var(--glass); backdrop-filter: var(--blur);
-            border: 1px solid var(--border); border-radius: 25px;
-            padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-        .complaint-card h3 { font-family: 'Noto Nastaliq Urdu'; text-align: center; margin-bottom: 20px; color: #f87171; }
+        /* DROPDOWN STYLING LIKE SCREENSHOT */
+        select, input, textarea { width: 100%; padding: 15px; margin-top: 10px; border-radius: 15px; border: 2px solid var(--gold); background: #000; color: white; font-size: 16px; box-sizing: border-box; }
 
-        .input-group { margin-bottom: 15px; text-align: right; }
-        .input-group label { display: block; margin-bottom: 8px; font-family: 'Noto Nastaliq Urdu'; font-size: 14px; color: #ffd700; }
+        .step-box { display: none; }
+        .active-step { display: block; }
+
+        /* LIVE BUTTONS - NO BROWSE FILE */
+        .live-btn { width: 100%; padding: 18px; margin-top: 15px; border-radius: 15px; border: none; font-weight: 900; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(45deg, var(--light-blue), #005f73); color: white; }
+        .live-btn-red { background: linear-gradient(45deg, var(--red), #8b0000); }
         
-        .input-group input, .input-group select, .input-group textarea {
-            width: 100%; padding: 12px; border-radius: 12px;
-            border: 1px solid var(--border); background: rgba(255,255,255,0.05);
-            color: white; outline: none; font-family: 'Poppins', 'Noto Nastaliq Urdu';
-            box-sizing: border-box;
-        }
-        .input-group input:focus, .input-group textarea:focus { border-color: #f87171; }
-
-        .submit-btn {
-            width: 100%; padding: 15px; border-radius: 50px; border: none;
-            background: linear-gradient(90deg, #ef4444, #991b1b);
-            color: white; font-weight: bold; font-size: 16px; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2); transition: 0.3s;
-            font-family: 'Noto Nastaliq Urdu';
-        }
-        .submit-btn:active { transform: scale(0.95); }
-
-        .back-home {
-            display: block; text-align: center; margin-top: 20px;
-            color: #94a3b8; text-decoration: none; font-size: 14px;
-        }
-
-        /* --- FOOTER --- */
-        .vip-footer {
-            margin-top: 30px; padding: 20px; text-align: center; font-size: 11px;
-            background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); color: #94a3b8;
-        }
+        .hidden-input { display: none; }
+        .note-red { color: var(--red); font-size: 13px; font-weight: bold; margin-top: 10px; text-align: center; border: 1px dashed var(--red); padding: 10px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div class="vip-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Emblem_of_Sindh.svg" class="sindh-logo">
+        <h1>GOVERNMENT OF SINDH</h1>
         <h2>آن لائن شکایت سیل</h2>
+        <div class="dg-title">DIRECTOR GENERAL AGRICULTURE MARKETING SINDH</div>
     </div>
 
-    <div class="container">
-        <div class="complaint-card">
-            <h3>اپنی شکایت درج کریں</h3>
+    <div class="form-container">
+        <div id="initialSection">
+            <p id="autoDate" style="color:var(--gold); text-align:center; font-weight:bold; margin-bottom:10px;"></p>
+            <label>اپنی مارکیٹ کمیٹی منتخب کریں:</label>
+            <select id="marketSelect" onchange="startComplaint()">
+                <option value="">-- مارکیٹ منتخب کریں --</option>
+                <option>مارکیٹ کمیٹی کراچی</option>
+                <option>مارکیٹ کمیٹی حیدرآباد</option>
+                <option>مارکیٹ کمیٹی سکھر</option>
+                <option>مارکیٹ کمیٹی لاڑکانہ</option>
+                <option>مارکیٹ کمیٹی میرپورخاص</option>
+                <option>مارکیٹ کمیٹی نوابشاہ</option>
+                <option>مارکیٹ کمیٹی مورو</option>
+                <option>مارکیٹ کمیٹی خیرپور</option>
+                <option>مارکیٹ کمیٹی بدین</option>
+                <option>مارکیٹ کمیٹی شکارپور</option>
+                <option>مارکیٹ کمیٹی جیکب آباد</option>
+                <option>مارکیٹ کمیٹی گھوٹکی</option>
+                <option>مارکیٹ کمیٹی دادو</option>
+                <option>مارکیٹ کمیٹی سانگھڑ</option>
+                </select>
+        </div>
+
+        <div id="step1" class="step-box">
+            <h3 style="color:var(--light-blue); text-align:center; border-bottom:1px solid #333; padding-bottom:10px;">سیکشن 1: آپ کی معلومات</h3>
+            <label>آپ کا مکمل نام:</label>
+            <input type="text" id="userName" placeholder="نام درج کریں">
             
-            <form id="complaintForm" onsubmit="event.preventDefault(); alert('شکایت موصول ہو گئی ہے! شکریہ۔');">
-                <div class="input-group">
-                    <label>آپ کا نام</label>
-                    <input type="text" placeholder="نام لکھیں..." required>
-                </div>
+            <label>موبائل نمبر:</label>
+            <input type="tel" id="userPhone" placeholder="03xx-xxxxxxx">
 
-                <div class="input-group">
-                    <label>فون نمبر</label>
-                    <input type="tel" placeholder="0300-0000000" required>
-                </div>
+            <label>لائیو ویڈیو تصدیق:</label>
+            <input type="file" id="userVideo" accept="video/*" capture="user" class="hidden-input">
+            <button type="button" class="live-btn" onclick="document.getElementById('userVideo').click()">
+                <i class="fas fa-video"></i> LIVE VERIFICATION
+            </button>
+            
+            <button class="live-btn" style="background:var(--gold); color:black; margin-top:30px;" onclick="nextStep()">اگلا مرحلہ (Next)</button>
+        </div>
 
-                <div class="input-group">
-                    <label>مارکیٹ کا انتخاب کریں</label>
-                    <select required>
-                        <option value="">مارکیٹ منتخب کریں</option>
-                        <option value="karachi">کراچی</option>
-                        <option value="hyderabad">حیدرآباد</option>
-                        <option value="sukkur">سکھر</option>
-                    </select>
-                </div>
+        <div id="step2" class="step-box">
+            <h3 style="color:var(--red); text-align:center; border-bottom:1px solid #333; padding-bottom:10px;">سیکشن 2: دکاندار کی تفصیل</h3>
+            
+            <label>دکاندار کا نام:</label>
+            <input type="text" placeholder="نام لکھیں">
+            
+            <label>دکان کا نام / نمبر:</label>
+            <input type="text" placeholder="دکان کی پہچان">
 
-                <div class="input-group">
-                    <label>شکایت کی تفصیل</label>
-                    <textarea rows="4" placeholder="اپنی شکایت یہاں لکھیں..." required></textarea>
-                </div>
+            <label>دکان کا مکمل پتہ:</label>
+            <textarea placeholder="گلی، محلہ، علاقہ درج کریں..."></textarea>
 
-                <button type="submit" class="submit-btn">شکایت جمع کروائیں</button>
-            </form>
+            <label>لائیو لوکیشن (GPS):</label>
+            <button type="button" class="live-btn" style="background:var(--gold); color:black;" onclick="getLocation()">
+                <i class="fas fa-map-marker-alt"></i> RECORD LOCATION
+            </button>
+            <input type="text" id="gpsDisplay" readonly placeholder="لوکیشن کا انتظار ہے..." style="border:none; text-align:center; color:var(--light-blue);">
 
-            <a href="index.html" class="back-home"><i class="fas fa-home"></i> ہوم پیج پر واپس جائیں</a>
+            <label>دکان کی لائیو ویڈیو (30 سیکنڈ):</label>
+            <input type="file" id="shopVideo" accept="video/*" capture="environment" class="hidden-input">
+            <button type="button" class="live-btn live-btn-red" onclick="document.getElementById('shopVideo').click()">
+                <i class="fas fa-camera"></i> LIVE EVIDENCE
+            </button>
+            
+            <div class="note-red">
+                ویڈیو میں دکان اور دکاندار کا واضح نظر آنا لازمی ہے (کم از کم 30 سیکنڈ)۔
+            </div>
+
+            <button class="live-btn" style="background:var(--red); color:white; margin-top:30px;" onclick="submitFinal()">شکایت جمع کرائیں (Submit)</button>
         </div>
     </div>
 
-    <div class="vip-footer">
-        &copy; 2026 Sindh Agriculture Marketing Department. <br>
-        Direct Reporting to DG Office Control Room.
-    </div>
+    <script>
+        document.getElementById('autoDate').innerText = "جمعرات، 22 جنوری، 2026";
 
+        function startComplaint() {
+            if(document.getElementById('marketSelect').value !== "") {
+                document.getElementById('step1').classList.add('active-step');
+                document.getElementById('initialSection').style.display = "none";
+            }
+        }
+
+        function nextStep() {
+            if(document.getElementById('userName').value == "" || document.getElementById('userPhone').value == "") {
+                alert("براہ کرم نام اور نمبر درج کریں"); return;
+            }
+            document.getElementById('step1').classList.remove('active-step');
+            document.getElementById('step2').classList.add('active-step');
+            window.scrollTo(0,0);
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((p) => {
+                    document.getElementById('gpsDisplay').value = p.coords.latitude + ", " + p.coords.longitude;
+                });
+            }
+        }
+
+        function submitFinal() {
+            alert("شکایت ریکارڈ کر لی گئی ہے۔");
+            location.href = "index.html";
+        }
+    </script>
 </body>
 </html>
