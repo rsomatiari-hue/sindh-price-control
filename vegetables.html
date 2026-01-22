@@ -13,59 +13,75 @@
         .standard-box { width: 100%; box-sizing: border-box; border: 1px solid #ffd700; border-radius: 12px; margin-bottom: 12px; padding: 15px; text-align: center; }
         .header-box { background: #1b5e20; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
         .selection-box { background: #2e7d32; }
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 15px; margin-bottom: 10px; }
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 15px; }
         .table-container { width: 100%; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 12px; overflow: hidden; background: rgba(46, 125, 50, 0.1); }
         .price-table { width: 100%; border-collapse: collapse; }
         .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; }
-        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.1); font-size: 15px; }
-        .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; padding: 15px; font-size: 15px; font-weight: bold; text-decoration: none; border: 1px solid #ffd700; border-radius: 10px; text-align: center; margin-top: 15px; display: block; box-sizing: border-box; }
+        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.1); }
+        .item-name { color: #90ee90; font-weight: bold; text-align: right; }
     </style>
 </head>
-<body>
+<body onload="initPage()">
+
 <div class="container">
-    <div class="standard-box header-box"><h1>SINDH MARKET COMMITTEE<br>DAILY VEGETABLE RATES</h1></div>
+    <div class="standard-box header-box">
+        <h1 style="font-size: 16px;">SINDH MARKET COMMITTEE<br>DAILY VEGETABLE RATES</h1>
+    </div>
+
     <div class="standard-box selection-box">
-        <select id="marketSelect" onchange="loadRates()">
-            <option value="">-- Select Market --</option>
-            <option value="karachi">مارکیٹ کمیٹی کراچی</option>
-            <option value="hyderabad">مارکیٹ کمیٹی حیدرآباد</option>
-            <option value="kazi_ahmed">مارکیٹ کمیٹی قاضی احمد</option>
+        <select id="marketSelect" onchange="loadVegetableRates()">
+            <option value="">-- مارکیٹ منتخب کریں --</option>
         </select>
     </div>
+
     <div class="table-container">
         <table class="price-table">
-            <thead><tr><th>سبزی کا نام</th><th>قیمت (فی کلو)</th></tr></thead>
+            <thead>
+                <tr><th>سبزی</th><th>قیمت</th></tr>
+            </thead>
             <tbody id="priceList">
-                <tr><td colspan="2" style="padding: 20px; opacity: 0.6;">ریٹس دیکھنے کے لیے مارکیٹ منتخب کریں</td></tr>
+                <tr><td colspan="2" style="padding:20px; opacity:0.6;">براہ کرم مارکیٹ منتخب کریں</td></tr>
             </tbody>
         </table>
     </div>
-    <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
 </div>
 
 <script>
-    function loadRates() {
-        const marketId = document.getElementById('marketSelect').value;
+    // 1. Markets ko dropdown mein load karne wala function
+    function initPage() {
+        const select = document.getElementById('marketSelect');
+        // marketCommittees aapki js/market.js se aa raha hai
+        if (typeof marketCommittees !== 'undefined') {
+            for (let division in marketCommittees) {
+                marketCommittees[division].forEach(m => {
+                    let option = document.createElement('option');
+                    option.value = m.id;
+                    option.innerText = m.name;
+                    select.appendChild(option);
+                });
+            }
+        }
+    }
+
+    // 2. Rates load karne wala function
+    function loadVegetableRates() {
+        const mId = document.getElementById('marketSelect').value;
         const tbody = document.getElementById('priceList');
         tbody.innerHTML = "";
 
-        if(marketId === "") return;
+        if(mId === "") return;
 
-        // Using 'vegetableItems' from your veg_list.js
-        if (typeof vegetableItems !== 'undefined' && typeof marketRates !== 'undefined') {
-            vegetableItems.forEach(item => {
-                let rate = (marketRates[marketId] && marketRates[marketId][item.id]) ? marketRates[marketId][item.id] : "Pending";
-                tbody.innerHTML += `
-                    <tr>
-                        <td class="item-name">${item.name_ur || item.name}</td>
-                        <td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td>
-                    </tr>`;
-            });
-        } else {
-            tbody.innerHTML = "<tr><td colspan='2'>Data loading error...</td></tr>";
-        }
+        // vegetableItems aapki js/veg_list.js se aa raha hai
+        vegetableItems.forEach(item => {
+            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
+            tbody.innerHTML += `
+                <tr>
+                    <td class="item-name">${item.name_ur}</td>
+                    <td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td>
+                </tr>`;
+        });
     }
 </script>
+
 </body>
 </html>
