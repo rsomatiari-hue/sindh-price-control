@@ -10,84 +10,102 @@
     <script src="js/rates_database.js"></script>
     <style>
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 450px; }
+        .container { width: 100%; max-width: 480px; }
         .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; }
         .info-box { background: #2e7d32; border: 1px solid #ffd700; border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 10px; }
-        .date-text { color: #fff; font-size: 18px; font-weight: bold; margin-top: 5px; background: rgba(0,0,0,0.3); display: inline-block; padding: 2px 10px; border-radius: 5px; }
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 10px; }
-        .table-container { width: 100%; border: 1px solid #ffd700; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 15px; }
-        .price-table { width: 100%; border-collapse: collapse; }
-        .price-table th { background: #1b5e20; color: #ffd700; padding: 15px; border: 1px solid #ffd700; font-size: 18px; }
-        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid #333; font-size: 16px; }
+        .date-text { color: #fff; font-size: 16px; font-weight: bold; }
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 10px; width: 100%; border-radius: 8px; margin-bottom: 10px; }
         
-        /* QR Code Styling - Hidden on Mobile, Shown on Print */
-        #qrcode { display: none; margin: 20px auto; text-align: center; }
+        /* Table Optimization */
+        .table-container { width: 100%; border: 1px solid #ffd700; border-radius: 10px; overflow: hidden; background: #000; }
+        .price-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 8px; border: 1px solid #ffd700; }
+        .price-table td { padding: 6px; text-align: center; color: white; border: 1px solid #333; }
+        
+        .hidayat-box { display: none; } /* Normal screen par chupa hua */
 
-        .btn-group { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; }
-        .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; text-decoration: none; }
-        .btn-wa { background: #25d366; color: white; }
-        .btn-prt { background: #fff; color: #000; }
-
-        /* Professional A4 Print CSS */
+        /* Printing Settings */
         @media print {
-            @page { size: A4; margin: 15mm; }
+            @page { size: A4; margin: 10mm; }
             body { background: white !important; color: black !important; width: 100%; }
+            .container { max-width: 100%; }
             select, .btn-group, .btn-home { display: none !important; }
-            .header-box { background: #f2f2f2 !important; color: black !important; border: 2px solid black !important; box-shadow: none !important; }
-            .info-box { background: white !important; color: black !important; border: 1px solid black !important; }
-            .date-text { color: black !important; background: none !important; }
-            .price-table th { background: #ddd !important; color: black !important; border: 1px solid black !important; }
-            .price-table td { color: black !important; border: 1px solid black !important; font-size: 14pt !important; }
-            #qrcode { display: block !important; } /* Print par QR code dikhayein */
-            .footer { color: black !important; border-top: 2px solid black !important; margin-top: 20px; }
+            
+            .header-box { background: #eee !important; color: black !important; border: 2px solid black !important; }
+            .info-box { background: #fff !important; color: black !important; border: 1px solid black !important; margin-bottom: 5px; }
+            
+            .price-table { font-size: 12px !important; } /* Font chota kiya taake aik page par aaye */
+            .price-table td, .price-table th { border: 1px solid black !important; color: black !important; padding: 4px !important; }
+            
+            #qrcode { display: block !important; margin: 10px auto; text-align: center; }
+            
+            /* Hidayat aur Footer Settings */
+            .hidayat-box { 
+                display: block !important; 
+                margin-top: 15px; 
+                font-size: 11px; 
+                text-align: right; 
+                border: 1px dashed black; 
+                padding: 10px; 
+                line-height: 1.4;
+            }
+            .footer { display: block !important; color: black !important; margin-top: 10px; font-weight: bold; font-size: 12px; }
         }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; width: 100%; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
+        .btn-wa { background: #25d366; color: white; }
+        .btn-prt { background: #fff; color: #000; border: 1px solid #000; }
+        .footer { text-align: center; padding: 15px; color: #90ee90; }
     </style>
 </head>
 <body onload="initPage()">
 
 <div class="container">
     <div class="header-box">
-        <h1 style="margin:0; font-size: 20px;">SINDH MARKET COMMITTEE<br>DAILY PRICE PORTAL</h1>
+        <h1 style="margin:0; font-size: 18px;">SINDH MARKET COMMITTEE</h1>
+        <h2 id="printMarketName" style="margin:5px 0 0 0; font-size: 16px; color: #ffd700;">-- MARKET SELECTION --</h2>
     </div>
 
     <div class="info-box">
-        <h2 style="margin:0; font-size: 18px;">آج کی تازہ سبزیوں کے سرکاری ریٹس</h2>
-        <div class="date-text" id="currentDate">--/--/----</div>
+        <div class="date-text" id="currentDate">Date: --/--/----</div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
-        <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
+        <option value="">-- Select Market Committee --</option>
     </select>
 
     <div class="table-container">
         <table class="price-table">
             <thead>
-                <tr><th style="width: 45%;">قیمت (روپے)</th><th>نام</th></tr>
+                <tr><th style="width: 40%;">قیمت (روپے)</th><th>آئٹم کا نام</th></tr>
             </thead>
             <tbody id="priceList"></tbody>
         </table>
     </div>
 
-    <div id="qrcode">
-        <p style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">Scan to Verify Rates</p>
-        <div id="qrContainer" style="display: flex; justify-content: center;"></div>
+    <div class="hidayat-box">
+        <strong>⚠️ ضروری ہدایات (Price Control Act):</strong><br>
+        1. تمام دکاندار سرکاری ریٹ لسٹ نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔<br>
+        2. گراں فروشی کی صورت میں پرائس کنٹرول ایکٹ کے تحت جرمانہ اور قید کی سزا ہو سکتی ہے۔<br>
+        3. صارفین کسی بھی شکایت کے لیے اسسٹنٹ کمشنر یا مارکیٹ کمیٹی آفس سے رجوع کریں۔
     </div>
+
+    <div id="qrcode"><div id="qrContainer" style="display: flex; justify-content: center;"></div></div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
         <button class="btn btn-prt" onclick="generateQRAndPrint()">🖨️ A4 Print (QR)</button>
     </div>
 
-    <a href="index.html" style="color:#ffd700; text-decoration:none; font-weight:bold;" class="btn-home">🏠 BACK TO HOME</a>
-
-    <div class="footer" style="text-align: center; font-size: 12px; margin-top: 20px;">
-        GOVERNMENT OF SINDH - AGRICULTURE MARKETING
+    <div class="footer">
+        GOVERNMENT OF SINDH<br>Agriculture Marketing Department
     </div>
 </div>
 
 <script>
     function initPage() {
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-GB');
+        document.getElementById('currentDate').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
         const select = document.getElementById('marketSelect');
         if (typeof marketCommittees !== 'undefined') {
             for (let div in marketCommittees) {
@@ -101,36 +119,38 @@
 
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
-        const tbody = document.getElementById('priceList');
+        const marketTitle = document.getElementById('printMarketName');
+        const selText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
+        
         if(!mId) return;
+        marketTitle.innerText = selText; // Print header mein naam dalna
+        marketTitle.style.color = "black"; // Printing ke liye black set
+
+        const tbody = document.getElementById('priceList');
         tbody.innerHTML = "";
         vegetableItems.forEach(item => {
             let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
-            tbody.innerHTML += `<tr><td style="font-weight:bold;">Rs. ${rate}</td><td style="text-align:right; padding-right:15px; color:#90ee90;">${item.name_ur}</td></tr>`;
+            tbody.innerHTML += `<tr><td style="font-weight:bold;">Rs. ${rate}</td><td style="text-align:right; padding-right:10px;">${item.name_ur}</td></tr>`;
         });
     }
 
     function generateQRAndPrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Pehle Market Select Karein!");
-
-        // QR Code generate karna
-        document.getElementById('qrContainer').innerHTML = ""; // Purana saaf karein
+        if(!mId) return alert("Please Select Market First");
+        
+        document.getElementById('qrContainer').innerHTML = "";
         new QRCode(document.getElementById("qrContainer"), {
-            text: window.location.href + "?market=" + mId,
-            width: 100,
-            height: 100,
-            colorDark : "#000000",
-            colorLight : "#ffffff"
+            text: window.location.href + "?m=" + mId,
+            width: 80, height: 80
         });
 
-        setTimeout(() => { window.print(); }, 500); // 0.5 sec wait karein taake QR ban jaye
+        setTimeout(() => { window.print(); }, 500);
     }
 
     function shareWA() {
         const sel = document.getElementById('marketSelect');
-        if(!sel.value) return alert("Market Select Karein");
-        const msg = `*Sindh Price Control*%0A*Market:* ${sel.options[sel.selectedIndex].text}%0A*Date:* ${document.getElementById('currentDate').innerText}%0A%0ACheck Here: ${window.location.href}`;
+        if(!sel.value) return alert("Select Market");
+        const msg = `*Sindh Price Control*%0AMarket: ${sel.options[sel.selectedIndex].text}%0ACheck: ${window.location.href}`;
         window.open(`https://wa.me/?text=${msg}`, '_blank');
     }
 </script>
