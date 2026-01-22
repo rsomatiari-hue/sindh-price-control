@@ -9,56 +9,51 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        /* --- GLOBAL & MOBILE VIEW (CRYSTAL LOOK) --- */
+        /* --- MOBILE VIEW --- */
         body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
         .container { width: 100%; max-width: 450px; }
-        
-        .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
-        .market-title { font-size: 22px; margin: 5px 0; color: #fff; text-shadow: 1px 1px 2px #000; }
-        
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 15px; }
-
-        /* Mobile List Style */
-        .list-container { width: 100%; display: block; }
-        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; margin-bottom: 10px; }
-        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; font-size: 18px; }
-        .price-table td { padding: 10px; text-align: center; color: white; border: 1px solid #333; font-size: 16px; }
+        .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 12px; text-align: center; margin-bottom: 10px; }
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-bottom: 15px; }
+        .price-table { width: 100%; border-collapse: collapse; background: #000; border: 1px solid #ffd700; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 8px; border: 1px solid #ffd700; }
+        .price-table td { padding: 6px; text-align: center; color: white; border: 1px solid #333; }
         .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
-
         .btn-group { display: flex; gap: 10px; width: 100%; margin: 15px 0; }
-        .btn { flex: 1; padding: 15px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; font-size: 14px; text-decoration: none; }
+        .btn { flex: 1; padding: 14px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; text-align: center; }
         .btn-wa { background: #25d366; color: white; }
         .btn-prt { background: #fff; color: #000; }
-        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; display: block; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; }
-
-        /* Hidden Sections for Screen */
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 12px; text-align: center; border-radius: 10px; text-decoration: none; display: block; }
         .print-only { display: none; }
 
-        /* --- PROFESSIONAL A4 PRINT VIEW --- */
+        /* --- FINAL A4 (NOT LETTER) PRINT LOGIC --- */
         @media print {
-            @page { size: A4; margin: 8mm; }
-            body { background: white !important; color: black !important; padding: 0; }
-            .container { max-width: 100% !important; width: 100% !important; }
-            
-            /* Hide UI Elements */
+            @page { 
+                size: A4; /* Force A4 Size */
+                margin: 5mm; 
+            }
+            html, body { 
+                width: 210mm; /* A4 Width */
+                height: 297mm; /* A4 Height */
+                background: white !important; 
+                color: black !important; 
+                margin: 0; 
+                padding: 0; 
+            }
+            .container { width: 100% !important; max-width: none !important; padding: 10mm; }
             select, .btn-group, .btn-home { display: none !important; }
-
-            /* Official Header */
-            .header-box { background: white !important; color: black !important; border: 2px solid black !important; box-shadow: none !important; border-radius: 0; margin-bottom: 10px; }
-            .market-title { color: black !important; font-size: 24px; font-weight: bold; }
-
-            /* Double Column Layout for Print */
-            .list-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-            .price-table { border: 1px solid black !important; background: white !important; }
-            .price-table th { background: #eee !important; color: black !important; border: 1px solid black !important; font-size: 12px !important; padding: 5px !important; }
-            .price-table td { color: black !important; border: 1px solid black !important; font-size: 11px !important; padding: 4px !important; }
+            
+            .header-box { background: white !important; color: black !important; border: 2px solid black !important; border-radius: 0; padding: 5px; margin-bottom: 10px; }
+            .list-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; }
+            
+            .price-table { border: 1.5px solid black !important; background: white !important; width: 100%; }
+            .price-table th { background: #f2f2f2 !important; color: black !important; border: 1px solid black !important; font-size: 11px !important; padding: 3px !important; }
+            .price-table td { color: black !important; border: 1px solid black !important; font-size: 10px !important; padding: 2px 4px !important; line-height: 1.1; }
             .item-name { color: black !important; }
 
-            /* Instructions and Signatures */
-            .print-only { display: block !important; }
-            .hidayat-box { border: 1px solid black; padding: 8px; margin-top: 10px; font-size: 10px; text-align: right; line-height: 1.4; }
-            .stamp-area { display: flex !important; justify-content: space-between; margin-top: 50px; font-weight: bold; font-size: 12px; }
-            #qrContainer { margin-top: -30px; }
+            .print-only { display: block !important; position: fixed; bottom: 15mm; width: 100%; left: 0; padding: 0 15mm; }
+            .hidayat-box { border: 1px solid black; padding: 5px; margin-bottom: 10px; font-size: 9px; text-align: right; }
+            .stamp-area { display: flex !important; justify-content: space-between; align-items: flex-end; font-weight: bold; font-size: 11px; }
+            #qrContainer img { width: 60px !important; height: 60px !important; margin: 0 auto; }
         }
     </style>
 </head>
@@ -66,9 +61,9 @@
 
 <div class="container">
     <div class="header-box">
-        <div style="font-size: 14px; font-weight: bold;">SINDH MARKET COMMITTEE</div>
-        <div id="marketLabel" class="market-title">DAILY VEGETABLE RATES</div>
-        <div id="currentDate" style="font-size: 16px; font-weight: bold; margin-top: 5px;"></div>
+        <div style="font-size: 12px; font-weight: bold;">GOVERNMENT OF SINDH</div>
+        <div id="marketLabel" style="font-size: 18px; font-weight: bold; margin: 5px 0;">PRICE CONTROL LIST</div>
+        <div id="currentDate" style="font-size: 14px; font-weight: bold;"></div>
     </div>
 
     <select id="marketSelect" onchange="loadRates()">
@@ -77,114 +72,88 @@
 
     <div class="list-container" id="listArea">
         <table class="price-table">
-            <thead><tr><th style="width: 40%;">قیمت</th><th>آئٹم کا نام</th></tr></thead>
+            <thead><tr><th style="width: 35%;">قیمت</th><th>نام اشیاء</th></tr></thead>
             <tbody id="tbodyLeft"></tbody>
         </table>
-        <table class="price-table" id="tableRight">
-            <thead><tr><th style="width: 40%;">قیمت</th><th>آئٹم کا نام</th></tr></thead>
+        <table class="price-table" id="tableRight" style="display:none;">
+            <thead><tr><th style="width: 35%;">قیمت</th><th>نام اشیاء</th></tr></thead>
             <tbody id="tbodyRight"></tbody>
         </table>
     </div>
 
     <div class="print-only">
         <div class="hidayat-box">
-            <strong>نوٹ:</strong> یہ سرکاری نرخ نامہ پرائس کنٹرول ایکٹ کے تحت جاری کیا گیا ہے۔ تمام دکاندار اسے نمایاں جگہ پر آویزاں کرنے کے پابند ہیں۔ خلاف ورزی کی صورت میں جرمانہ اور قید کی سزا ہو سکتی ہے۔
+            نوٹ: یہ ریٹ لسٹ بیورو آف سپلائی اینڈ پرائس کنٹرول سندھ کی ہدایت پر جاری کی گئی ہے۔ تمام دکاندار اسے آویزاں کرنے کے پابند ہیں۔
         </div>
         <div class="stamp-area">
-            <div style="border-top: 1.5px solid black; width: 150px; padding-top: 5px; text-align: center;">Market Secretary</div>
+            <div style="border-top: 1.5px solid black; width: 140px; text-align: center; padding-top: 5px;">Market Secretary</div>
             <div id="qrContainer"></div>
-            <div style="border-top: 1.5px solid black; width: 150px; padding-top: 5px; text-align: center;">Assistant Commissioner</div>
+            <div style="border-top: 1.5px solid black; width: 140px; text-align: center; padding-top: 5px;">Asst Commissioner</div>
         </div>
     </div>
 
     <div class="btn-group">
         <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
-        <button class="btn btn-prt" onclick="preparePrint()">🖨️ A4 Print (Standard)</button>
+        <button class="btn btn-prt" onclick="preparePrint()">🖨️ Professional A4 Print</button>
     </div>
-
-    <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
+    <a href="index.html" class="btn-home">🏠 HOME PAGE</a>
 </div>
 
 <script>
     function initPage() {
-        // Today's Date
         document.getElementById('currentDate').innerText = "تاریخ: " + new Date().toLocaleDateString('en-GB');
-        
-        // Load Markets
         const select = document.getElementById('marketSelect');
         if (typeof marketCommittees !== 'undefined') {
             for (let div in marketCommittees) {
                 marketCommittees[div].forEach(m => {
                     let opt = document.createElement('option');
-                    opt.value = m.id;
-                    opt.innerText = m.name;
-                    select.appendChild(opt);
+                    opt.value = m.id; opt.innerText = m.name; select.appendChild(opt);
                 });
             }
         }
-        // Initially hide second table on screen
-        document.getElementById('tableRight').style.display = "none";
     }
 
     function loadRates() {
         const mId = document.getElementById('marketSelect').value;
-        const selText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
-        
         if(!mId) return;
-        
-        document.getElementById('marketLabel').innerText = selText;
+        document.getElementById('marketLabel').innerText = document.getElementById('marketSelect').options[document.getElementById('marketSelect').selectedIndex].text;
         const left = document.getElementById('tbodyLeft');
-        const right = document.getElementById('tbodyRight');
-        
         left.innerHTML = "";
-        right.innerHTML = "";
-        
-        // Logic: Screen par sirf Left table use hogi (Single Column)
-        // Print ke waqt preparePrint() function isay split karega
         vegetableItems.forEach(item => {
-            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
+            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "---";
             left.innerHTML += `<tr><td style="font-weight:bold; color:#ffd700;">Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
         });
-        
-        document.getElementById('tableRight').style.display = "none"; // Screen par hamesha band
+        document.getElementById('tableRight').style.display = "none";
     }
 
     function preparePrint() {
         const mId = document.getElementById('marketSelect').value;
-        if(!mId) return alert("Pehle Market Select Karein!");
-
+        if(!mId) return alert("Select Market!");
         const left = document.getElementById('tbodyLeft');
         const right = document.getElementById('tbodyRight');
         const half = Math.ceil(vegetableItems.length / 2);
-        
-        left.innerHTML = "";
-        right.innerHTML = "";
-
-        // Split items for A4 Dual Column
+        left.innerHTML = ""; right.innerHTML = "";
         vegetableItems.forEach((item, index) => {
-            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
+            let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "---";
             let row = `<tr><td style="font-weight:bold;">Rs. ${rate}</td><td class="item-name">${item.name_ur}</td></tr>`;
-            if(index < half) left.innerHTML += row;
-            else right.innerHTML += row;
+            if(index < half) left.innerHTML += row; else right.innerHTML += row;
         });
-
-        // Show second table for print
         document.getElementById('tableRight').style.display = "table";
-
-        // Generate QR
         document.getElementById('qrContainer').innerHTML = "";
-        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 70, height: 70 });
-
+        new QRCode(document.getElementById("qrContainer"), { text: window.location.href, width: 60, height: 60 });
+        
         setTimeout(() => { 
             window.print(); 
-            location.reload(); // Print ke baad mobile view wapis theek karne ke liye reload
+            // Print ke baad reset
+            document.getElementById('tableRight').style.display = "none";
+            loadRates();
         }, 500);
     }
 
     function shareWA() {
         const sel = document.getElementById('marketSelect');
-        if(!sel.value) return alert("Market Select Karein");
-        window.open(`https://wa.me/?text=*Sindh Price Control*%0AMarket: ${sel.options[sel.selectedIndex].text}%0A${window.location.href}`, '_blank');
+        if(!sel.value) return;
+        window.open(`https://wa.me/?text=*Price List:* ${sel.options[sel.selectedIndex].text}%0A${window.location.href}`, '_blank');
     }
 </script>
 </body>
