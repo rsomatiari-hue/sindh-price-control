@@ -8,80 +8,132 @@
     <script src="js/veg_list.js"></script>
     <script src="js/rates_database.js"></script>
     <style>
-        body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px 0; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 92%; max-width: 400px; }
-        .standard-box { width: 100%; box-sizing: border-box; border: 1px solid #ffd700; border-radius: 12px; margin-bottom: 12px; padding: 15px; text-align: center; }
-        .header-box { background: #1b5e20; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
-        .selection-box { background: #2e7d32; }
-        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 15px; }
-        .table-container { width: 100%; border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 12px; overflow: hidden; background: rgba(46, 125, 50, 0.1); }
+        body { background: #000; color: #ffd700; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 450px; }
+        
+        /* Main Header */
+        .header-box { border: 2px solid #ffd700; border-radius: 12px; background: #1b5e20; padding: 15px; text-align: center; margin-bottom: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        
+        /* Date & Sub-Heading Box */
+        .info-box { background: #2e7d32; border: 1px solid #ffd700; border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 10px; }
+        .date-text { color: #fff; font-size: 18px; font-weight: bold; margin-top: 5px; background: rgba(0,0,0,0.3); display: inline-block; padding: 2px 10px; border-radius: 5px; }
+
+        /* Selection Styling */
+        .selection-box { background: #1b5e20; border: 1px solid #ffd700; border-radius: 10px; padding: 15px; margin-bottom: 10px; }
+        select { background: #000; color: #ffd700; border: 2px solid #ffd700; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; }
+
+        /* Table Styling */
+        .table-container { width: 100%; border: 1px solid #ffd700; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 15px; }
         .price-table { width: 100%; border-collapse: collapse; }
-        .price-table th { background: #1b5e20; color: #ffd700; padding: 12px; border: 1px solid #ffd700; }
-        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid rgba(255,215,0,0.1); }
-        .item-name { color: #90ee90; font-weight: bold; text-align: right; }
+        .price-table th { background: #1b5e20; color: #ffd700; padding: 15px; border: 1px solid #ffd700; font-size: 18px; }
+        .price-table td { padding: 12px; text-align: center; color: white; border: 1px solid #333; font-size: 16px; }
+        .item-name { color: #90ee90; font-weight: bold; text-align: right; padding-right: 15px; }
+
+        /* Action Box (WhatsApp/Print) */
+        .action-box { background: rgba(255, 215, 0, 0.1); border: 2px dashed #ffd700; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; }
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; text-decoration: none; font-size: 14px; }
+        .btn-wa { background: #25d366; color: white; }
+        .btn-prt { background: #fff; color: #000; }
+        .btn-home { width: 100%; background: transparent; color: #ffd700; border: 1px solid #ffd700; padding: 15px; display: block; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+
+        /* Footer */
+        .footer { text-align: center; font-size: 12px; color: #90ee90; border-top: 1px solid #333; padding-top: 10px; width: 100%; }
+
+        @media print { .selection-box, .action-box, .btn-home, select { display: none; } body { background: #fff; color: #000; } .price-table td { color: #000; } }
     </style>
 </head>
 <body onload="initPage()">
 
 <div class="container">
-    <div class="standard-box header-box">
-        <h1 style="font-size: 16px;">SINDH MARKET COMMITTEE<br>DAILY VEGETABLE RATES</h1>
+    <div class="header-box">
+        <h1 style="margin:0; font-size: 20px;">SINDH MARKET COMMITTEE<br>DAILY ONLINE PRICE CONTROL PORTAL</h1>
     </div>
 
-    <div class="standard-box selection-box">
-        <select id="marketSelect" onchange="loadVegetableRates()">
-            <option value="">-- مارکیٹ منتخب کریں --</option>
+    <div class="info-box">
+        <h2 style="margin:0; font-size: 18px;">آج کی تازہ سبزیوں کے سرکاری ریٹس</h2>
+        <div class="date-text" id="currentDate">--/--/----</div>
+    </div>
+
+    <div class="selection-box">
+        <select id="marketSelect" onchange="loadRates()">
+            <option value="">-- مارکیٹ کمیٹی منتخب کریں --</option>
         </select>
     </div>
 
     <div class="table-container">
         <table class="price-table">
             <thead>
-                <tr><th>سبزی</th><th>قیمت</th></tr>
+                <tr>
+                    <th style="width: 40%;">قیمت (فی کلو)</th>
+                    <th>سبزی کا نام</th>
+                </tr>
             </thead>
             <tbody id="priceList">
-                <tr><td colspan="2" style="padding:20px; opacity:0.6;">براہ کرم مارکیٹ منتخب کریں</td></tr>
+                <tr><td colspan="2" style="padding: 20px; opacity: 0.5;">براہ کرم لسٹ دیکھنے کے لیے مارکیٹ منتخب کریں</td></tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="action-box">
+        <div style="font-weight: bold; color: #ffd700;">Share or Print Results</div>
+        <div class="btn-group">
+            <button class="btn btn-wa" onclick="shareWA()">🟢 WhatsApp</button>
+            <button class="btn btn-prt" onclick="window.print()">🖨️ A4 Printing</button>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-home">🏠 BACK TO HOME PAGE</a>
+
+    <div class="footer">
+        GOVERNMENT OF SINDH<br>
+        Director General Agriculture Marketing Sindh
     </div>
 </div>
 
 <script>
-    // 1. Markets ko dropdown mein load karne wala function
     function initPage() {
+        // Set Date
+        const today = new Date();
+        document.getElementById('currentDate').innerText = today.toLocaleDateString('en-GB');
+
+        // Load Markets from market.js
         const select = document.getElementById('marketSelect');
-        // marketCommittees aapki js/market.js se aa raha hai
         if (typeof marketCommittees !== 'undefined') {
-            for (let division in marketCommittees) {
-                marketCommittees[division].forEach(m => {
-                    let option = document.createElement('option');
-                    option.value = m.id;
-                    option.innerText = m.name;
-                    select.appendChild(option);
+            for (let div in marketCommittees) {
+                marketCommittees[div].forEach(m => {
+                    let opt = document.createElement('option');
+                    opt.value = m.id;
+                    opt.innerText = m.name;
+                    select.appendChild(opt);
                 });
             }
         }
     }
 
-    // 2. Rates load karne wala function
-    function loadVegetableRates() {
+    function loadRates() {
         const mId = document.getElementById('marketSelect').value;
         const tbody = document.getElementById('priceList');
+        if(!mId) return;
         tbody.innerHTML = "";
-
-        if(mId === "") return;
-
-        // vegetableItems aapki js/veg_list.js se aa raha hai
+        
         vegetableItems.forEach(item => {
             let rate = (marketRates[mId] && marketRates[mId][item.id]) ? marketRates[mId][item.id] : "Pending";
             tbody.innerHTML += `
                 <tr>
-                    <td class="item-name">${item.name_ur}</td>
                     <td style="color:#ffd700; font-weight:bold;">Rs. ${rate}</td>
+                    <td class="item-name">${item.name_ur}</td>
                 </tr>`;
         });
     }
-</script>
 
+    function shareWA() {
+        const sel = document.getElementById('marketSelect');
+        if(!sel.value) return alert("Market Select Karein");
+        const market = sel.options[sel.selectedIndex].text;
+        const msg = `*Sindh Price Control Portal*%0A*Market:* ${market}%0A*Date:* ${document.getElementById('currentDate').innerText}%0A%0A*Daily Vegetable Rates List*%0ACheck here: ${window.location.href}`;
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+</script>
 </body>
 </html>
